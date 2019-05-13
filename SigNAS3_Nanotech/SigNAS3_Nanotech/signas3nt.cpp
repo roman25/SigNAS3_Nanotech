@@ -1,5 +1,4 @@
 #include "signas3nt.h"
-using namespace System;
 
 SigNAS3NT::SigNAS3NT()
 {
@@ -53,26 +52,26 @@ SigNAS3NT::SigNAS3NT()
 
     String^ STATUS_INI = "";
 
-    //Private myVendors(7)() As SigNAS3Library.NandParameter.VendorCode
-    //Private myTypes(7)() As SigNAS3Library.NandParameter.TypeCode
-    //Private mySubTypes(7)() As SigNAS3Library.NandParameter.SubTypeCode
-    //Private myIFModes(7)() As SigNAS3Library.NandParameter.IFModeCode
-    //Private myBlockSizes(7)() As Integer
-
-    //Private myTypesString(7)() As String
-    //Private mySubTypesString(7)() As String
-    //Private myBlockSizesString(7)() As String
+    array<NandParameter::VendorCode>^ myVendors = gcnew array<NandParameter::VendorCode>(7);  
+    array<NandParameter::TypeCode>^ myTypes = gcnew array<NandParameter::TypeCode>(7);   
+    array<NandParameter::SubTypeCode>^ mySubTypes = gcnew array<NandParameter::SubTypeCode>(7);
+    array<NandParameter::IFModeCode>^ myIFModes = gcnew array<NandParameter::IFModeCode>(7);
+    array<Int32>^ myBlockSizes = gcnew array<Int32>(7);
+    array<String^>^ myTypesString = gcnew array<String^>(7);
+    array<String^>^ mySubTypesString = gcnew array<String^>(7);
+    array<String^>^ myBlockSizesString = gcnew array<String^>(7);
 
     Boolean flag_opened = false;
-    //Private myConnection As SigNAS3Library.Connection
-    //Private myS3 As SigNAS3Library.S3
+    Connection myConnection;
+    S3 myS3;
     String^ myUSBConnectStr = "Press USB Connect to establish USB connection with SigNAS3";
     Boolean myUSBConnection = false;
-    //Private myLaneProcessing() As Boolean = { False, False, False, False, False, False, False, False }
+    array<Boolean>^ myLaneProcessing = {false, false, false, false, false, false, false, false};
 
-    Int32 myLane = 0;
-    //Private myChannelSelect(7)() As Boolean
-    //Private myChipSelect(7)() As Boolean
+    
+    array<Boolean>^ myChannelSelect = gcnew array<Boolean>(7);
+    array<Boolean>^ myChipSelect = gcnew array<Boolean>(7);
+    
     array<Int32>^ myLUNperTarget = { LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN, LUN_PER_CHIP_MIN };
     //array<Int32>^ myBlocksperLUN = { BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN };
     //array<Int32>^ myLUNSeperation = { BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN, BLOCK_PER_LUN_MIN };
@@ -82,7 +81,7 @@ SigNAS3NT::SigNAS3NT()
     array<Boolean>^ myVref = { false, false, false, false, false, false, false, false };
     array<Boolean>^ myVReset = { true, true, true, true, true, true, true, true };
 
-    //Private myNANDID(7)() As String
+    array<String^>^ myNANDID = gcnew array<String^>(7);
     array<Int32>^ myBBSByteOffset = { BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL, BBS_BYTE_OFFSET_INITIAL };
     //array<Int32>^ myBBSThreshold = { BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL, BBS_THRESHOLD_INITIAL };
     array<Int32>^ myBCHCodeLength = { BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL, BCH_CODE_LENGTH_INITIAL };
@@ -93,17 +92,17 @@ SigNAS3NT::SigNAS3NT()
     array<String^>^ myStatus = { STATUS_INI, STATUS_INI, STATUS_INI, STATUS_INI, STATUS_INI, STATUS_INI, STATUS_INI, STATUS_INI };
     array<Int32>^ myTime = { 0, 0, 0, 0, 0, 0, 0, 0 };
     array<String^>^ myResultFile = { "", "", "", "", "", "", "", "" };
-    //Private myNandParameter(7) As SigNAS3Library.NandParameter
-
-    //Private myLUNStatus(7)()()() As Integer
-    //Private myNANDIDCheck(7)()() As Boolean
-    //Private myONFIBB(7)()()() As Integer
-    //Private myEraseSuccessBB(7)()()() As Integer
-    //Private myBlockProgramSuccessBB(7)()()() As Integer
-    //Private myECCFailBB(7)()()() As Integer
-    //Private myEraseBusytimeBB(7)()()() As Integer
-    //Private myProgramBusytimeBB(7)()()() As Integer
-    //Private myReadBusytimeBB(7)()()() As Integer
+    array<NandParameter^>^ myNandParameter = gcnew array<NandParameter^>(7);
+    
+    array<Int32>^ myLUNStatus = gcnew array<Int32>(7);
+    array<Boolean>^ myNANDIDCheck = gcnew array<Boolean>(7);
+    array<Int32>^ myONFIBB = gcnew array<Int32>(7);
+    array<Int32>^ myEraseSuccessBB = gcnew array<Int32>(7);
+    array<Int32>^ myBlockProgramSuccessBB = gcnew array<Int32>(7);
+    array<Int32>^ myECCFailBB = gcnew array<Int32>(7);
+    array<Int32>^ myEraseBusytimeBB = gcnew array<Int32>(7);
+    array<Int32>^ myProgramBusytimeBB = gcnew array<Int32>(7);
+    array<Int32>^ myReadBusytimeBB = gcnew array<Int32>(7);
 
     array<Boolean>^ flag_abort = { false, false, false, false, false, false, false, false };
 
@@ -123,7 +122,7 @@ SigNAS3NT::SigNAS3NT()
     //Private TB_NANDID(7) As TextBox
     //Private L_LUN(15)()() As Label
 }
-void New()
+void SigNAS3NT::New()
 {
 
         /* Try
@@ -706,7 +705,7 @@ void New()
          L_LUN(15)(7)(3) = L_CH15Target7LUN3
          */
 
-    for (int k = 0; k < 8; k++)
+   /* for (int k = 0; k < 8; k++)
     {
         myTimer(k).Interval = 1000
         ReDim myChannelSelect(k)(15)
@@ -827,47 +826,48 @@ void New()
 
     flag_opened = true;
 
-
+    */
 }
-void RefreshLane()
+void SigNAS3NT::RefreshLane()
 {
+    flag_opened = false;
+    
+    for (int k = 0; k < 7; k++)
+    {
+        if (k == myLane)
+        {
+            //RB_Lane(k).Checked = True
+        }
+        else
+        {
+            //RB_Lane(k).Checked = False
+        }
+    }
 
 
-    Try
+    RefreshSettings();
+    RefreshProcessing();
 
-        flag_opened = False
+    for (int k = 0; k < 15; k++)
+    {
+        for (int j = 0; j < 7; j++)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                RefreshLUNStatus(k, j, i);
+            }
 
-        For k = 0 To 7
-        If k = myLane Then
-        RB_Lane(k).Checked = True
-        Else
-        RB_Lane(k).Checked = False
-        End If
-        Next
+        }
 
-        RefreshSettings()
-        RefreshProcessing()
+    }
 
-        For k = 0 To 15
-        For j = 0 To 7
-        For i = 0 To 3
-        RefreshLUNStatus(k, j, i)
-        Next
-        Next
-        Next
+    Console::WriteLine("An exception occured during RefreshLane");
 
-        Catch ex As Exception
+    flag_opened = true;
 
-        MsgBox("An exception occured during RefreshLane")
-
-        Finally
-        flag_opened = True
-        End Try
-
-        End Sub
 
 }
-void RefreshSettings()
+void SigNAS3NT::RefreshSettings()
 {
 
 

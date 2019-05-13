@@ -1,14 +1,17 @@
 #pragma once
-#include <string>
 
 using namespace SigNAS3Library;
+using namespace System;
 
 ref class SigNAS3NT
 {
 public:
     SigNAS3NT();
 
+    Int32 myLane = 0;
 
+    Boolean flag_opened;
+               
     void New();
     void RefreshLane();
     void RefreshSettings();
@@ -47,19 +50,19 @@ public:
     void RefreshNANDID(Int32 id);
     void RefreshLUNStatus(Int32 channel, Int32 chip, Int32 lun);
     void RefreshStatus(Boolean addTimer);    
-    void GetTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParameter.TypeCode>^ &myTypeCode);
-    void GetSubTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParameter.SubTypeCode>^ &mySubTypeCode);
+    void GetTypeCodeFromString(array<String^>^ str, array<NandParameter::TypeCode>^ &myTypeCode);
+    void GetSubTypeCodeFromString(array<String^>^ str, array<NandParameter::SubTypeCode>^ &mySubTypeCode);
     void GetBlockSizeFromString(array<String^>^ str, array<Int32>^ &myBlockSize);
 
     String^ HexCheck(String^ str, Int32 len, String^ oldstr);
 
-    Int32 GetVendorIndex(SigNAS3Library.NandParameter.VendorCode myvendor, array<SigNAS3Library.NandParameter.VendorCode>^ myvendorlist);
-    Int32 GetTypeIndex(SigNAS3Library.NandParameter.TypeCode mytype, array <SigNAS3Library.NandParameter.TypeCode>^ mytypelist);
-    Int32 GetSubTypeIndex(SigNAS3Library.NandParameter.SubTypeCode mysubtype, array<SigNAS3Library.NandParameter.SubTypeCode>^ mysubtypelist);
-    Int32 GetIFModeIndex(SigNAS3Library.NandParameter.IFModeCode myifmode, array <SigNAS3Library.NandParameter.IFModeCode> myifmodelist);
+    Int32 GetVendorIndex(NandParameter::VendorCode myvendor, array<NandParameter::VendorCode>^ myvendorlist);
+    Int32 GetTypeIndex(NandParameter::TypeCode mytype, array <NandParameter::TypeCode>^ mytypelist);
+    Int32 GetSubTypeIndex(NandParameter::SubTypeCode mysubtype, array<NandParameter::SubTypeCode>^ mysubtypelist);
+    Int32 GetIFModeIndex(NandParameter::IFModeCode myifmode, array <NandParameter::IFModeCode>^ myifmodelist);
     Int32 GetBlockSizeIndex(Int32 myblocksize, array<Int32>^ myblocksizelist);
 
-    void BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect.Click;
+    /*void BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect.Click;
     void RB_Lane_CheckedChanged(sender As Object, e As EventArgs) Handles RB_Lane0.CheckedChanged, RB_Lane1.CheckedChanged, RB_Lane2.CheckedChanged, RB_Lane3.CheckedChanged, RB_Lane4.CheckedChanged, RB_Lane5.CheckedChanged, RB_Lane6.CheckedChanged, RB_Lane7.CheckedChanged;
     void CX_CH_CheckedChanged(sender As Object, e As EventArgs) Handles CX_CH0.CheckedChanged, CX_CH1.CheckedChanged, CX_CH2.CheckedChanged, CX_CH3.CheckedChanged, CX_CH4.CheckedChanged, CX_CH5.CheckedChanged, CX_CH6.CheckedChanged, CX_CH7.CheckedChanged, CX_CH8.CheckedChanged, CX_CH9.CheckedChanged, CX_CH10.CheckedChanged, CX_CH11.CheckedChanged, CX_CH12.CheckedChanged, CX_CH13.CheckedChanged, CX_CH14.CheckedChanged, CX_CH15.CheckedChanged;
     void CX_Target_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Target0.CheckedChanged, CX_Target2.CheckedChanged, CX_Target4.CheckedChanged, CX_Target6.CheckedChanged, CX_Target1.CheckedChanged, CX_Target3.CheckedChanged, CX_Target5.CheckedChanged, CX_Target7.CheckedChanged;
@@ -103,6 +106,6 @@ public:
     void Timer_Tick(sender As Object, e As EventArgs) Handles Timer_L0.Tick, Timer_L1.Tick, Timer_L2.Tick, Timer_L3.Tick, Timer_L4.Tick, Timer_L5.Tick, Timer_L6.Tick, Timer_L7.Tick;
 
     Int32 GetLUNStatus(Int32 lane, Int32 channel, Int32 chip, Int32 lun);
-    Int32 GetNandID(Int32 Lane, SigNAS3Library.AddressParameter AddressParameter, array <unsigned char> &r_NandID());
+    Int32 GetNandID(Int32 Lane, SigNAS3Library.AddressParameter AddressParameter, array <unsigned char> &r_NandID());*/
 };
 
