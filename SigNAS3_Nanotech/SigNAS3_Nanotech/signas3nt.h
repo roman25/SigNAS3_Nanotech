@@ -10,6 +10,8 @@ public:
 
     Int32 myLane = 0;
 
+    array<NandParameter::VendorCode>^ myVendors = gcnew array<NandParameter::VendorCode>(7);
+
     Boolean flag_opened;
                
     void New();
@@ -50,7 +52,7 @@ public:
     void RefreshNANDID(Int32 id);
     void RefreshLUNStatus(Int32 channel, Int32 chip, Int32 lun);
     void RefreshStatus(Boolean addTimer);    
-    void GetTypeCodeFromString(array<String^>^ str, array<NandParameter::TypeCode>^ &myTypeCode);
+    /*void GetTypeCodeFromString(array<String^>^ str, array<NandParameter::TypeCode>^ &myTypeCode);
     void GetSubTypeCodeFromString(array<String^>^ str, array<NandParameter::SubTypeCode>^ &mySubTypeCode);
     void GetBlockSizeFromString(array<String^>^ str, array<Int32>^ &myBlockSize);
 
@@ -62,7 +64,7 @@ public:
     Int32 GetIFModeIndex(NandParameter::IFModeCode myifmode, array <NandParameter::IFModeCode>^ myifmodelist);
     Int32 GetBlockSizeIndex(Int32 myblocksize, array<Int32>^ myblocksizelist);
 
-    /*void BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect.Click;
+    void BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect.Click;
     void RB_Lane_CheckedChanged(sender As Object, e As EventArgs) Handles RB_Lane0.CheckedChanged, RB_Lane1.CheckedChanged, RB_Lane2.CheckedChanged, RB_Lane3.CheckedChanged, RB_Lane4.CheckedChanged, RB_Lane5.CheckedChanged, RB_Lane6.CheckedChanged, RB_Lane7.CheckedChanged;
     void CX_CH_CheckedChanged(sender As Object, e As EventArgs) Handles CX_CH0.CheckedChanged, CX_CH1.CheckedChanged, CX_CH2.CheckedChanged, CX_CH3.CheckedChanged, CX_CH4.CheckedChanged, CX_CH5.CheckedChanged, CX_CH6.CheckedChanged, CX_CH7.CheckedChanged, CX_CH8.CheckedChanged, CX_CH9.CheckedChanged, CX_CH10.CheckedChanged, CX_CH11.CheckedChanged, CX_CH12.CheckedChanged, CX_CH13.CheckedChanged, CX_CH14.CheckedChanged, CX_CH15.CheckedChanged;
     void CX_Target_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Target0.CheckedChanged, CX_Target2.CheckedChanged, CX_Target4.CheckedChanged, CX_Target6.CheckedChanged, CX_Target1.CheckedChanged, CX_Target3.CheckedChanged, CX_Target5.CheckedChanged, CX_Target7.CheckedChanged;

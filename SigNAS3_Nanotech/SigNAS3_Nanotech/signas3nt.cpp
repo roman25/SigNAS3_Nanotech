@@ -51,8 +51,7 @@ SigNAS3NT::SigNAS3NT()
     const Int32 t_MAX = 15;
 
     String^ STATUS_INI = "";
-
-    array<NandParameter::VendorCode>^ myVendors = gcnew array<NandParameter::VendorCode>(7);  
+    
     array<NandParameter::TypeCode>^ myTypes = gcnew array<NandParameter::TypeCode>(7);   
     array<NandParameter::SubTypeCode>^ mySubTypes = gcnew array<NandParameter::SubTypeCode>(7);
     array<NandParameter::IFModeCode>^ myIFModes = gcnew array<NandParameter::IFModeCode>(7);
@@ -719,7 +718,7 @@ void SigNAS3NT::New()
         ReDim myProgramBusytimeBB(k)(15)
         ReDim myReadBusytimeBB(k)(15)
         For j = 0 To 15
-        myChannelSelect(k)(j) = False
+        myChannelSelect(k)(j) = false
         ReDim myLUNStatus(k)(j)(7)
         ReDim myNANDIDCheck(k)(j)(7)
         ReDim myONFIBB(k)(j)(7)
@@ -738,7 +737,7 @@ void SigNAS3NT::New()
         ReDim myEraseBusytimeBB(k)(j)(i)(3)
         ReDim myProgramBusytimeBB(k)(j)(i)(3)
         ReDim myReadBusytimeBB(k)(j)(i)(3)
-        myNANDIDCheck(k)(j)(i) = True
+        myNANDIDCheck(k)(j)(i) = true
         For h = 0 To 3
         myLUNStatus(k)(j)(i)(h) = 0
         myONFIBB(k)(j)(i)(h) = 0
@@ -754,7 +753,7 @@ void SigNAS3NT::New()
         ReDim myChipSelect(k)(7)
         ReDim myNANDID(k)(7)
         For j = 0 To 7
-        myChipSelect(k)(j) = False
+        myChipSelect(k)(j) = false
         myNANDID(k)(j) = NANDID_INITIAL
         Next
 
@@ -818,11 +817,11 @@ void SigNAS3NT::New()
     RefreshLane()
     RefreshConnect()
 
-    Catch ex As Exception
+    
 
-    MsgBox("An exception occured during New")
+    Console::WriteLine("An exception occured during New")
 
-    Finally
+    
 
     flag_opened = true;
 
@@ -836,11 +835,11 @@ void SigNAS3NT::RefreshLane()
     {
         if (k == myLane)
         {
-            //RB_Lane(k).Checked = True
+            //RB_Lane(k).Checked = true
         }
         else
         {
-            //RB_Lane(k).Checked = False
+            //RB_Lane(k).Checked = false
         }
     }
 
@@ -869,60 +868,92 @@ void SigNAS3NT::RefreshLane()
 }
 void SigNAS3NT::RefreshSettings()
 {
+    RefreshVendor();
+    RefreshIFMode();
+    RefreshPageSize();
+    RefreshVCore();
+    RefreshVIO();
+    RefreshVref();
+    RefreshVReset();
 
+    for (int k = 0; k < 15; k++)
+    {
+        RefreshChannelSelect(k);
+    }
+        
+    for (int k = 0; k < 7; k++)
+    {
+        RefreshTargetSelect(k);
+    }
+        
+    RefreshLUNperTarget();
+    RefreshBlocksperLUN();
+    RefreshLUNSeperation();
+    for (int k = 0; k < 7; k++)
+    {
+        RefreshNANDID(k);
+    }
+                
+    RefreshBBSByteOffset();
+    RefreshBBSThreshold();
+    RefreshBCHCodeLength();
+    RefreshBCHBitCorrectability();
+    RefreshMaxtErase();
+    RefreshMaxtProgram();
+    RefreshMaxtRead();
+    RefreshResultFile();
+    RefreshStatus(false);
 
+    Console::WriteLine("An exception occured during RefreshSettings");
 
-    Try
-
-        RefreshVendor()
-        RefreshIFMode()
-        RefreshPageSize()
-        RefreshVCore()
-        RefreshVIO()
-        RefreshVref()
-        RefreshVReset()
-        For k = 0 To 15
-        RefreshChannelSelect(k)
-        Next
-        For k = 0 To 7
-        RefreshTargetSelect(k)
-        Next
-        RefreshLUNperTarget()
-        RefreshBlocksperLUN()
-        RefreshLUNSeperation()
-        For k = 0 To 7
-        RefreshNANDID(k)
-        Next
-        RefreshBBSByteOffset()
-        RefreshBBSThreshold()
-        RefreshBCHCodeLength()
-        RefreshBCHBitCorrectability()
-        RefreshMaxtErase()
-        RefreshMaxtProgram()
-        RefreshMaxtRead()
-        RefreshResultFile()
-        RefreshStatus(False)
-
-        Catch ex As Exception
-
-        MsgBox("An exception occured during RefreshSettings")
-
-        End Try
-
-        End Sub
 }
-void RefreshVendor()
+void SigNAS3NT::RefreshVendor()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_Vendor.Items.Clear()
-        For Each vendor As SigNAS3Library.NandParameter.VendorCode In myVendors(myLane)
-        CB_Vendor.Items.Add(vendor)
-        Next
-        CB_Vendor.SelectedIndex = GetVendorIndex(myNandParameter(myLane).Vendor, myVendors(myLane))
-        CB_Type.Items.Clear()
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*NandParameter::VendorCode vendor = myVendors(myLane);
+            
+            for each (NandParameter::VendorCode vendor in myVendors(myLane) )
+                CB_Vendor.Items.Add(vendor)
+                Next
+                CB_Vendor.SelectedIndex = GetVendorIndex(myNandParameter(myLane).Vendor, myVendors(myLane))
+                CB_Type.Items.Clear()
+                For Each type As SigNAS3Library.NandParameter.TypeCode In myTypes(myLane)
+                CB_Type.Items.Add(type)
+                Next
+                CB_Type.SelectedIndex = GetTypeIndex(myNandParameter(myLane).Type, myTypes(myLane))
+                CB_Subtype.Items.Clear()
+                For Each subtype As SigNAS3Library.NandParameter.SubTypeCode In mySubTypes(myLane)
+                CB_Subtype.Items.Add(subtype)
+                Next
+                CB_Subtype.SelectedIndex = GetSubTypeIndex(myNandParameter(myLane).SubType, mySubTypes(myLane))
+                CB_BlockSize.Items.Clear()
+                For Each blocksize As Integer In myBlockSizes(myLane)
+                CB_BlockSize.Items.Add(blocksize)
+                Next
+                CB_BlockSize.SelectedIndex = GetBlockSizeIndex(myNandParameter(myLane).BlockSize, myBlockSizes(myLane))*/
+        }
+    }              
+
+    Console::WriteLine("An exception occured during RefreshVendor");
+        
+    flag_opened = true;
+
+}
+void SigNAS3NT::RefreshType()
+{
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    CB_Type.Items.Clear()
         For Each type As SigNAS3Library.NandParameter.TypeCode In myTypes(myLane)
         CB_Type.Items.Add(type)
         Next
@@ -937,30 +968,25 @@ void RefreshVendor()
         CB_BlockSize.Items.Add(blocksize)
         Next
         CB_BlockSize.SelectedIndex = GetBlockSizeIndex(myNandParameter(myLane).BlockSize, myBlockSizes(myLane))
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshVendor")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshType");
 
-        End Sub
+    flag_opened = true;
+
 }
-void RefreshType()
+void SigNAS3NT::RefreshSubType()
 {
+    flag_opened = false;
 
-
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_Type.Items.Clear()
-        For Each type As SigNAS3Library.NandParameter.TypeCode In myTypes(myLane)
-        CB_Type.Items.Add(type)
-        Next
-        CB_Type.SelectedIndex = GetTypeIndex(myNandParameter(myLane).Type, myTypes(myLane))
-        CB_Subtype.Items.Clear()
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    CB_Subtype.Items.Clear()
         For Each subtype As SigNAS3Library.NandParameter.SubTypeCode In mySubTypes(myLane)
         CB_Subtype.Items.Add(subtype)
         Next
@@ -970,94 +996,69 @@ void RefreshType()
         CB_BlockSize.Items.Add(blocksize)
         Next
         CB_BlockSize.SelectedIndex = GetBlockSizeIndex(myNandParameter(myLane).BlockSize, myBlockSizes(myLane))
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshType")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }        
+        
+    Console::WriteLine("An exception occured during RefreshSubType");
 
-        End Sub
+    flag_opened = true;
 }
-void RefreshSubType()
-{
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_Subtype.Items.Clear()
-        For Each subtype As SigNAS3Library.NandParameter.SubTypeCode In mySubTypes(myLane)
-        CB_Subtype.Items.Add(subtype)
-        Next
-        CB_Subtype.SelectedIndex = GetSubTypeIndex(myNandParameter(myLane).SubType, mySubTypes(myLane))
-        CB_BlockSize.Items.Clear()
-        For Each blocksize As Integer In myBlockSizes(myLane)
-        CB_BlockSize.Items.Add(blocksize)
-        Next
-        CB_BlockSize.SelectedIndex = GetBlockSizeIndex(myNandParameter(myLane).BlockSize, myBlockSizes(myLane))
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshSubType")
-        Finally
-        flag_opened = True
-        End Try
-
-        End Sub
-}
-void RefreshIFMode()
+void SigNAS3NT::RefreshIFMode()
 {
 
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_IFMode.Items.Clear()
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    CB_IFMode.Items.Clear()
         For Each ifmode As SigNAS3Library.NandParameter.IFModeCode In myIFModes(myLane)
         CB_IFMode.Items.Add(ifmode)
         Next
         CB_IFMode.SelectedIndex = GetIFModeIndex(myNandParameter(myLane).IFMode, myIFModes(myLane))
         CX_EDO.Checked = myNandParameter(myLane).EDOMode
         If myNandParameter(myLane).IFMode = SigNAS3Library.NandParameter.IFModeCode.Asynchronous Then
-        CX_EDO.Enabled = True
+        CX_EDO.Enabled = true
         Else
-        CX_EDO.Enabled = False
-        End If
+        CX_EDO.Enabled = false
+        
         If myNandParameter(myLane).IFMode = SigNAS3Library.NandParameter.IFModeCode.Asynchronous Then
         NUD_BaseClock.Minimum = 2 * BASECLOCK_MIN
         NUD_BaseClock.Maximum = 2 * BASECLOCK_MAX
         Else
         NUD_BaseClock.Minimum = BASECLOCK_MIN
         NUD_BaseClock.Maximum = BASECLOCK_MAX
-        End If
+        
         NUD_BaseClock.Value = myNandParameter(myLane).BaseClock
         Select Case myNandParameter(myLane).IFMode
         Case SigNAS3Library.NandParameter.IFModeCode.Asynchronous
-        NUD_tWH.Enabled = True
-        NUD_tWP.Enabled = True
-        NUD_tREH.Enabled = True
-        NUD_tRP.Enabled = True
+        NUD_tWH.Enabled = true
+        NUD_tWP.Enabled = true
+        NUD_tREH.Enabled = true
+        NUD_tRP.Enabled = true
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tREH.Text = (myNandParameter(myLane).tREH + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tRP.Text = (myNandParameter(myLane).tRP + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tDQS.Text = ""
         Case SigNAS3Library.NandParameter.IFModeCode.Synchronous
-        NUD_tWH.Enabled = False
-        NUD_tWP.Enabled = False
-        NUD_tREH.Enabled = False
-        NUD_tRP.Enabled = False
+        NUD_tWH.Enabled = false
+        NUD_tWP.Enabled = false
+        NUD_tREH.Enabled = false
+        NUD_tRP.Enabled = false
         TB_tWH.Text = ""
         TB_tWP.Text = ""
         TB_tREH.Text = ""
         TB_tRP.Text = ""
         TB_tDQS.Text = myNandParameter(myLane).BaseClock & "ns"
         Case Else
-        NUD_tWH.Enabled = True
-        NUD_tWP.Enabled = True
-        NUD_tREH.Enabled = False
-        NUD_tRP.Enabled = False
+        NUD_tWH.Enabled = true
+        NUD_tWP.Enabled = true
+        NUD_tREH.Enabled = false
+        NUD_tRP.Enabled = false
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         TB_tREH.Text = myNandParameter(myLane).BaseClock & "ns"
@@ -1068,117 +1069,125 @@ void RefreshIFMode()
         NUD_tWP.Value = myNandParameter(myLane).tWP
         NUD_tREH.Value = myNandParameter(myLane).tREH
         NUD_tRP.Value = myNandParameter(myLane).tRP
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshIFMode")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshIFMode");
 
-        End Sub
+    flag_opened = true;
+
 }
-void RefreshBlockSize()
+void SigNAS3NT::RefreshBlockSize()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_BlockSize.Items.Clear()
+
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    CB_BlockSize.Items.Clear()
         For Each blocksize As Integer In myBlockSizes(myLane)
         CB_BlockSize.Items.Add(blocksize)
         Next
         CB_BlockSize.SelectedIndex = GetBlockSizeIndex(myNandParameter(myLane).BlockSize, myBlockSizes(myLane))
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBlockSize")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshBlockSize");
 
-        End Sub
+    flag_opened = true;
+
 }
-void RefreshPageSize()
+void SigNAS3NT::RefreshPageSize()
 {
 
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_Pagesize.Value = myNandParameter(myLane).PageSize
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshPageSize")
-        Finally
-        flag_opened = True
-        End Try
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_Pagesize.Value = myNandParameter(myLane).PageSize
+        }
+    }
+               
+    Console::WriteLine("An exception occured during RefreshPageSize");
+
+    flag_opened = true;
+
 }
-void RefreshEDOMode()
+void SigNAS3NT::RefreshEDOMode()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CX_EDO.Checked = myNandParameter(myLane).EDOMode
+
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    CX_EDO.Checked = myNandParameter(myLane).EDOMode
         If myNandParameter(myLane).IFMode = SigNAS3Library.NandParameter.IFModeCode.Asynchronous Then
-        CX_EDO.Enabled = True
+        CX_EDO.Enabled = true
         Else
-        CX_EDO.Enabled = False
-        End If
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshEDOMode")
-        Finally
-        flag_opened = True
-        End Try
+        CX_EDO.Enabled = false
+            */
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshEDOMode");
+
+    flag_opened = true;
+
 }
-void RefreshBaseClock()
+void SigNAS3NT::RefreshBaseClock()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        If myNandParameter(myLane).IFMode = SigNAS3Library.NandParameter.IFModeCode.Asynchronous Then
+
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    If myNandParameter(myLane).IFMode = SigNAS3Library.NandParameter.IFModeCode.Asynchronous Then
         NUD_BaseClock.Minimum = 2 * BASECLOCK_MIN
         NUD_BaseClock.Maximum = 2 * BASECLOCK_MAX
         Else
         NUD_BaseClock.Minimum = BASECLOCK_MIN
         NUD_BaseClock.Maximum = BASECLOCK_MAX
-        End If
+        
         NUD_BaseClock.Value = myNandParameter(myLane).BaseClock
         Select Case myNandParameter(myLane).IFMode
         Case SigNAS3Library.NandParameter.IFModeCode.Asynchronous
-        NUD_tWH.Enabled = True
-        NUD_tWP.Enabled = True
-        NUD_tREH.Enabled = True
-        NUD_tRP.Enabled = True
+        NUD_tWH.Enabled = true
+        NUD_tWP.Enabled = true
+        NUD_tREH.Enabled = true
+        NUD_tRP.Enabled = true
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tREH.Text = (myNandParameter(myLane).tREH + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tRP.Text = (myNandParameter(myLane).tRP + 1) * myNandParameter(myLane).BaseClock & "ns"
         TB_tDQS.Text = ""
         Case SigNAS3Library.NandParameter.IFModeCode.Synchronous
-        NUD_tWH.Enabled = False
-        NUD_tWP.Enabled = False
-        NUD_tREH.Enabled = False
-        NUD_tRP.Enabled = False
+        NUD_tWH.Enabled = false
+        NUD_tWP.Enabled = false
+        NUD_tREH.Enabled = false
+        NUD_tRP.Enabled = false
         TB_tWH.Text = ""
         TB_tWP.Text = ""
         TB_tREH.Text = ""
         TB_tRP.Text = ""
         TB_tDQS.Text = myNandParameter(myLane).BaseClock & "ns"
         Case Else
-        NUD_tWH.Enabled = True
-        NUD_tWP.Enabled = True
-        NUD_tREH.Enabled = False
-        NUD_tRP.Enabled = False
+        NUD_tWH.Enabled = true
+        NUD_tWP.Enabled = true
+        NUD_tREH.Enabled = false
+        NUD_tRP.Enabled = false
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         TB_tREH.Text = myNandParameter(myLane).BaseClock & "ns"
@@ -1189,471 +1198,523 @@ void RefreshBaseClock()
         NUD_tWP.Value = myNandParameter(myLane).tWP
         NUD_tREH.Value = myNandParameter(myLane).tREH
         NUD_tRP.Value = myNandParameter(myLane).tRP
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBaseClock")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshBaseClock");
+
+    flag_opened = true;
+
 }
-void RefreshtWH()
+void SigNAS3NT::RefreshtWH()
 {
+    
+    flag_opened = false;
 
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        Select Case myNandParameter(myLane).IFMode
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    Select Case myNandParameter(myLane).IFMode
         Case SigNAS3Library.NandParameter.IFModeCode.Asynchronous
-        NUD_tWH.Enabled = True
+        NUD_tWH.Enabled = true
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * myNandParameter(myLane).BaseClock & "ns"
         Case SigNAS3Library.NandParameter.IFModeCode.Synchronous
-        NUD_tWH.Enabled = False
+        NUD_tWH.Enabled = false
         TB_tWH.Text = ""
         Case Else
-        NUD_tWH.Enabled = True
+        NUD_tWH.Enabled = true
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         End Select
         NUD_tWH.Value = myNandParameter(myLane).tWH
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshtWH")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshtWH");
 
-        End Sub
+    flag_opened = true;
+
 }
-void RefreshtWP()
+void SigNAS3NT::RefreshtWP()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        Select Case myNandParameter(myLane).IFMode
+    
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    Select Case myNandParameter(myLane).IFMode
         Case SigNAS3Library.NandParameter.IFModeCode.Asynchronous
-        NUD_tWP.Enabled = True
+        NUD_tWP.Enabled = true
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * myNandParameter(myLane).BaseClock & "ns"
         Case SigNAS3Library.NandParameter.IFModeCode.Synchronous
-        NUD_tWP.Enabled = False
+        NUD_tWP.Enabled = false
         TB_tWP.Text = ""
         Case Else
-        NUD_tWP.Enabled = True
+        NUD_tWP.Enabled = true
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         End Select
         NUD_tWP.Value = myNandParameter(myLane).tWP
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshtWP")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshtWP");
+        
+    flag_opened = true;
+
 }
-void RefreshtREH()
+void SigNAS3NT::RefreshtREH()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        Select Case myNandParameter(myLane).IFMode
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*        Select Case myNandParameter(myLane).IFMode
         Case SigNAS3Library.NandParameter.IFModeCode.Asynchronous
-        NUD_tREH.Enabled = True
+        NUD_tREH.Enabled = true
         TB_tREH.Text = (myNandParameter(myLane).tREH + 1) * myNandParameter(myLane).BaseClock & "ns"
         Case SigNAS3Library.NandParameter.IFModeCode.Synchronous
-        NUD_tREH.Enabled = False
+        NUD_tREH.Enabled = false
         TB_tREH.Text = ""
         Case Else
-        NUD_tREH.Enabled = False
+        NUD_tREH.Enabled = false
         TB_tREH.Text = myNandParameter(myLane).BaseClock & "ns"
         End Select
         NUD_tREH.Value = myNandParameter(myLane).tREH
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshtREH")
-        Finally
-        flag_opened = True
-        End Try
+            
+            */
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshtREH");
+
+    flag_opened = true;
+
 }
-void RefreshtRP()
+void SigNAS3NT::RefreshtRP()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        Select Case myNandParameter(myLane).IFMode
+
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    Select Case myNandParameter(myLane).IFMode
         Case SigNAS3Library.NandParameter.IFModeCode.Asynchronous
-        NUD_tRP.Enabled = True
+        NUD_tRP.Enabled = true
         TB_tRP.Text = (myNandParameter(myLane).tRP + 1) * myNandParameter(myLane).BaseClock & "ns"
         Case SigNAS3Library.NandParameter.IFModeCode.Synchronous
-        NUD_tRP.Enabled = False
+        NUD_tRP.Enabled = false
         TB_tRP.Text = ""
         Case Else
-        NUD_tRP.Enabled = False
+        NUD_tRP.Enabled = false
         TB_tRP.Text = myNandParameter(myLane).BaseClock & "ns"
         End Select
         NUD_tRP.Value = myNandParameter(myLane).tRP
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshtRP")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshtRP");
+
+    flag_opened = true;
 }
-void RefreshVCore()
+void SigNAS3NT::RefreshVCore()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_VCore.Items.Clear()
-        For j = 0 To VCORE_MAX
-        CB_VCore.Items.Add(String.Format("{0:0.00}", VCORE_START + VCORE_STEP * j) & "V")
-        Next
-        CB_VCore.SelectedIndex = myVCore(myLane)
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+            CB_VCore.Items.Clear()
+            For j = 0 To VCORE_MAX
+            CB_VCore.Items.Add(String.Format("{0:0.00}", VCORE_START + VCORE_STEP * j) & "V")
+            Next
+            CB_VCore.SelectedIndex = myVCore(myLane)
+            */
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshVCore");
 
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshVCore")
-        Finally
-        flag_opened = True
-        End Try
+    flag_opened = true;
 
-        End Sub
 }
-void RefreshVIO()
+void SigNAS3NT::RefreshVIO()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CB_VIO.Items.Clear()
+   
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    CB_VIO.Items.Clear()
         For j = 0 To VIO_MAX
         CB_VIO.Items.Add(String.Format("{0:0.00}", VIO_START + VIO_STEP * j) & "V")
         Next
         CB_VIO.SelectedIndex = myVIO(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshVIO")
-        Finally
-        flag_opened = True
-        End Try
+            */
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshVIO");
+        
+    flag_opened = true;
+
 }
-void RefreshVref()
+void SigNAS3NT::RefreshVref()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CX_Vref.Checked = myVref(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshVref")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+            CX_Vref.Checked = myVref(myLane)
+            */
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshVref");
+        
+    flag_opened = true;
+
 }
-void RefreshVReset()
+void SigNAS3NT::RefreshVReset()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        CX_Reset.Checked = myVReset(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshVReset")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+            CX_Reset.Checked = myVReset(myLane)
+            */
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshVReset");
+        
+    flag_opened = true;
+
 }
-void RefreshChannelSelect(Int32 channel)
+void SigNAS3NT::RefreshChannelSelect(Int32 channel)
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        If channel >= 0 Then
-        If channel <= 15 Then
-        CX_CH(channel).Checked = myChannelSelect(myLane)(channel)
-        End If
-        End If
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshChannelSelect")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            if (channel >= 0)
+            {
+                if (channel <= 15)
+                {
+                    //CX_CH(channel).Checked = myChannelSelect(myLane)(channel)
+                }
+            }
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshChannelSelect");
+        
+    flag_opened = true;
+
 }
-void RefreshTargetSelect(Int32 chip)
+void SigNAS3NT::RefreshTargetSelect(Int32 chip)
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        If chip >= 0 Then
-        If chip <= 7 Then
-        CX_Target(chip).Checked = myChipSelect(myLane)(chip)
-        End If
-        End If
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshTargetSelect")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            if (chip >= 0)
+            {
+                if (chip <= 7)
+                {
+                    //CX_Target(chip).Checked = myChipSelect(myLane)(chip)
+                }
+            }
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshTargetSelect");
+        
+    flag_opened = true;
+
 }
-void RefreshLUNperTarget()
+void SigNAS3NT::RefreshLUNperTarget()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_LUNperTarget.Value = myLUNperTarget(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshLUNperTarget")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_LUNperTarget.Value = myLUNperTarget(myLane)
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshLUNperTarget");
+
+    flag_opened = true;
+
 }
-void RefreshBlocksperLUN()
-{
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_BlocksperLUN.Value = myBlocksperLUN(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBlocksperLUN")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+void SigNAS3NT::RefreshBlocksperLUN()
+{
+
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_BlocksperLUN.Value = myBlocksperLUN(myLane)
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshBlocksperLUN");
+        
+    flag_opened = true;
+
 }
-void RefreshLUNSeperation()
-{
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_LUNSeperation.Value = myLUNSeperation(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshLUNSeperation")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+void SigNAS3NT::RefreshLUNSeperation()
+{
+    
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_LUNSeperation.Value = myLUNSeperation(myLane)
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshLUNSeperation");
+        
+    flag_opened = true;
+
 }
-void RefreshNANDID(Int32 id)
+void SigNAS3NT::RefreshNANDID(Int32 id)
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        If id >= 0 Then
-        If id <= 7 Then
-        TB_NANDID(id).Text = myNANDID(myLane)(id)
-        End If
-        End If
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshNANDID")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            if (id >= 0)
+            {
+                if (id <= 7)
+                {
+                    //TB_NANDID(id).Text = myNANDID(myLane)(id)
+                }
+            }
+        }
+    }
+  
+    Console::WriteLine("An exception occured during RefreshNANDID");
+
+    flag_opened = true;
+
 }
-void RefreshBBSByteOffset()
+void SigNAS3NT::RefreshBBSByteOffset()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_BBSByteOffset.Value = myBBSByteOffset(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBBSByteOffset")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_BBSByteOffset.Value = myBBSByteOffset(myLane)
+        }
+    }
 
-        End Sub
+    Console::WriteLine("An exception occured during RefreshBBSByteOffset");
+
+    flag_opened = true;
+
 }
-void RefreshBBSThreshold()
+void SigNAS3NT::RefreshBBSThreshold()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_BBSThreshold.Value = myBBSThreshold(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBBSThreshold")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_BBSThreshold.Value = myBBSThreshold(myLane)
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshBBSThreshold");
+        
+    flag_opened = true;
+
 }
-void RefreshBCHCodeLength()
+void SigNAS3NT::RefreshBCHCodeLength()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_BCHCodeLength.Value = myBCHCodeLength(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBCHCodeLength")
-        Finally
-        flag_opened = True
-        End Try
+    
+    flag_opened = false;
 
-        End Sub
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_BCHCodeLength.Value = myBCHCodeLength(myLane)
+        }
+    }
+
+    Console::WriteLine("An exception occured during RefreshBCHCodeLength");
+        
+    flag_opened = true;
+        
 }
-void RefreshBCHBitCorrectability()
+void SigNAS3NT::RefreshBCHBitCorrectability()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_BCHBitCorrectability.Value = myBCHBitCorrectability(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshBCHBitCorrectability")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_BCHBitCorrectability.Value = myBCHBitCorrectability(myLane)
+        }
+    }
+                        
+    Console::WriteLine("An exception occured during RefreshBCHBitCorrectability");
+        
+    flag_opened = true;
+        
 }
-void RefreshMaxtErase()
+void SigNAS3NT::RefreshMaxtErase()
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_MaxtErase.Value = myMaxtErase(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshMaxtErase")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_MaxtErase.Value = myMaxtErase(myLane)
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshMaxtErase");
+        
+    flag_opened = true;
+        
 }
-void RefreshMaxtProgram()
-{
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_MaxtProgram.Value = myMaxtProgram(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshMaxtProgram")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+void SigNAS3NT::RefreshMaxtProgram()
+{
+    
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_MaxtProgram.Value = myMaxtProgram(myLane)
+        }
+    }
+        
+
+    Console::WriteLine("An exception occured during RefreshMaxtProgram");
+        
+    flag_opened = true;
+        
 }
-void RefreshMaxtRead()
-{
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        NUD_MaxtRead.Value = myMaxtRead(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshMaxtRead")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+void SigNAS3NT::RefreshMaxtRead()
+{
+
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //NUD_MaxtRead.Value = myMaxtRead(myLane)
+        }
+    }
+        
+    Console::WriteLine("An exception occured during RefreshMaxtRead");
+        
+    flag_opened = true;
+        
 }
-void RefreshResultFile()
-{
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        TB_ResultFile.Text = myResultFile(myLane)
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshResultFile")
-        Finally
-        flag_opened = True
-        End Try
 
-        End Sub
+void SigNAS3NT::RefreshResultFile()
+{
+
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            //TB_ResultFile.Text = myResultFile(myLane)
+        }
+    }
+   
+    Console::WriteLine("An exception occured during RefreshResultFile");
+        
+    flag_opened = true;        
 }
         //Private Delegate Sub RefreshLUNStatusDelegate(ByVal channel As Integer, ByVal chip As Integer, ByVal lun As Integer)
-void RefreshLUNStatus(Int32 channel, Int32 chip, Int32 lun)
+void SigNAS3NT::RefreshLUNStatus(Int32 channel, Int32 chip, Int32 lun)
 {
-    Try
 
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        If channel >= 0 Then
-        If channel <= 15 Then
-        If chip >= 0 Then
-        If chip <= 7 Then
-        If lun >= 0 Then
-        If lun <= 3 Then
-        Select Case myLUNStatus(myLane)(channel)(chip)(lun)
+    flag_opened = false;
+
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            if (channel >= 0)
+            {
+                if (channel <= 15)
+                {
+                    if (chip >= 0)
+                    {
+                        if (chip <= 7)
+                        {
+                            if (lun >= 0)
+                            {
+                                if (lun <= 3)
+                                {
+                                    /*
+                                            Select Case myLUNStatus(myLane)(channel)(chip)(lun)
         Case 1
         L_LUN(channel)(chip)(lun).BackColor = Color.Green
         Case 2
@@ -1661,52 +1722,48 @@ void RefreshLUNStatus(Int32 channel, Int32 chip, Int32 lun)
         Case Else
         L_LUN(channel)(chip)(lun).BackColor = SystemColors.Control
         End Select
-        End If
-        End If
-        End If
-        End If
-        End If
-        End If
-        End If
-        End If
-        Catch ex As Exception
-        MsgBox("An exception occured during RefreshLUNStatus")
-        Finally
-        flag_opened = True
-        End Try
+                                    */
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }     
+        
+    Console::WriteLine("An exception occured during RefreshLUNStatus");
+        
+    flag_opened = true;
 
-        End Sub
 }
-void RefreshConnect()
+
+void SigNAS3NT::RefreshConnect()
 {
-    Try
 
-        flag_opened = False
-        BT_USBConnect.Enabled = Not myUSBConnection
-        TB_USBConnect.Text = myUSBConnectStr
-        RefreshProcessing()
+    flag_opened = false;
 
-        Catch ex As Exception
+    /*    BT_USBConnect.Enabled = Not myUSBConnection
+        TB_USBConnect.Text = myUSBConnectStr*/
+    RefreshProcessing();
 
-        MsgBox("An exception occured during RefreshConnect")
+    Console::WriteLine("An exception occured during RefreshConnect");
 
-        Finally
-
-        flag_opened = True
-
-        End Try
-
-        End Sub
+    flag_opened = true;
+        
 }
         //Private Delegate Sub RefreshProcessingDelegate()
-void RefreshProcessing()
+void SigNAS3NT:: RefreshProcessing()
 {
-    Try
+    
+    flag_opened = false;
 
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        GB_NandSettings.Enabled = Not myLaneProcessing(myLane)
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            /*
+                    GB_NandSettings.Enabled = Not myLaneProcessing(myLane)
         GB_VoltageSettings.Enabled = Not myLaneProcessing(myLane)
         GB_AddressSettings.Enabled = Not myLaneProcessing(myLane)
         GB_TestSettings.Enabled = Not myLaneProcessing(myLane)
@@ -1717,57 +1774,49 @@ void RefreshProcessing()
         If myResultFile(myLane) < > "" Then
         BT_Execute.Enabled = Not myLaneProcessing(myLane)
         Else
-        BT_Execute.Enabled = False
-        End If
+        BT_Execute.Enabled = false
+        
         BT_Abort.Enabled = myLaneProcessing(myLane)
         Else
-        BT_Execute.Enabled = False
-        BT_Abort.Enabled = False
-        End If
-        End If
-        End If
+        BT_Execute.Enabled = false
+        BT_Abort.Enabled = false
+            */
+        }
+    }
+      
+    Console::WriteLine("An exception occured during RefreshProcessing");
 
-        Catch ex As Exception
-
-        MsgBox("An exception occured during RefreshProcessing")
-
-        Finally
-
-        flag_opened = True
-
-        End Try
-
-        End Sub
+    flag_opened = true;
+        
 }
         //Private Delegate Sub RefreshStatusDelegate(ByVal addTimer As Boolean)
-void RefreshStatus(Boolean addTimer)
+void SigNAS3NT:: RefreshStatus(Boolean addTimer)
 {
-    Try
-        flag_opened = False
-        If myLane >= 0 Then
-        If myLane <= 7 Then
-        If addTimer Then
-        TB_Status.Text = myStatus(myLane) & " (" & (myTime(myLane) \ 3600).ToString.PadLeft(2, "0"c) & "h:" & ((myTime(myLane) \ 60) Mod 60).ToString.PadLeft(2, "0"c) & "m:" & (myTime(myLane) Mod 60).ToString.PadLeft(2, "0"c) & "s)"
-        Else
-        TB_Status.Text = myStatus(myLane)
-        End If
-        End If
-        End If
+    
+    flag_opened = false;
+        
+    if (myLane >= 0)
+    {
+        if (myLane <= 7)
+        {
+            if (addTimer)
+            {
+                /*
+                TB_Status.Text = myStatus(myLane) & " (" & (myTime(myLane) \ 3600).ToString.PadLeft(2, "0"c) & "h:" & ((myTime(myLane) \ 60) Mod 60).ToString.PadLeft(2, "0"c) & "m:" & (myTime(myLane) Mod 60).ToString.PadLeft(2, "0"c) & "s)"
+                Else
+                TB_Status.Text = myStatus(myLane)
+                */
+            }
+        }
+    }
 
-        Catch ex As Exception
+    Console::WriteLine("An exception occured during RefreshStatus");
 
-        MsgBox("An exception occured during RefreshStatus")
-
-        Finally
-
-        flag_opened = True
-
-        End Try
-
-        End Sub
+    flag_opened = true;
+        
 }
 
-String^ HexCheck(String^ str, Int32 len, String^ oldstr)
+/*String^ HexCheck(String^ str, Int32 len, String^ oldstr)
 {
     Dim newstr As String = oldstr
         Try
@@ -1779,14 +1828,14 @@ String^ HexCheck(String^ str, Int32 len, String^ oldstr)
         For k = newstr.Length To len - 1
         newstr = "0" & newstr
         Next
-        End If
-        Catch ex As Exception
-        Finally
+        
+        
+        
         HexCheck = newstr
-        End Try
-        End Function
+        
+        
 }
-void GetTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParameter.TypeCode>^ &myTypeCode)
+void SigNAS3NT:: GetTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParameter.TypeCode>^ &myTypeCode)
 {
     Dim mylist = New List(Of SigNAS3Library.NandParameter.TypeCode)
 
@@ -1796,17 +1845,17 @@ void GetTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParamet
 
         mylist.Add(DirectCast([Enum].Parse(GetType(SigNAS3Library.NandParameter.TypeCode), mystr), SigNAS3Library.NandParameter.TypeCode))
 
-        Catch ex As Exception
+        
 
-        End Try
+        
 
         Next
 
         myTypeCode = mylist.ToArray()
 
-        End Sub
+        
 }
-void GetSubTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParameter.SubTypeCode>^ &mySubTypeCode)
+void SigNAS3NT:: GetSubTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandParameter.SubTypeCode>^ &mySubTypeCode)
 {
     Dim mylist = New List(Of SigNAS3Library.NandParameter.SubTypeCode)
 
@@ -1816,17 +1865,17 @@ void GetSubTypeCodeFromString(array<String^>^ str, array<SigNAS3Library.NandPara
 
         mylist.Add(DirectCast([Enum].Parse(GetType(SigNAS3Library.NandParameter.SubTypeCode), mystr), SigNAS3Library.NandParameter.SubTypeCode))
 
-        Catch ex As Exception
+        
 
-        End Try
+        
 
         Next
 
         mySubTypeCode = mylist.ToArray()
 
-        End Sub
+        
 }
-void GetBlockSizeFromString(array<String^>^ str, array<Int32>^ &myBlockSize)
+void SigNAS3NT:: GetBlockSizeFromString(array<String^>^ str, array<Int32>^ &myBlockSize)
 {
     Dim mylist = New List(Of Integer)
 
@@ -1836,15 +1885,15 @@ void GetBlockSizeFromString(array<String^>^ str, array<Int32>^ &myBlockSize)
 
         mylist.Add(CInt(mystr.Substring(0, mystr.IndexOf(" "))))
 
-        Catch ex As Exception
+        
 
-        End Try
+        
 
         Next
 
         myBlockSize = mylist.ToArray()
 
-        End Sub
+        
 }
 Int32 GetVendorIndex(SigNAS3Library.NandParameter.VendorCode myvendor, array<SigNAS3Library.NandParameter.VendorCode>^ myvendorlist)
 {
@@ -1853,13 +1902,13 @@ Int32 GetVendorIndex(SigNAS3Library.NandParameter.VendorCode myvendor, array<Sig
         For Each vendor As SigNAS3Library.NandParameter.VendorCode In myvendorlist
         If vendor = myvendor Then
         Return counter
-        End If
+        
         counter += 1
         Next
 
         Return 0
 
-        End Function
+        
 }
 Int32 GetTypeIndex(SigNAS3Library.NandParameter.TypeCode mytype, array <SigNAS3Library.NandParameter.TypeCode>^ mytypelist)
 {
@@ -1868,13 +1917,13 @@ Int32 GetTypeIndex(SigNAS3Library.NandParameter.TypeCode mytype, array <SigNAS3L
         For Each type As SigNAS3Library.NandParameter.TypeCode In mytypelist
         If type = mytype Then
         Return counter
-        End If
+        
         counter += 1
         Next
 
         Return 0
 
-        End Function
+        
 }
 Int32 GetSubTypeIndex(SigNAS3Library.NandParameter.SubTypeCode mysubtype, array<SigNAS3Library.NandParameter.SubTypeCode>^ mysubtypelist)
 {
@@ -1883,13 +1932,13 @@ Int32 GetSubTypeIndex(SigNAS3Library.NandParameter.SubTypeCode mysubtype, array<
         For Each subtype As SigNAS3Library.NandParameter.SubTypeCode In mysubtypelist
         If subtype = mysubtype Then
         Return counter
-        End If
+        
         counter += 1
         Next
 
         Return 0
 
-        End Function
+        
 }
 Int32 GetIFModeIndex(SigNAS3Library.NandParameter.IFModeCode myifmode, array <SigNAS3Library.NandParameter.IFModeCode> myifmodelist)
 {
@@ -1898,13 +1947,13 @@ Int32 GetIFModeIndex(SigNAS3Library.NandParameter.IFModeCode myifmode, array <Si
         For Each ifmode As SigNAS3Library.NandParameter.IFModeCode In myifmodelist
         If ifmode = myifmode Then
         Return counter
-        End If
+        
         counter += 1
         Next
 
         Return 0
 
-        End Function
+        
 }
 Int32 GetBlockSizeIndex(Int32 myblocksize, array<Int32>^ myblocksizelist)
 {
@@ -1913,22 +1962,22 @@ Int32 GetBlockSizeIndex(Int32 myblocksize, array<Int32>^ myblocksizelist)
         For Each blocksize As Integer In myblocksizelist
         If blocksize = myblocksize Then
         Return counter
-        End If
+        
         counter += 1
         Next
 
         Return 0
 
-        End Function
+        
 }
-void BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect.Click
+void SigNAS3NT:: BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect.Click
 {
         Try
 
         If flag_opened Then
 
         myConnection = New SigNAS3Library.Connection
-        Dim r_connect As Boolean = False
+        Dim r_connect As Boolean = false
 
         myUSBConnectStr = "Establishing USB connection with SigNAS3..."
         TB_USBConnect.Text = myUSBConnectStr
@@ -1942,44 +1991,44 @@ void BT_USBConnect_Click(sender As Object, e As EventArgs) Handles BT_USBConnect
         myUSBConnectStr = "USB connection with SigNAS3 establised via USB3"
         Else
         myUSBConnectStr = "USB connection with SigNAS3 establised via USB2"
-        End If
-        myUSBConnection = True
+        
+        myUSBConnection = true
         myS3 = New SigNAS3Library.S3(myConnection)
         Else
         myUSBConnectStr = "Unable to establish USB connection with SigNAS3"
-        myUSBConnection = False
-        End If
+        myUSBConnection = false
+        
         Else
         myUSBConnectStr = "Unable to establish USB connection with SigNAS3: Error code: " & SigNAS3Library.Err.GetErrDescription(errcode)
-        myUSBConnection = False
-        End If
+        myUSBConnection = false
+        
 
-        End If
+        
 
-        Catch ex As Exception
+        
 
         myUSBConnectStr = "An exception occured in USBConnect"
-        myUSBConnection = False
-        MsgBox("An exception occured during USBConnect")
+        myUSBConnection = false
+        Console::WriteLine("An exception occured during USBConnect")
 
-        Finally
+        
 
         RefreshConnect()
 
-        End Try
+        
 
-        End Sub
+        
 }
 
 //'Lane Settings
-void RB_Lane_CheckedChanged(sender As Object, e As EventArgs) Handles RB_Lane0.CheckedChanged, RB_Lane1.CheckedChanged, RB_Lane2.CheckedChanged, RB_Lane3.CheckedChanged, RB_Lane4.CheckedChanged, RB_Lane5.CheckedChanged, RB_Lane6.CheckedChanged, RB_Lane7.CheckedChanged
+void SigNAS3NT:: RB_Lane_CheckedChanged(sender As Object, e As EventArgs) Handles RB_Lane0.CheckedChanged, RB_Lane1.CheckedChanged, RB_Lane2.CheckedChanged, RB_Lane3.CheckedChanged, RB_Lane4.CheckedChanged, RB_Lane5.CheckedChanged, RB_Lane6.CheckedChanged, RB_Lane7.CheckedChanged
 {
         Try
 
         If flag_opened Then
         For j = 0 To 7
         If Equals(RB_Lane(j), sender) Then
-        If RB_Lane(j).Checked = True Then
+        If RB_Lane(j).Checked = true Then
         myLane = j
         RefreshSettings()
         RefreshProcessing()
@@ -1990,22 +2039,22 @@ void RB_Lane_CheckedChanged(sender As Object, e As EventArgs) Handles RB_Lane0.C
         Next
         Next
         Next
-        End If
+        
         j = 7
-        End If
+        
         Next
-        End If
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Lane Select")
+        Console::WriteLine("An exception occured during Lane Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
  //'Address Settings
-void CX_CH_CheckedChanged(sender As Object, e As EventArgs) Handles CX_CH0.CheckedChanged, CX_CH1.CheckedChanged, CX_CH2.CheckedChanged, CX_CH3.CheckedChanged, CX_CH4.CheckedChanged, CX_CH5.CheckedChanged, CX_CH6.CheckedChanged, CX_CH7.CheckedChanged, CX_CH8.CheckedChanged, CX_CH9.CheckedChanged, CX_CH10.CheckedChanged, CX_CH11.CheckedChanged, CX_CH12.CheckedChanged, CX_CH13.CheckedChanged, CX_CH14.CheckedChanged, CX_CH15.CheckedChanged
+void SigNAS3NT:: CX_CH_CheckedChanged(sender As Object, e As EventArgs) Handles CX_CH0.CheckedChanged, CX_CH1.CheckedChanged, CX_CH2.CheckedChanged, CX_CH3.CheckedChanged, CX_CH4.CheckedChanged, CX_CH5.CheckedChanged, CX_CH6.CheckedChanged, CX_CH7.CheckedChanged, CX_CH8.CheckedChanged, CX_CH9.CheckedChanged, CX_CH10.CheckedChanged, CX_CH11.CheckedChanged, CX_CH12.CheckedChanged, CX_CH13.CheckedChanged, CX_CH14.CheckedChanged, CX_CH15.CheckedChanged
 {
         Try
 
@@ -2015,22 +2064,22 @@ void CX_CH_CheckedChanged(sender As Object, e As EventArgs) Handles CX_CH0.Check
         If myLane >= 0 Then
         If myLane <= 7 Then
         myChannelSelect(myLane)(j) = CX_CH(j).Checked
-        End If
-        End If
+        
+        
         j = 15
-        End If
+        
         Next
-        End If
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Channel Select")
+        Console::WriteLine("An exception occured during Channel Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CX_Target_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Target0.CheckedChanged, CX_Target2.CheckedChanged, CX_Target4.CheckedChanged, CX_Target6.CheckedChanged, CX_Target1.CheckedChanged, CX_Target3.CheckedChanged, CX_Target5.CheckedChanged, CX_Target7.CheckedChanged
+void SigNAS3NT:: CX_Target_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Target0.CheckedChanged, CX_Target2.CheckedChanged, CX_Target4.CheckedChanged, CX_Target6.CheckedChanged, CX_Target1.CheckedChanged, CX_Target3.CheckedChanged, CX_Target5.CheckedChanged, CX_Target7.CheckedChanged
 {
         Try
 
@@ -2040,23 +2089,23 @@ void CX_Target_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Targe
         If myLane >= 0 Then
         If myLane <= 7 Then
         myChipSelect(myLane)(j) = CX_Target(j).Checked
-        End If
-        End If
+        
+        
         j = 7
-        End If
+        
         Next
-        End If
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Chip Select")
+        Console::WriteLine("An exception occured during Chip Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
  
-void NUD_LUNperTarget_ValueChanged(sender As Object, e As EventArgs) Handles NUD_LUNperTarget.ValueChanged
+void SigNAS3NT:: NUD_LUNperTarget_ValueChanged(sender As Object, e As EventArgs) Handles NUD_LUNperTarget.ValueChanged
 {
         Try
 
@@ -2064,19 +2113,19 @@ void NUD_LUNperTarget_ValueChanged(sender As Object, e As EventArgs) Handles NUD
         If myLane >= 0 Then
         If myLane <= 7 Then
         myLUNperTarget(myLane) = NUD_LUNperTarget.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during LUN/Target Select")
+        Console::WriteLine("An exception occured during LUN/Target Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_BlocksperLUN_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BlocksperLUN.ValueChanged
+void SigNAS3NT:: NUD_BlocksperLUN_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BlocksperLUN.ValueChanged
 {
         Try
 
@@ -2084,19 +2133,19 @@ void NUD_BlocksperLUN_ValueChanged(sender As Object, e As EventArgs) Handles NUD
         If myLane >= 0 Then
         If myLane <= 7 Then
         myBlocksperLUN(myLane) = NUD_BlocksperLUN.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Blocks/LUN Select")
+        Console::WriteLine("An exception occured during Blocks/LUN Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_LUNSeperation_ValueChanged(sender As Object, e As EventArgs) Handles NUD_LUNSeperation.ValueChanged
+void SigNAS3NT:: NUD_LUNSeperation_ValueChanged(sender As Object, e As EventArgs) Handles NUD_LUNSeperation.ValueChanged
 {
         Try
 
@@ -2104,25 +2153,25 @@ void NUD_LUNSeperation_ValueChanged(sender As Object, e As EventArgs) Handles NU
         If myLane >= 0 Then
         If myLane <= 7 Then
         myLUNSeperation(myLane) = NUD_LUNSeperation.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during LUN Seperation Select")
+        Console::WriteLine("An exception occured during LUN Seperation Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
 
 //'Voltage Settings
-void CB_VCore_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_VCore.SelectedIndexChanged
+void SigNAS3NT:: CB_VCore_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_VCore.SelectedIndexChanged
 {
         Try
 
-        If flag_opened = True Then
+        If flag_opened = true Then
         If myLane >= 0 Then
         If myLane <= 7 Then
         If CB_VCore.SelectedIndex < VCORE_MIN Then
@@ -2133,24 +2182,24 @@ void CB_VCore_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_
         RefreshVCore()
         Else
         myVCore(myLane) = CB_VCore.SelectedIndex
-        End If
-        End If
-        End If
-        End If
+        
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during VCore Select")
+        Console::WriteLine("An exception occured during VCore Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CB_VIO_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_VIO.SelectedIndexChanged
+void SigNAS3NT:: CB_VIO_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_VIO.SelectedIndexChanged
 {
         Try
 
-        If flag_opened = True Then
+        If flag_opened = true Then
         If myLane >= 0 Then
         If myLane <= 7 Then
         If CB_VIO.SelectedIndex < VIO_MIN Then
@@ -2161,20 +2210,20 @@ void CB_VIO_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_VI
         RefreshVIO()
         Else
         myVIO(myLane) = CB_VIO.SelectedIndex
-        End If
-        End If
-        End If
-        End If
+        
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during VIO Select")
+        Console::WriteLine("An exception occured during VIO Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CX_Vref_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Vref.CheckedChanged
+void SigNAS3NT:: CX_Vref_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Vref.CheckedChanged
 {
         Try
 
@@ -2183,19 +2232,19 @@ void CX_Vref_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Vref.Ch
         If myLane <= 7 Then
         myVref(myLane) = CX_Vref.Checked
 
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Vref Select")
+        Console::WriteLine("An exception occured during Vref Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CX_Reset_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Reset.CheckedChanged
+void SigNAS3NT:: CX_Reset_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Reset.CheckedChanged
 {
         Try
 
@@ -2203,21 +2252,21 @@ void CX_Reset_CheckedChanged(sender As Object, e As EventArgs) Handles CX_Reset.
         If myLane >= 0 Then
         If myLane <= 7 Then
         myVReset(myLane) = CX_Reset.Checked
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Reset after Voltage Set Select")
+        Console::WriteLine("An exception occured during Reset after Voltage Set Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
 
 //'Test Settings
-void TB_NANDID_Leave(sender As Object, e As EventArgs) Handles TB_NANDIDB0.Leave, TB_NANDIDB1.Leave, TB_NANDIDB2.Leave, TB_NANDIDB3.Leave, TB_NANDIDB4.Leave, TB_NANDIDB5.Leave, TB_NANDIDB6.Leave, TB_NANDIDB7.Leave
+void SigNAS3NT:: TB_NANDID_Leave(sender As Object, e As EventArgs) Handles TB_NANDIDB0.Leave, TB_NANDIDB1.Leave, TB_NANDIDB2.Leave, TB_NANDIDB3.Leave, TB_NANDIDB4.Leave, TB_NANDIDB5.Leave, TB_NANDIDB6.Leave, TB_NANDIDB7.Leave
 {
         Try
 
@@ -2228,22 +2277,22 @@ void TB_NANDID_Leave(sender As Object, e As EventArgs) Handles TB_NANDIDB0.Leave
         If myLane <= 7 Then
         myNANDID(myLane)(j) = HexCheck(TB_NANDID(j).Text, NANDID_LEN, myNANDID(myLane)(j))
         RefreshNANDID(j)
-        End If
-        End If
+        
+        
         j = 7
-        End If
+        
         Next
-        End If
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during NANDID Select")
+        Console::WriteLine("An exception occured during NANDID Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_BBSByteOffset_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BBSByteOffset.ValueChanged
+void SigNAS3NT:: NUD_BBSByteOffset_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BBSByteOffset.ValueChanged
 {
         Try
 
@@ -2254,20 +2303,20 @@ void NUD_BBSByteOffset_ValueChanged(sender As Object, e As EventArgs) Handles NU
         myBBSByteOffset(myLane) = NUD_BBSByteOffset.Value
         Else
         myBBSByteOffset(myLane) = myNandParameter(myLane).PageSize - 1
-        End If
+        
         RefreshBBSByteOffset()
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Bad Block Scan Byte Offset Select")
+        Console::WriteLine("An exception occured during Bad Block Scan Byte Offset Select")
 
-        End Try
-        End Sub
+        
+        
 }
-void NUD_BBSThreshold_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BBSThreshold.ValueChanged
+void SigNAS3NT:: NUD_BBSThreshold_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BBSThreshold.ValueChanged
 {
         Try
 
@@ -2275,19 +2324,19 @@ void NUD_BBSThreshold_ValueChanged(sender As Object, e As EventArgs) Handles NUD
         If myLane >= 0 Then
         If myLane <= 7 Then
         myBBSThreshold(myLane) = NUD_BBSThreshold.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Bad Block Scan Threshold Select")
+        Console::WriteLine("An exception occured during Bad Block Scan Threshold Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_BCHCodeLength_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BCHCodeLength.ValueChanged
+void SigNAS3NT:: NUD_BCHCodeLength_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BCHCodeLength.ValueChanged
 {
         Try
 
@@ -2295,19 +2344,19 @@ void NUD_BCHCodeLength_ValueChanged(sender As Object, e As EventArgs) Handles NU
         If myLane >= 0 Then
         If myLane <= 7 Then
         myBCHCodeLength(myLane) = NUD_BCHCodeLength.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during BCH Code Length Select")
+        Console::WriteLine("An exception occured during BCH Code Length Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_BCHBitCorrectability_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BCHBitCorrectability.ValueChanged
+void SigNAS3NT:: NUD_BCHBitCorrectability_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BCHBitCorrectability.ValueChanged
 {
         Try
 
@@ -2315,19 +2364,19 @@ void NUD_BCHBitCorrectability_ValueChanged(sender As Object, e As EventArgs) Han
         If myLane >= 0 Then
         If myLane <= 7 Then
         myBCHBitCorrectability(myLane) = NUD_BCHBitCorrectability.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during BCH Bit Correctability Select")
+        Console::WriteLine("An exception occured during BCH Bit Correctability Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_MaxtErase_ValueChanged(sender As Object, e As EventArgs) Handles NUD_MaxtErase.ValueChanged
+void SigNAS3NT:: NUD_MaxtErase_ValueChanged(sender As Object, e As EventArgs) Handles NUD_MaxtErase.ValueChanged
 {
         Try
 
@@ -2335,19 +2384,19 @@ void NUD_MaxtErase_ValueChanged(sender As Object, e As EventArgs) Handles NUD_Ma
         If myLane >= 0 Then
         If myLane <= 7 Then
         myMaxtErase(myLane) = NUD_MaxtErase.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Max tErase Select")
+        Console::WriteLine("An exception occured during Max tErase Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_MaxtProgram_ValueChanged(sender As Object, e As EventArgs) Handles NUD_MaxtProgram.ValueChanged
+void SigNAS3NT:: NUD_MaxtProgram_ValueChanged(sender As Object, e As EventArgs) Handles NUD_MaxtProgram.ValueChanged
 {
         Try
 
@@ -2355,19 +2404,19 @@ void NUD_MaxtProgram_ValueChanged(sender As Object, e As EventArgs) Handles NUD_
         If myLane >= 0 Then
         If myLane <= 7 Then
         myMaxtProgram(myLane) = NUD_MaxtProgram.Value
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Max tProgram Select")
+        Console::WriteLine("An exception occured during Max tProgram Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_MaxtRead_ValueChanged(sender As Object, e As EventArgs) Handles NUD_MaxtRead.ValueChanged
+void SigNAS3NT:: NUD_MaxtRead_ValueChanged(sender As Object, e As EventArgs) Handles NUD_MaxtRead.ValueChanged
 {
         Try
 
@@ -2375,22 +2424,22 @@ void NUD_MaxtRead_ValueChanged(sender As Object, e As EventArgs) Handles NUD_Max
         If myLane >= 0 Then
         If myLane <= 7 Then
         myMaxtRead(myLane) = NUD_MaxtRead.Value
-        End If
-        End If
+        
+        
 
-        End If
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Max tRead Select")
+        Console::WriteLine("An exception occured during Max tRead Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
 
 //'Nand Settings
-void CB_Vendor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Vendor.SelectedIndexChanged
+void SigNAS3NT:: CB_Vendor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Vendor.SelectedIndexChanged
 {
         Try
 
@@ -2405,19 +2454,19 @@ void CB_Vendor_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB
         GetSubTypeCodeFromString(mySubTypesString(myLane), mySubTypes(myLane))
         GetBlockSizeFromString(myBlockSizesString(myLane), myBlockSizes(myLane))
         RefreshType()
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Vendor Select")
+        Console::WriteLine("An exception occured during Vendor Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CB_Type_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Type.SelectedIndexChanged
+void SigNAS3NT:: CB_Type_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Type.SelectedIndexChanged
 {
         Try
 
@@ -2430,19 +2479,19 @@ void CB_Type_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_T
         GetSubTypeCodeFromString(mySubTypesString(myLane), mySubTypes(myLane))
         GetBlockSizeFromString(myBlockSizesString(myLane), myBlockSizes(myLane))
         RefreshSubType()
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Type Select")
+        Console::WriteLine("An exception occured during Type Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CB_Subtype_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Subtype.SelectedIndexChanged
+void SigNAS3NT:: CB_Subtype_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_Subtype.SelectedIndexChanged
 {
         Try
 
@@ -2454,19 +2503,19 @@ void CB_Subtype_SelectedIndexChanged(sender As Object, e As EventArgs) Handles C
         GetBlockSizeFromString(myBlockSizesString(myLane), myBlockSizes(myLane))
         RefreshBlockSize()
 
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Subtype Select")
+        Console::WriteLine("An exception occured during Subtype Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CB_IFMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_IFMode.SelectedIndexChanged
+void SigNAS3NT:: CB_IFMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_IFMode.SelectedIndexChanged
 {
         Try
 
@@ -2476,19 +2525,19 @@ void CB_IFMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB
         myNandParameter(myLane).IFMode = myIFModes(myLane)(CB_IFMode.SelectedIndex)
         RefreshEDOMode()
         RefreshBaseClock()
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during IFMode Select")
+        Console::WriteLine("An exception occured during IFMode Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CB_BlockSize_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_BlockSize.SelectedIndexChanged
+void SigNAS3NT:: CB_BlockSize_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CB_BlockSize.SelectedIndexChanged
 {
         Try
 
@@ -2496,19 +2545,19 @@ void CB_BlockSize_SelectedIndexChanged(sender As Object, e As EventArgs) Handles
         If myLane >= 0 Then
         If myLane <= 7 Then
         myNandParameter(myLane).BlockSize = myBlockSizes(myLane)(CB_BlockSize.SelectedIndex)
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Subtype Select")
+        Console::WriteLine("An exception occured during Subtype Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_Pagesize_ValueChanged(sender As Object, e As EventArgs) Handles NUD_Pagesize.ValueChanged
+void SigNAS3NT:: NUD_Pagesize_ValueChanged(sender As Object, e As EventArgs) Handles NUD_Pagesize.ValueChanged
 {
         Try
 
@@ -2518,22 +2567,22 @@ void NUD_Pagesize_ValueChanged(sender As Object, e As EventArgs) Handles NUD_Pag
         myNandParameter(myLane).PageSize = PAGESIZE_INCREMENT * (NUD_Pagesize.Value \ PAGESIZE_INCREMENT)
         If myBBSByteOffset(myLane) >= myNandParameter(myLane).PageSize Then
         myBBSByteOffset(myLane) = myNandParameter(myLane).PageSize - 1
-        End If
+        
         RefreshPageSize()
         RefreshBBSByteOffset()
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during PageSize Select")
+        Console::WriteLine("An exception occured during PageSize Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void CX_ED0_CheckedChanged(sender As Object, e As EventArgs) Handles CX_EDO.CheckedChanged
+void SigNAS3NT:: CX_ED0_CheckedChanged(sender As Object, e As EventArgs) Handles CX_EDO.CheckedChanged
 {
         Try
 
@@ -2541,19 +2590,19 @@ void CX_ED0_CheckedChanged(sender As Object, e As EventArgs) Handles CX_EDO.Chec
         If myLane >= 0 Then
         If myLane <= 7 Then
         myNandParameter(myLane).EDOMode = CX_EDO.Checked
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during EDOMode Select")
+        Console::WriteLine("An exception occured during EDOMode Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_BaseClock_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BaseClock.ValueChanged
+void SigNAS3NT:: NUD_BaseClock_ValueChanged(sender As Object, e As EventArgs) Handles NUD_BaseClock.ValueChanged
 {
         Try
 
@@ -2581,19 +2630,19 @@ void NUD_BaseClock_ValueChanged(sender As Object, e As EventArgs) Handles NUD_Ba
         TB_tRP.Text = myNandParameter(myLane).BaseClock & "ns"
         TB_tDQS.Text = myNandParameter(myLane).BaseClock & "ns"
         End Select
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during BaseClock Select")
+        Console::WriteLine("An exception occured during BaseClock Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_tWH_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tWH.ValueChanged
+void SigNAS3NT:: NUD_tWH_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tWH.ValueChanged
 {
         Try
 
@@ -2609,19 +2658,19 @@ void NUD_tWH_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tWH.Valu
         Case Else
         TB_tWH.Text = (myNandParameter(myLane).tWH + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         End Select
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during tWH Select")
+        Console::WriteLine("An exception occured during tWH Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_tWP_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tWP.ValueChanged
+void SigNAS3NT:: NUD_tWP_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tWP.ValueChanged
 {
         Try
 
@@ -2637,19 +2686,19 @@ void NUD_tWP_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tWP.Valu
         Case Else
         TB_tWP.Text = (myNandParameter(myLane).tWP + 1) * 2 * myNandParameter(myLane).BaseClock & "ns"
         End Select
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during tWP Select")
+        Console::WriteLine("An exception occured during tWP Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_tREH_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tREH.ValueChanged
+void SigNAS3NT:: NUD_tREH_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tREH.ValueChanged
 {
         Try
 
@@ -2665,19 +2714,19 @@ void NUD_tREH_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tREH.Va
         Case Else
         TB_tREH.Text = myNandParameter(myLane).BaseClock & "ns"
         End Select
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during tREH Select")
+        Console::WriteLine("An exception occured during tREH Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void NUD_tRP_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tRP.ValueChanged
+void SigNAS3NT:: NUD_tRP_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tRP.ValueChanged
 {
         Try
 
@@ -2693,21 +2742,21 @@ void NUD_tRP_ValueChanged(sender As Object, e As EventArgs) Handles NUD_tRP.Valu
         Case Else
         TB_tRP.Text = myNandParameter(myLane).BaseClock & "ns"
         End Select
-        End If
-        End If
-        End If
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during tRP Select")
+        Console::WriteLine("An exception occured during tRP Select")
 
-        End Try
+        
 
-        End Sub
+        
 }
 
 //'Open Result File
-void BT_ResultFile_Click(sender As Object, e As EventArgs) Handles BT_ResultFile.Click
+void SigNAS3NT:: BT_ResultFile_Click(sender As Object, e As EventArgs) Handles BT_ResultFile.Click
 {
         Try
 
@@ -2722,20 +2771,20 @@ void BT_ResultFile_Click(sender As Object, e As EventArgs) Handles BT_ResultFile
         myResultFile(myLane) = SaveFileDialog.FileName
         RefreshResultFile()
         RefreshProcessing()
-        End If
-        End If
-        End If
-        End If
+        
+        
+        
+        
 
-        Catch ex As Exception
-        MsgBox("An exception occured during ResultFile Select")
-        End Try
+        
+        Console::WriteLine("An exception occured during ResultFile Select")
+        
 
-        End Sub
+        
 }
 
 //'Load Settings
-void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSettings.Click
+void SigNAS3NT:: BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSettings.Click
 {
         Try
 
@@ -2749,7 +2798,7 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         Dim tIFMode As SigNAS3Library.NandParameter.IFModeCode = SigNAS3Library.NandParameter.IFModeCode.Asynchronous
         Dim tBlockSize As Integer = 256
         Dim tPageSize As Integer = 8192
-        Dim tEDOMode As Boolean = False
+        Dim tEDOMode As Boolean = false
         Dim tBaseClock As Integer = 50
         Dim ttWH As Integer = 0
         Dim ttWP As Integer = 0
@@ -2757,10 +2806,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         Dim ttRP As Integer = 0
         Dim tVCore As Integer = VCORE_MIN
         Dim tVIO As Integer = VIO_MIN
-        Dim tVref As Boolean = False
-        Dim tVReset As Boolean = False
-        Dim tChannelSelect() As Boolean = { False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False }
-        Dim tChipSelect() As Boolean = { False, False, False, False, False, False, False, False }
+        Dim tVref As Boolean = false
+        Dim tVReset As Boolean = false
+        Dim tChannelSelect() As Boolean = { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false }
+        Dim tChipSelect() As Boolean = { false, false, false, false, false, false, false, false }
         Dim tLUNperChip As Integer = LUN_PER_CHIP_MIN
         Dim tBBSByteOffset As Integer = BBS_BYTE_OFFSET_INITIAL
         Dim tBBSThreshold As Integer = BBS_THRESHOLD_INITIAL
@@ -2811,179 +2860,179 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         Else
         str1 = str0.Substring(pos0, pos1 - pos0 - 1)
         str2 = str0.Substring(pos1, pos2 - pos1 - 1)
-        End If
-        End If
-        End If
+        
+        
+        
 
         Select Case str1
         'Address Settings
         Case "CH0"
         Select Case str2
-        Case "True"
-        tChannelSelect(0) = True
-        Case "False"
-        tChannelSelect(0) = False
+        Case "true"
+        tChannelSelect(0) = true
+        Case "false"
+        tChannelSelect(0) = false
         End Select
         Case "CH1"
         Select Case str2
-        Case "True"
-        tChannelSelect(1) = True
-        Case "False"
-        tChannelSelect(1) = False
+        Case "true"
+        tChannelSelect(1) = true
+        Case "false"
+        tChannelSelect(1) = false
         End Select
         Case "CH2"
         Select Case str2
-        Case "True"
-        tChannelSelect(2) = True
-        Case "False"
-        tChannelSelect(2) = False
+        Case "true"
+        tChannelSelect(2) = true
+        Case "false"
+        tChannelSelect(2) = false
         End Select
         Case "CH3"
         Select Case str2
-        Case "True"
-        tChannelSelect(3) = True
-        Case "False"
-        tChannelSelect(3) = False
+        Case "true"
+        tChannelSelect(3) = true
+        Case "false"
+        tChannelSelect(3) = false
         End Select
         Case "CH4"
         Select Case str2
-        Case "True"
-        tChannelSelect(4) = True
-        Case "False"
-        tChannelSelect(4) = False
+        Case "true"
+        tChannelSelect(4) = true
+        Case "false"
+        tChannelSelect(4) = false
         End Select
         Case "CH5"
         Select Case str2
-        Case "True"
-        tChannelSelect(5) = True
-        Case "False"
-        tChannelSelect(5) = False
+        Case "true"
+        tChannelSelect(5) = true
+        Case "false"
+        tChannelSelect(5) = false
         End Select
         Case "CH6"
         Select Case str2
-        Case "True"
-        tChannelSelect(6) = True
-        Case "False"
-        tChannelSelect(6) = False
+        Case "true"
+        tChannelSelect(6) = true
+        Case "false"
+        tChannelSelect(6) = false
         End Select
         Case "CH7"
         Select Case str2
-        Case "True"
-        tChannelSelect(7) = True
-        Case "False"
-        tChannelSelect(7) = False
+        Case "true"
+        tChannelSelect(7) = true
+        Case "false"
+        tChannelSelect(7) = false
         End Select
         Case "CH8"
         Select Case str2
-        Case "True"
-        tChannelSelect(8) = True
-        Case "False"
-        tChannelSelect(8) = False
+        Case "true"
+        tChannelSelect(8) = true
+        Case "false"
+        tChannelSelect(8) = false
         End Select
         Case "CH9"
         Select Case str2
-        Case "True"
-        tChannelSelect(9) = True
-        Case "False"
-        tChannelSelect(9) = False
+        Case "true"
+        tChannelSelect(9) = true
+        Case "false"
+        tChannelSelect(9) = false
         End Select
         Case "CH10"
         Select Case str2
-        Case "True"
-        tChannelSelect(10) = True
-        Case "False"
-        tChannelSelect(10) = False
+        Case "true"
+        tChannelSelect(10) = true
+        Case "false"
+        tChannelSelect(10) = false
         End Select
         Case "CH11"
         Select Case str2
-        Case "True"
-        tChannelSelect(11) = True
-        Case "False"
-        tChannelSelect(11) = False
+        Case "true"
+        tChannelSelect(11) = true
+        Case "false"
+        tChannelSelect(11) = false
         End Select
         Case "CH12"
         Select Case str2
-        Case "True"
-        tChannelSelect(12) = True
-        Case "False"
-        tChannelSelect(12) = False
+        Case "true"
+        tChannelSelect(12) = true
+        Case "false"
+        tChannelSelect(12) = false
         End Select
         Case "CH13"
         Select Case str2
-        Case "True"
-        tChannelSelect(13) = True
-        Case "False"
-        tChannelSelect(13) = False
+        Case "true"
+        tChannelSelect(13) = true
+        Case "false"
+        tChannelSelect(13) = false
         End Select
         Case "CH14"
         Select Case str2
-        Case "True"
-        tChannelSelect(14) = True
-        Case "False"
-        tChannelSelect(14) = False
+        Case "true"
+        tChannelSelect(14) = true
+        Case "false"
+        tChannelSelect(14) = false
         End Select
         Case "CH15"
         Select Case str2
-        Case "True"
-        tChannelSelect(15) = True
-        Case "False"
-        tChannelSelect(15) = False
+        Case "true"
+        tChannelSelect(15) = true
+        Case "false"
+        tChannelSelect(15) = false
         End Select
         Case "Target0"
         Select Case str2
-        Case "True"
-        tChipSelect(0) = True
-        Case "False"
-        tChipSelect(0) = False
+        Case "true"
+        tChipSelect(0) = true
+        Case "false"
+        tChipSelect(0) = false
         End Select
         Case "Target1"
         Select Case str2
-        Case "True"
-        tChipSelect(4) = True
-        Case "False"
-        tChipSelect(4) = False
+        Case "true"
+        tChipSelect(4) = true
+        Case "false"
+        tChipSelect(4) = false
         End Select
         Case "Target2"
         Select Case str2
-        Case "True"
-        tChipSelect(1) = True
-        Case "False"
-        tChipSelect(1) = False
+        Case "true"
+        tChipSelect(1) = true
+        Case "false"
+        tChipSelect(1) = false
         End Select
         Case "Target3"
         Select Case str2
-        Case "True"
-        tChipSelect(5) = True
-        Case "False"
-        tChipSelect(5) = False
+        Case "true"
+        tChipSelect(5) = true
+        Case "false"
+        tChipSelect(5) = false
         End Select
         Case "Target4"
         Select Case str2
-        Case "True"
-        tChipSelect(2) = True
-        Case "False"
-        tChipSelect(2) = False
+        Case "true"
+        tChipSelect(2) = true
+        Case "false"
+        tChipSelect(2) = false
         End Select
         Case "Target5"
         Select Case str2
-        Case "True"
-        tChipSelect(6) = True
-        Case "False"
-        tChipSelect(6) = False
+        Case "true"
+        tChipSelect(6) = true
+        Case "false"
+        tChipSelect(6) = false
         End Select
         Case "Target6"
         Select Case str2
-        Case "True"
-        tChipSelect(3) = True
-        Case "False"
-        tChipSelect(3) = False
+        Case "true"
+        tChipSelect(3) = true
+        Case "false"
+        tChipSelect(3) = false
         End Select
         Case "Target7"
         Select Case str2
-        Case "True"
-        tChipSelect(7) = True
-        Case "False"
-        tChipSelect(7) = False
+        Case "true"
+        tChipSelect(7) = true
+        Case "false"
+        tChipSelect(7) = false
         End Select
         Case "LUNperTarget"
         Try
@@ -2991,10 +3040,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         If mytemp >= LUN_PER_CHIP_MIN Then
         If mytemp <= LUN_PER_CHIP_MAX Then
         tLUNperChip = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "BlocksperLUN"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
@@ -3002,20 +3051,20 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         If mytemp <= BLOCK_PER_LUN_MAX Then
 
         tBlocksperLUN = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "LUNSeperation"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BLOCK_PER_LUN_MIN Then
         If mytemp <= BLOCK_PER_LUN_MAX Then
         tLUNSeperation = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         'Voltage Settings
         Case "VCore"
         Try
@@ -3023,85 +3072,85 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         If mytemp >= VCORE_MIN Then
         If mytemp <= VCORE_MAX Then
         tVCore = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "VIO"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= VIO_MIN Then
         If mytemp <= VIO_MAX Then
         tVIO = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "Vref"
         Select Case str2
-        Case "True"
-        tVref = True
-        Case "False"
-        tVref = False
+        Case "true"
+        tVref = true
+        Case "false"
+        tVref = false
         End Select
         Case "VReset"
         Select Case str2
-        Case "True"
-        tVReset = True
-        Case "False"
-        tVReset = False
+        Case "true"
+        tVReset = true
+        Case "false"
+        tVReset = false
         End Select
         'Nand Settings
         Case "Vendor"
         Try
         Dim mytemp As SigNAS3Library.NandParameter.VendorCode = DirectCast([Enum].Parse(GetType(SigNAS3Library.NandParameter.VendorCode), str2), SigNAS3Library.NandParameter.VendorCode)
         tVendor = mytemp
-        Catch ex As Exception
-        End Try
+        
+        
         Case "Type"
         Try
         Dim mytemp As SigNAS3Library.NandParameter.TypeCode = DirectCast([Enum].Parse(GetType(SigNAS3Library.NandParameter.TypeCode), str2), SigNAS3Library.NandParameter.TypeCode)
         tType = mytemp
-        Catch ex As Exception
-        End Try
+        
+        
         Case "SubType"
         Try
         Dim mytemp As SigNAS3Library.NandParameter.SubTypeCode = DirectCast([Enum].Parse(GetType(SigNAS3Library.NandParameter.SubTypeCode), str2), SigNAS3Library.NandParameter.SubTypeCode)
         tSubType = mytemp
-        Catch ex As Exception
-        End Try
+        
+        
         Case "IFMode"
         Try
         Dim mytemp As SigNAS3Library.NandParameter.IFModeCode = DirectCast([Enum].Parse(GetType(SigNAS3Library.NandParameter.IFModeCode), str2), SigNAS3Library.NandParameter.IFModeCode)
         tIFMode = mytemp
-        Catch ex As Exception
-        End Try
+        
+        
         Case "BlockSize"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= SigNAS3Library.S3.PAGE_MIN Then
         If mytemp <= SigNAS3Library.S3.PAGE_MAX Then
         tBlockSize = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "PageSize"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= PAGESIZE_MIN Then
         If mytemp <= PAGESIZE_MAX Then
         tPageSize = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "EDOMode"
         Select Case str2
-        Case "True"
-        tEDOMode = True
-        Case "False"
-        tEDOMode = False
+        Case "true"
+        tEDOMode = true
+        Case "false"
+        tEDOMode = false
         End Select
         Case "BaseClock"
         Try
@@ -3109,50 +3158,50 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         If mytemp >= BASECLOCK_MIN Then
         If mytemp <= 2 * BASECLOCK_MAX Then
         tBaseClock = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "tWH"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= t_MIN Then
         If mytemp <= t_MAX Then
         ttWH = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "tWP"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= t_MIN Then
         If mytemp <= t_MAX Then
         ttWP = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "tREH"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= t_MIN Then
         If mytemp <= t_MAX Then
         ttREH = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "tRP"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= t_MIN Then
         If mytemp <= t_MAX Then
         ttRP = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         'Test Settings
         Case "NANDID0"
         Try
@@ -3163,10 +3212,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(0).Length To 1
         tNANDID(0) = "0" & tNANDID(0)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID1"
         Try
         If str2.Length >= 1 Then
@@ -3176,10 +3225,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(1).Length To 1
         tNANDID(1) = "0" & tNANDID(1)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID2"
         Try
         If str2.Length >= 1 Then
@@ -3189,10 +3238,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(2).Length To 1
         tNANDID(2) = "0" & tNANDID(2)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID3"
         Try
         If str2.Length >= 1 Then
@@ -3202,10 +3251,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(3).Length To 1
         tNANDID(3) = "0" & tNANDID(3)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID4"
         Try
         If str2.Length >= 1 Then
@@ -3215,10 +3264,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(4).Length To 1
         tNANDID(4) = "0" & tNANDID(4)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID5"
         Try
         If str2.Length >= 1 Then
@@ -3228,10 +3277,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(5).Length To 1
         tNANDID(5) = "0" & tNANDID(5)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID6"
         Try
         If str2.Length >= 1 Then
@@ -3241,10 +3290,10 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(6).Length To 1
         tNANDID(6) = "0" & tNANDID(6)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "NANDID7"
         Try
         If str2.Length >= 1 Then
@@ -3254,80 +3303,80 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         For j = tNANDID(7).Length To 1
         tNANDID(7) = "0" & tNANDID(7)
         Next
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "TotalBBThreshold"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BBS_THRESHOLD_MIN Then
         If mytemp <= BBS_THRESHOLD_MAX Then
         tBBSThreshold = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "BBSByteOffset"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BBS_BYTE_OFFSET_MIN Then
         If mytemp <= BBS_BYTE_OFFSET_MAX Then
         tBBSByteOffset = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "BCHCodeLength"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BCH_CODE_LENGTH_MIN Then
         If mytemp <= BCH_CODE_LENGTH_MAX Then
         tBCHCodeLength = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "BCHBitCorrectability"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BCH_BIT_CORRECTABILITY_MIN Then
         If mytemp <= BCH_BIT_CORRECTABILITY_MAX Then
         tBCHBitCorrectability = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "MaxtErase"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BUSYTIME_MIN Then
         If mytemp <= BUSYTIME_MAX Then
         tMaxtErase = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "MaxtProgram"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BUSYTIME_MIN Then
         If mytemp <= BUSYTIME_MAX Then
         tMaxtProgram = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "MaxtRead"
         Try
         Dim mytemp As Integer = Convert.ToInt32(str2)
         If mytemp >= BUSYTIME_MIN Then
         If mytemp <= BUSYTIME_MAX Then
         tMaxtRead = mytemp
-        End If
-        End If
-        Catch ex As Exception
-        End Try
+        
+        
+        
+        
         Case "ResultFile"
         tResultFile = str2
         End Select
@@ -3369,7 +3418,7 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         myBBSByteOffset(myLane) = tBBSByteOffset
         Else
         myBBSByteOffset(myLane) = myNandParameter(myLane).PageSize - 1
-        End If
+        
         myBCHCodeLength(myLane) = tBCHCodeLength
         myBCHBitCorrectability(myLane) = tBCHBitCorrectability
         myMaxtErase(myLane) = tMaxtErase
@@ -3386,20 +3435,20 @@ void BT_LoadSettings_Click(sender As Object, e As EventArgs) Handles BT_LoadSett
         RefreshSettings()
         RefreshProcessing()
 
-        End If
-        End If
-        End If
-        End If
+        
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Load Settings")
+        Console::WriteLine("An exception occured during Load Settings")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void BT_SaveSettings_Click(sender As Object, e As EventArgs) Handles BT_SaveSettings.Click
+void SigNAS3NT:: BT_SaveSettings_Click(sender As Object, e As EventArgs) Handles BT_SaveSettings.Click
 {
         Try
 
@@ -3490,22 +3539,22 @@ void BT_SaveSettings_Click(sender As Object, e As EventArgs) Handles BT_SaveSett
 
         If SaveFileDialog.FileName <> "" Then
 
-        My.Computer.FileSystem.WriteAllText(SaveFileDialog.FileName, str, False)
+        My.Computer.FileSystem.WriteAllText(SaveFileDialog.FileName, str, false)
 
-        End If
-        End If
-        End If
-        End If
+        
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Save Settings")
+        Console::WriteLine("An exception occured during Save Settings")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void BT_Execute_Click(sender As Object, e As EventArgs) Handles BT_Execute.Click
+void SigNAS3NT:: BT_Execute_Click(sender As Object, e As EventArgs) Handles BT_Execute.Click
 {
         Try
 
@@ -3514,7 +3563,7 @@ void BT_Execute_Click(sender As Object, e As EventArgs) Handles BT_Execute.Click
         If myLane <= 7 Then
         For k = 0 To 15
         For j = 0 To 7
-        myNANDIDCheck(myLane)(k)(j) = True
+        myNANDIDCheck(myLane)(k)(j) = true
         For i = 0 To 3
         myLUNStatus(myLane)(k)(j)(i) = 0
         myONFIBB(myLane)(k)(j)(i) = 0
@@ -3529,31 +3578,31 @@ void BT_Execute_Click(sender As Object, e As EventArgs) Handles BT_Execute.Click
 
         Next
         Next
-        myLaneProcessing(myLane) = True
+        myLaneProcessing(myLane) = true
         RefreshProcessing()
         myStatus(myLane) = "Retrieving Status of Lane " & myLane & "..."
-        RefreshStatus(False)
+        RefreshStatus(false)
         Dim r_status(7) As Integer
         For j = 0 To 7
         r_status(j) = 0
         Next
         Dim errcode As Boolean = myS3.GetLaneStatus(r_status)
         If errcode < > 0 Then
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "GetLaneStatus returned error code " & errcode & ": " & SigNAS3Library.Err.GetErrDescription(errcode) & ". Aborted"
         Else
         Select Case r_status(myLane)
         Case 0
         myStatus(myLane) = "Lane " & myLane & " is unconnected. Establishing connection with Lane " & myLane & "..."
-        RefreshStatus(False)
+        RefreshStatus(false)
         Dim mylanemap(7) As Boolean
         For j = 0 To 7
-        mylanemap(j) = False
+        mylanemap(j) = false
         Next
-        mylanemap(myLane) = True
+        mylanemap(myLane) = true
         errcode = myS3.ConnectLane(mylanemap)
         If errcode < > 0 Then
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "ConnectLane returned error code " & errcode & ": " & SigNAS3Library.Err.GetErrDescription(errcode) & ". Aborted"
         Else
         Dim r_status2(7) As Integer
@@ -3562,60 +3611,60 @@ void BT_Execute_Click(sender As Object, e As EventArgs) Handles BT_Execute.Click
         Next
         errcode = myS3.GetLaneStatus(r_status2)
         If errcode < > 0 Then
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "GetLaneStatus returned error code " & errcode & ": " & SigNAS3Library.Err.GetErrDescription(errcode) & ". Aborted"
         Else
         Select Case r_status2(myLane)
         Case 0
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "Unable to establish connection to Lane " & myLane & ". Aborted."
         Case 1
         Dim r_Lane As Integer = 0
         Dim ExecuteCaller As New ExecuteDelegate(AddressOf Execute)
         Dim result As IAsyncResult = ExecuteCaller.BeginInvoke(myLane, r_Lane, AddressOf ExecuteCallback, Nothing)
         Case Else
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "Lane " & myLane & " is busy. Aborted."
         End Select
-        End If
-        End If
+        
+        
         Case 1
         Dim r_Lane As Integer = 0
         Dim ExecuteCaller As New ExecuteDelegate(AddressOf Execute)
         Dim result As IAsyncResult = ExecuteCaller.BeginInvoke(myLane, r_Lane, AddressOf ExecuteCallback, Nothing)
         Case Else
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "Lane " & myLane & " is busy. Aborted."
         End Select
-        End If
-        End If
-        End If
-        End If
+        
+        
+        
+        
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Execute")
+        Console::WriteLine("An exception occured during Execute")
         If myLane >= 0 Then
         If myLane <= 7 Then
-        myLaneProcessing(myLane) = False
+        myLaneProcessing(myLane) = false
         myStatus(myLane) = "An exception occured during Execute. Aborted"
-        End If
-        End If
+        
+        
 
-        Finally
+        
 
         If myLane >= 0 Then
         If myLane <= 7 Then
-        RefreshStatus(False)
+        RefreshStatus(false)
         RefreshProcessing()
-        End If
-        End If
+        
+        
 
-        End Try
+        
 
-        End Sub
+        
 }
-void ExecuteCallback(ar As IAsyncResult)
+void SigNAS3NT:: ExecuteCallback(ar As IAsyncResult)
 {
     Dim r_Lane As Integer = -1
 
@@ -3625,37 +3674,37 @@ void ExecuteCallback(ar As IAsyncResult)
         Dim ExecuteCaller As ExecuteDelegate = CType(result.AsyncDelegate, ExecuteDelegate)
         ExecuteCaller.EndInvoke(r_Lane, result)
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Execute")
+        Console::WriteLine("An exception occured during Execute")
         If r_Lane >= 0 Then
         If r_Lane <= 7 Then
         myStatus(r_Lane) = "An exception occured during Execute. Aborted"
-        End If
-        End If
+        
+        
 
-        Finally
+        
 
         If r_Lane >= 0 Then
         If r_Lane <= 7 Then
-        myLaneProcessing(r_Lane) = False
+        myLaneProcessing(r_Lane) = false
         If r_Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), False)
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), false)
         BeginInvoke(New RefreshProcessingDelegate(AddressOf RefreshProcessing))
-        End If
-        End If
-        End If
+        
+        
+        
 
-        End Try
+        
 
-        End Sub
+        
 }
         //Private Delegate Function ExecuteDelegate(ByVal Lane As Integer, ByRef r_Lane As Integer) As Boolean
 Boolean Execute(Int32 Lane, Int32 &r_Lane)
 {
     r_Lane = Lane
         Dim myFile As IO.StreamWriter = Nothing
-        Dim file_flag = False
+        Dim file_flag = false
 
         Try
 
@@ -3663,20 +3712,20 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         BeginInvoke(New TimerStartDelegate(AddressOf myTimer(Lane).Start))
         myStatus(Lane) = "Preparing test..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
 
         Try
-        myFile = My.Computer.FileSystem.OpenTextFileWriter(myResultFile(Lane), False)
-        file_flag = True
-        Catch ex As Exception
-        End Try
+        myFile = My.Computer.FileSystem.OpenTextFileWriter(myResultFile(Lane), false)
+        file_flag = true
+        
+        
 
-        If file_flag = False Then
+        If file_flag = false Then
         myStatus(Lane) = "Unable to open Result File " & myResultFile(Lane) & ". Please ensure path exists and file is not being used by some other application"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
 
         Dim ofst As Integer
         Dim ofst2 As Integer
@@ -3686,10 +3735,10 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         Dim myAddressParameter As New SigNAS3Library.AddressParameter
         For k = 0 To 15
         If myChannelSelect(Lane)(k) Then
-        myAddressParameter.channel(k) = True
+        myAddressParameter.channel(k) = true
         Else
-        myAddressParameter.channel(k) = False
-        End If
+        myAddressParameter.channel(k) = false
+        
         Next
 
         Dim myBlockPatternParameter As New SigNAS3Library.BlockPatternParameter
@@ -3725,55 +3774,55 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
 
         If flag_abort(Lane) Then
         myStatus(Lane) = "Preparation complete. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
 
         myStatus(Lane) = "Setting Voltage..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         errcode_SetVoltage = myS3.SetVoltage(Lane, myVCore(Lane), myVIO(Lane), myVref(Lane), myVReset(Lane))
         If errcode_SetVoltage < > 0 Then
         myStatus(Lane) = "SetVoltage returned error code " & errcode_SetVoltage & ": " & SigNAS3Library.Err.GetErrDescription(errcode_SetVoltage) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
 
         If flag_abort(Lane) Then
         myStatus(Lane) = "Voltage set. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
 
         myStatus(Lane) = "Setting Nand Parameters..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
 
         errcode_SetNANDParameter = myS3.SetNANDParameter(Lane, myNandParameter(Lane))
         If errcode_SetNANDParameter < > 0 Then
         myStatus(Lane) = "SetNANDParameter returned error code " & errcode_SetNANDParameter & ": " & SigNAS3Library.Err.GetErrDescription(errcode_SetNANDParameter) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
 
         If flag_abort(Lane) Then
         myStatus(Lane) = "Nand Parameters set. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
 
         For k = 0 To 7
         myChip = 4 * (k Mod 2) + k \ 2
         If myChipSelect(Lane)(myChip) Then
         myStatus(Lane) = "Reading NAND ID (Target " & k & ")..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         myAddressParameter.chip = myChip
         For j = 0 To 7
         r_NANDID(j) = CByte(0)
@@ -3783,16 +3832,16 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myStatus(Lane) = "GetNANDID (Target " & k & ")  returned error code " & errcode_GetNANDID & ": " & SigNAS3Library.Err.GetErrDescription(errcode_GetNANDID) & ". Aborted"
         For j = 0 To 15
         If myAddressParameter.channel(j) Then
-        myNANDIDCheck(Lane)(j)(myChip) = False
-        End If
+        myNANDIDCheck(Lane)(j)(myChip) = false
+        
         For i = 0 To myLUNperTarget(Lane) - 1
         myLUNStatus(Lane)(j)(myChip)(i) = GetLUNStatus(Lane, j, myChip, i)
         If Lane = myLane Then
         BeginInvoke(New RefreshLUNStatusDelegate(AddressOf RefreshLUNStatus), j, myChip, i)
-        End If
+        
         Next
         Next
-        Execute = False
+        Execute = false
         Exit Try
         Else
         ofst = 0
@@ -3802,30 +3851,30 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         For i = 0 To 7
         If r_NANDID(ofst) = CByte(Convert.ToInt32(myNANDID(Lane)(i), 16)) Then
         ofst2 += 1
-        End If
+        
         ofst += 1
         Next
         If ofst2 = 8 Then
-        myNANDIDCheck(Lane)(j)(myChip) = True
+        myNANDIDCheck(Lane)(j)(myChip) = true
         Else
-        myNANDIDCheck(Lane)(j)(myChip) = False
-        End If
+        myNANDIDCheck(Lane)(j)(myChip) = false
+        
         For i = 0 To myLUNperTarget(Lane) - 1
         myLUNStatus(Lane)(j)(myChip)(i) = GetLUNStatus(Lane, j, myChip, i)
         If Lane = myLane Then
         BeginInvoke(New RefreshLUNStatusDelegate(AddressOf RefreshLUNStatus), j, myChip, i)
-        End If
+        
         Next
-        End If
+        
         Next
-        End If
+        
         If flag_abort(Lane) Then
         myStatus(Lane) = "NAND ID (Target " & k & ") read. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
-        End If
+        
+        
         Next
 
         For k = 0 To myBlocksperLUN(Lane) - 1
@@ -3836,18 +3885,18 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         If myChipSelect(Lane)(myChip) Then
         myStatus(Lane) = "ONFI Bad Block Scan (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ")..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         For h = 0 To 15
         If myChannelSelect(Lane)(h) Then
         If myNANDIDCheck(Lane)(h)(myChip) Then
-        myAddressParameter.channel(h) = True
+        myAddressParameter.channel(h) = true
         Else
-        myAddressParameter.channel(h) = False
-        End If
+        myAddressParameter.channel(h) = false
+        
         Else
-        myAddressParameter.channel(h) = False
-        End If
+        myAddressParameter.channel(h) = false
+        
         Next
         myAddressParameter.chip = myChip
         myAddressParameter.page = 0
@@ -3855,80 +3904,80 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         r_ONFIBBS_data(0)(h) = CByte(0)
         Next
         For h = 0 To 15
-        r_ONFIBBS_success(0)(h) = False
+        r_ONFIBBS_success(0)(h) = false
         Next
         errcode_ONFIBBS(0) = myS3.PageReadDump(Lane, myAddressParameter, myBBSByteOffset(Lane), 1, r_ONFIBBS_data(0), r_ONFIBBS_success(0))
         If errcode_ONFIBBS(0) < > 0 Then
         myStatus(Lane) = "PageReadDump (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ", Page " & myAddressParameter.page.ToString("X4") & ") returned error code " & errcode_ONFIBBS(0) & ": " & SigNAS3Library.Err.GetErrDescription(errcode_ONFIBBS(0)) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
         myAddressParameter.page = myNandParameter(Lane).BlockSize - 1
         For h = 0 To 63
         r_ONFIBBS_data(1)(h) = CByte(0)
         Next
         For h = 0 To 15
-        r_ONFIBBS_success(1)(h) = False
+        r_ONFIBBS_success(1)(h) = false
         Next
         errcode_ONFIBBS(1) = myS3.PageReadDump(Lane, myAddressParameter, myBBSByteOffset(Lane), 1, r_ONFIBBS_data(1), r_ONFIBBS_success(1))
         If errcode_ONFIBBS(1) < > 0 Then
         myStatus(Lane) = "PageReadDump (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ", Page " & myAddressParameter.page.ToString("X4") & ") returned error code " & errcode_ONFIBBS(1) & ": " & SigNAS3Library.Err.GetErrDescription(errcode_ONFIBBS(1)) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
         If flag_abort(Lane) Then
         myStatus(Lane) = "ONFI Bad Block Scan (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") complete. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
         myStatus(Lane) = "Erase (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ")..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         For h = 0 To 15
-        r_Erase_success(h) = False
+        r_Erase_success(h) = false
         r_Erase_busytime(h) = 0
         Next
         errcode_Erase = myS3.BlockErase(Lane, myAddressParameter, r_Erase_success, r_Erase_busytime)
         If errcode_Erase < > 0 Then
         myStatus(Lane) = "BlockErase (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") returned error code " & errcode_Erase & ": " & SigNAS3Library.Err.GetErrDescription(errcode_Erase) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
         If flag_abort(Lane) Then
         myStatus(Lane) = "Erase (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") complete. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
         myStatus(Lane) = "Program (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ")..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         For h = 0 To 15
-        r_BlockProgram_success(h) = False
+        r_BlockProgram_success(h) = false
         r_BlockProgram_busytime_error(h) = 0
         Next
         errcode_BlockProgram = myS3.BlockProgram(Lane, myAddressParameter, myBlockPatternParameter, 50 * myMaxtProgram(Lane), r_BlockProgram_success, r_BlockProgram_busytime_error)
         If errcode_BlockProgram < > 0 Then
         myStatus(Lane) = "BlockProgram (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") returned error code " & errcode_BlockProgram & ": " & SigNAS3Library.Err.GetErrDescription(errcode_BlockProgram) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
         If flag_abort(Lane) Then
         myStatus(Lane) = "Program (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") complete. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
         myStatus(Lane) = "Read (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ")..."
         If Lane = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         For h = 0 To 15
         r_BlockReadErrCnt_errorbitnum(h) = 0
-        r_BlockReadErrCnt_success(h) = False
+        r_BlockReadErrCnt_success(h) = false
         r_BlockReadErrCnt_busytime_error(h) = 0
         Next
         For h = 0 To 255 * 16 - 1
@@ -3937,115 +3986,115 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         errcode_BlockReadErrCnt = myS3.BlockReadErrCnt(Lane, myAddressParameter, myBlockPatternParameter, myBCHCodeLength(Lane), 50 * myMaxtRead(Lane), r_BlockReadErrCnt_errorbitnum, r_BlockReadErrCnt_errorhistogram, r_BlockReadErrCnt_success, r_BlockReadErrCnt_busytime_error)
         If errcode_BlockReadErrCnt < > 0 Then
         myStatus(Lane) = "BlockReadErrCnt (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") returned error code " & errcode_BlockReadErrCnt & ": " & SigNAS3Library.Err.GetErrDescription(errcode_BlockReadErrCnt) & ". Aborted"
-        Execute = False
+        Execute = false
         Exit Try
-        End If
+        
         If flag_abort(Lane) Then
         myStatus(Lane) = "Read (Target " & i & ", LUN" & j & ", Block " & k.ToString("X4") & ") complete. Aborted"
-        flag_abort(Lane) = False
-        Execute = False
+        flag_abort(Lane) = false
+        Execute = false
         Exit Try
-        End If
+        
 
         ofst = 0
         ofst2 = 0
         For h = 0 To 15
         If myAddressParameter.channel(h) Then
-        booltemp = True
+        booltemp = true
         If r_ONFIBBS_success(0)(h) Then
         If r_ONFIBBS_data(0)(ofst) = CByte(0) Then
         myONFIBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
+        booltemp = false
         Else
         If r_ONFIBBS_success(1)(h) Then
         If r_ONFIBBS_data(1)(ofst) = CByte(0) Then
         myONFIBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
-        End If
-        End If
+        booltemp = false
+        
+        
+        
         Else
         If r_ONFIBBS_success(1)(h) Then
         If r_ONFIBBS_data(1)(ofst) = CByte(0) Then
         myONFIBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
+        booltemp = false
+        
         Else
         myONFIBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
-        End If
+        booltemp = false
+        
+        
         If booltemp Then
-        If r_Erase_success(h) = False Then
+        If r_Erase_success(h) = false Then
         myEraseSuccessBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
+        booltemp = false
+        
         If booltemp Then
-        If r_BlockProgram_success(h) = False Then
+        If r_BlockProgram_success(h) = false Then
         myBlockProgramSuccessBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
+        booltemp = false
+        
         If booltemp Then
-        If r_BlockReadErrCnt_success(h) = False Then
+        If r_BlockReadErrCnt_success(h) = false Then
         myECCFailBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
+        booltemp = false
+        
         If booltemp Then
         For g = (myBCHBitCorrectability(Lane) + 1) To 254
         If r_BlockReadErrCnt_errorhistogram(ofst2 + g) > 0 Then
         myECCFailBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
+        booltemp = false
         g = 254
-        End If
+        
         Next
         If booltemp Then
         If(CInt(r_Erase_busytime(h)) \ 50) > myMaxtErase(Lane) Then
         myEraseBusytimeBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
+        booltemp = false
+        
         If booltemp Then
         If r_BlockProgram_busytime_error(h) > 0 Then
         myProgramBusytimeBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
+        booltemp = false
+        
         If booltemp Then
         If r_BlockReadErrCnt_busytime_error(h) > 0 Then
         myReadBusytimeBB(Lane)(h)(myChip)(j) += 1
-        booltemp = False
-        End If
-        End If
-        End If
-        End If
-        End If
-        End If
-        End If
-        End If
-        If booltemp = False Then
+        booltemp = false
+        
+        
+        
+        
+        
+        
+        
+        
+        If booltemp = false Then
         myLUNStatus(Lane)(h)(myChip)(j) = GetLUNStatus(Lane, h, myChip, j)
         If Lane = myLane Then
         BeginInvoke(New RefreshLUNStatusDelegate(AddressOf RefreshLUNStatus), h, myChip, j)
-        End If
-        End If
+        
+        
         ofst += 4
         ofst2 += 255
-        End If
+        
         Next
         myBlockPatternParameter.seedvalue += 1
-        End If
+        
         Next
         Next
         Next
 
         myStatus(Lane) = "Execution Successful"
-        Execute = True
+        Execute = true
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Execute")
+        Console::WriteLine("An exception occured during Execute")
         myStatus(Lane) = "An exception occured during Execute. Aborted"
-        Execute = False
+        Execute = false
 
-        Finally
+        
 
         If file_flag Then
         Try
@@ -4055,11 +4104,11 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         Dim myPackageOverall(15) As Boolean
         For k = 0 To 15
         ReDim myPackage(k)(7)
-        myPackageOverall(k) = True
+        myPackageOverall(k) = true
         For j = 0 To 7
         ReDim myPackage(k)(j)(3)
         For i = 0 To 3
-        myPackage(k)(j)(i) = True
+        myPackage(k)(j)(i) = true
         Next
         Next
         Next
@@ -4071,8 +4120,8 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         If myChannelSelect(Lane)(k) Then
         If myChipSelect(Lane)(myChip) Then
         myFileStr &= ", CH" & k
-        End If
-        End If
+        
+        
         Next
         Next
         Next
@@ -4085,8 +4134,8 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         If myChannelSelect(Lane)(k) Then
         If myChipSelect(Lane)(myChip) Then
         myFileStr &= ", Target" & j
-        End If
-        End If
+        
+        
         Next
         Next
         Next
@@ -4099,8 +4148,8 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         If myChannelSelect(Lane)(k) Then
         If myChipSelect(Lane)(myChip) Then
         myFileStr &= ", LUN" & i
-        End If
-        End If
+        
+        
         Next
         Next
         Next
@@ -4116,9 +4165,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", Match"
         Else
         myFileStr &= ", Miss"
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4134,9 +4183,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myONFIBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4152,9 +4201,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myEraseSuccessBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4170,9 +4219,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myBlockProgramSuccessBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4188,9 +4237,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myECCFailBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4206,9 +4255,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myEraseBusytimeBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4224,9 +4273,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myProgramBusytimeBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4242,9 +4291,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myReadBusytimeBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4260,9 +4309,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", " & myONFIBB(Lane)(k)(myChip)(i) + myEraseSuccessBB(Lane)(k)(myChip)(i) + myBlockProgramSuccessBB(Lane)(k)(myChip)(i) + myECCFailBB(Lane)(k)(myChip)(i) + myEraseBusytimeBB(Lane)(k)(myChip)(i) + myProgramBusytimeBB(Lane)(k)(myChip)(i) + myReadBusytimeBB(Lane)(k)(myChip)(i)
         Else
         myFileStr &= ", "
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4275,15 +4324,15 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         If myChipSelect(Lane)(myChip) Then
         If myNANDIDCheck(Lane)(k)(myChip) Then
         If(myONFIBB(Lane)(k)(myChip)(i) + myEraseSuccessBB(Lane)(k)(myChip)(i) + myBlockProgramSuccessBB(Lane)(k)(myChip)(i) + myECCFailBB(Lane)(k)(myChip)(i) + myEraseBusytimeBB(Lane)(k)(myChip)(i) + myProgramBusytimeBB(Lane)(k)(myChip)(i) + myReadBusytimeBB(Lane)(k)(myChip)(i)) > myBBSThreshold(Lane) Then
-        myPackage(k)(myChip)(i) = False
-        myPackageOverall(k) = False
-        End If
+        myPackage(k)(myChip)(i) = false
+        myPackageOverall(k) = false
+        
         Else
-        myPackage(k)(myChip)(i) = False
-        myPackageOverall(k) = False
-        End If
-        End If
-        End If
+        myPackage(k)(myChip)(i) = false
+        myPackageOverall(k) = false
+        
+        
+        
         Next
         Next
         Next
@@ -4299,9 +4348,9 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", Good"
         Else
         myFileStr &= ", Bad"
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
@@ -4317,43 +4366,43 @@ Boolean Execute(Int32 Lane, Int32 &r_Lane)
         myFileStr &= ", Good"
         Else
         myFileStr &= ", Bad"
-        End If
-        End If
-        End If
+        
+        
+        
         Next
         Next
         Next
         myFile.WriteLine(myFileStr)
-        Catch ex As Exception
+        
         myStatus(Lane) &= " (Unable to successfully write to Result File " & myResultFile(Lane) & ")"
-        End Try
+        
         myFile.Close()
-        End If
+        
         BeginInvoke(New TimerStopDelegate(AddressOf myTimer(Lane).Stop))
         myStatus(Lane) &= " (" & (myTime(myLane) \ 3600).ToString.PadLeft(2, "0"c) & "h:" & ((myTime(myLane) \ 60) Mod 60).ToString.PadLeft(2, "0"c) & "m:" & (myTime(myLane) Mod 60).ToString.PadLeft(2, "0"c) & "s)"
 
-        End Try
+        
 
-        End Function
+        
 }
         //Private Delegate Sub TimerStartDelegate()
         //Private Delegate Sub TimerStopDelegate()
 
-void BT_Abort_Click(sender As Object, e As EventArgs) Handles BT_Abort.Click
+void SigNAS3NT:: BT_Abort_Click(sender As Object, e As EventArgs) Handles BT_Abort.Click
 {
         Try
 
-        flag_abort(myLane) = True
+        flag_abort(myLane) = true
 
-        Catch ex As Exception
+        
 
-        MsgBox("An exception occured during Abort")
+        Console::WriteLine("An exception occured during Abort")
 
-        End Try
+        
 
-        End Sub
+        
 }
-void L_LUN_MouseHover(sender As Object, e As EventArgs) Handles L_CH0Target0LUN0.MouseHover, L_CH0Target0LUN1.MouseHover, L_CH0Target0LUN2.MouseHover, L_CH0Target0LUN3.MouseHover, L_CH0Target2LUN0.MouseHover, L_CH0Target2LUN1.MouseHover, L_CH0Target2LUN2.MouseHover, L_CH0Target2LUN3.MouseHover, L_CH0Target4LUN0.MouseHover, L_CH0Target4LUN1.MouseHover, L_CH0Target4LUN2.MouseHover, L_CH0Target4LUN3.MouseHover, L_CH0Target6LUN0.MouseHover, L_CH0Target6LUN1.MouseHover, L_CH0Target6LUN2.MouseHover, L_CH0Target6LUN3.MouseHover, L_CH0Target1LUN0.MouseHover, L_CH0Target1LUN1.MouseHover, L_CH0Target1LUN2.MouseHover, L_CH0Target1LUN3.MouseHover, L_CH0Target3LUN0.MouseHover, L_CH0Target3LUN1.MouseHover, L_CH0Target3LUN2.MouseHover, L_CH0Target3LUN3.MouseHover, L_CH0Target5LUN0.MouseHover, L_CH0Target5LUN1.MouseHover, L_CH0Target5LUN2.MouseHover, L_CH0Target5LUN3.MouseHover, L_CH0Target7LUN0.MouseHover, L_CH0Target7LUN1.MouseHover, L_CH0Target7LUN2.MouseHover, L_CH0Target7LUN3.MouseHover, L_CH1Target0LUN0.MouseHover, L_CH1Target0LUN1.MouseHover, L_CH1Target0LUN2.MouseHover, L_CH1Target0LUN3.MouseHover, L_CH1Target2LUN0.MouseHover, L_CH1Target2LUN1.MouseHover, L_CH1Target2LUN2.MouseHover, L_CH1Target2LUN3.MouseHover, L_CH1Target4LUN0.MouseHover, L_CH1Target4LUN1.MouseHover, L_CH1Target4LUN2.MouseHover, L_CH1Target4LUN3.MouseHover, L_CH1Target6LUN0.MouseHover, L_CH1Target6LUN1.MouseHover, L_CH1Target6LUN2.MouseHover, L_CH1Target6LUN3.MouseHover, L_CH1Target1LUN0.MouseHover, L_CH1Target1LUN1.MouseHover, L_CH1Target1LUN2.MouseHover, L_CH1Target1LUN3.MouseHover, L_CH1Target3LUN0.MouseHover, L_CH1Target3LUN1.MouseHover, L_CH1Target3LUN2.MouseHover, L_CH1Target3LUN3.MouseHover, L_CH1Target5LUN0.MouseHover, L_CH1Target5LUN1.MouseHover, L_CH1Target5LUN2.MouseHover, L_CH1Target5LUN3.MouseHover, L_CH1Target7LUN0.MouseHover, L_CH1Target7LUN1.MouseHover, L_CH1Target7LUN2.MouseHover, L_CH1Target7LUN3.MouseHover, L_CH2Target0LUN0.MouseHover, L_CH2Target0LUN1.MouseHover, L_CH2Target0LUN2.MouseHover, L_CH2Target0LUN3.MouseHover, L_CH2Target2LUN0.MouseHover, L_CH2Target2LUN1.MouseHover, L_CH2Target2LUN2.MouseHover, L_CH2Target2LUN3.MouseHover, L_CH2Target4LUN0.MouseHover, L_CH2Target4LUN1.MouseHover, L_CH2Target4LUN2.MouseHover, L_CH2Target4LUN3.MouseHover, L_CH2Target6LUN0.MouseHover, L_CH2Target6LUN1.MouseHover, L_CH2Target6LUN2.MouseHover, L_CH2Target6LUN3.MouseHover, L_CH2Target1LUN0.MouseHover, L_CH2Target1LUN1.MouseHover, L_CH2Target1LUN2.MouseHover, L_CH2Target1LUN3.MouseHover, L_CH2Target3LUN0.MouseHover, L_CH2Target3LUN1.MouseHover, L_CH2Target3LUN2.MouseHover, L_CH2Target3LUN3.MouseHover, L_CH2Target5LUN0.MouseHover, L_CH2Target5LUN1.MouseHover, L_CH2Target5LUN2.MouseHover, L_CH2Target5LUN3.MouseHover, L_CH2Target7LUN0.MouseHover, L_CH2Target7LUN1.MouseHover, L_CH2Target7LUN2.MouseHover, L_CH2Target7LUN3.MouseHover, L_CH3Target0LUN0.MouseHover, L_CH3Target0LUN1.MouseHover, L_CH3Target0LUN2.MouseHover, L_CH3Target0LUN3.MouseHover, L_CH3Target2LUN0.MouseHover, L_CH3Target2LUN1.MouseHover, L_CH3Target2LUN2.MouseHover, L_CH3Target2LUN3.MouseHover, L_CH3Target4LUN0.MouseHover, L_CH3Target4LUN1.MouseHover, L_CH3Target4LUN2.MouseHover, L_CH3Target4LUN3.MouseHover, L_CH3Target6LUN0.MouseHover, L_CH3Target6LUN1.MouseHover, L_CH3Target6LUN2.MouseHover, L_CH3Target6LUN3.MouseHover, L_CH3Target1LUN0.MouseHover, L_CH3Target1LUN1.MouseHover, L_CH3Target1LUN2.MouseHover, L_CH3Target1LUN3.MouseHover, L_CH3Target3LUN0.MouseHover, L_CH3Target3LUN1.MouseHover, L_CH3Target3LUN2.MouseHover, L_CH3Target3LUN3.MouseHover, L_CH3Target5LUN0.MouseHover, L_CH3Target5LUN1.MouseHover, L_CH3Target5LUN2.MouseHover, L_CH3Target5LUN3.MouseHover, L_CH3Target7LUN0.MouseHover, L_CH3Target7LUN1.MouseHover, L_CH3Target7LUN2.MouseHover, L_CH3Target7LUN3.MouseHover, L_CH4Target0LUN0.MouseHover, L_CH4Target0LUN1.MouseHover, L_CH4Target0LUN2.MouseHover, L_CH4Target0LUN3.MouseHover, L_CH4Target2LUN0.MouseHover, L_CH4Target2LUN1.MouseHover, L_CH4Target2LUN2.MouseHover, L_CH4Target2LUN3.MouseHover, L_CH4Target4LUN0.MouseHover, L_CH4Target4LUN1.MouseHover, L_CH4Target4LUN2.MouseHover, L_CH4Target4LUN3.MouseHover, L_CH4Target6LUN0.MouseHover, L_CH4Target6LUN1.MouseHover, L_CH4Target6LUN2.MouseHover, L_CH4Target6LUN3.MouseHover, L_CH4Target1LUN0.MouseHover, L_CH4Target1LUN1.MouseHover, L_CH4Target1LUN2.MouseHover, L_CH4Target1LUN3.MouseHover, L_CH4Target3LUN0.MouseHover, L_CH4Target3LUN1.MouseHover, L_CH4Target3LUN2.MouseHover, L_CH4Target3LUN3.MouseHover, L_CH4Target5LUN0.MouseHover, L_CH4Target5LUN1.MouseHover, L_CH4Target5LUN2.MouseHover, L_CH4Target5LUN3.MouseHover, L_CH4Target7LUN0.MouseHover, L_CH4Target7LUN1.MouseHover, L_CH4Target7LUN2.MouseHover, L_CH4Target7LUN3.MouseHover, L_CH5Target0LUN0.MouseHover, L_CH5Target0LUN1.MouseHover, L_CH5Target0LUN2.MouseHover, L_CH5Target0LUN3.MouseHover, L_CH5Target2LUN0.MouseHover, L_CH5Target2LUN1.MouseHover, L_CH5Target2LUN2.MouseHover, L_CH5Target2LUN3.MouseHover, L_CH5Target4LUN0.MouseHover, L_CH5Target4LUN1.MouseHover, L_CH5Target4LUN2.MouseHover, L_CH5Target4LUN3.MouseHover, L_CH5Target6LUN0.MouseHover, L_CH5Target6LUN1.MouseHover, L_CH5Target6LUN2.MouseHover, L_CH5Target6LUN3.MouseHover, L_CH5Target1LUN0.MouseHover, L_CH5Target1LUN1.MouseHover, L_CH5Target1LUN2.MouseHover, L_CH5Target1LUN3.MouseHover, L_CH5Target3LUN0.MouseHover, L_CH5Target3LUN1.MouseHover, L_CH5Target3LUN2.MouseHover, L_CH5Target3LUN3.MouseHover, L_CH5Target5LUN0.MouseHover, L_CH5Target5LUN1.MouseHover, L_CH5Target5LUN2.MouseHover, L_CH5Target5LUN3.MouseHover, L_CH5Target7LUN0.MouseHover, L_CH5Target7LUN1.MouseHover, L_CH5Target7LUN2.MouseHover, L_CH5Target7LUN3.MouseHover, L_CH6Target0LUN0.MouseHover, L_CH6Target0LUN1.MouseHover, L_CH6Target0LUN2.MouseHover, L_CH6Target0LUN3.MouseHover, L_CH6Target2LUN0.MouseHover, L_CH6Target2LUN1.MouseHover, L_CH6Target2LUN2.MouseHover, L_CH6Target2LUN3.MouseHover, L_CH6Target4LUN0.MouseHover, L_CH6Target4LUN1.MouseHover, L_CH6Target4LUN2.MouseHover, L_CH6Target4LUN3.MouseHover, L_CH6Target6LUN0.MouseHover, L_CH6Target6LUN1.MouseHover, L_CH6Target6LUN2.MouseHover, L_CH6Target6LUN3.MouseHover, L_CH6Target1LUN0.MouseHover, L_CH6Target1LUN1.MouseHover, L_CH6Target1LUN2.MouseHover, L_CH6Target1LUN3.MouseHover, L_CH6Target3LUN0.MouseHover, L_CH6Target3LUN1.MouseHover, L_CH6Target3LUN2.MouseHover, L_CH6Target3LUN3.MouseHover, L_CH6Target5LUN0.MouseHover, L_CH6Target5LUN1.MouseHover, L_CH6Target5LUN2.MouseHover, L_CH6Target5LUN3.MouseHover, L_CH6Target7LUN0.MouseHover, L_CH6Target7LUN1.MouseHover, L_CH6Target7LUN2.MouseHover, L_CH6Target7LUN3.MouseHover, L_CH7Target0LUN0.MouseHover, L_CH7Target0LUN1.MouseHover, L_CH7Target0LUN2.MouseHover, L_CH7Target0LUN3.MouseHover, L_CH7Target2LUN0.MouseHover, L_CH7Target2LUN1.MouseHover, L_CH7Target2LUN2.MouseHover, L_CH7Target2LUN3.MouseHover, L_CH7Target4LUN0.MouseHover, L_CH7Target4LUN1.MouseHover, L_CH7Target4LUN2.MouseHover, L_CH7Target4LUN3.MouseHover, L_CH7Target6LUN0.MouseHover, L_CH7Target6LUN1.MouseHover, L_CH7Target6LUN2.MouseHover, L_CH7Target6LUN3.MouseHover, L_CH7Target1LUN0.MouseHover, L_CH7Target1LUN1.MouseHover, L_CH7Target1LUN2.MouseHover, L_CH7Target1LUN3.MouseHover, L_CH7Target3LUN0.MouseHover, L_CH7Target3LUN1.MouseHover, L_CH7Target3LUN2.MouseHover, L_CH7Target3LUN3.MouseHover, L_CH7Target5LUN0.MouseHover, L_CH7Target5LUN1.MouseHover, L_CH7Target5LUN2.MouseHover, L_CH7Target5LUN3.MouseHover, L_CH7Target7LUN0.MouseHover, L_CH7Target7LUN1.MouseHover, L_CH7Target7LUN2.MouseHover, L_CH7Target7LUN3.MouseHover, L_CH8Target0LUN0.MouseHover, L_CH8Target0LUN1.MouseHover, L_CH8Target0LUN2.MouseHover, L_CH8Target0LUN3.MouseHover, L_CH8Target2LUN0.MouseHover, L_CH8Target2LUN1.MouseHover, L_CH8Target2LUN2.MouseHover, L_CH8Target2LUN3.MouseHover, L_CH8Target4LUN0.MouseHover, L_CH8Target4LUN1.MouseHover, L_CH8Target4LUN2.MouseHover, L_CH8Target4LUN3.MouseHover, L_CH8Target6LUN0.MouseHover, L_CH8Target6LUN1.MouseHover, L_CH8Target6LUN2.MouseHover, L_CH8Target6LUN3.MouseHover, L_CH8Target1LUN0.MouseHover, L_CH8Target1LUN1.MouseHover, L_CH8Target1LUN2.MouseHover, L_CH8Target1LUN3.MouseHover, L_CH8Target3LUN0.MouseHover, L_CH8Target3LUN1.MouseHover, L_CH8Target3LUN2.MouseHover, L_CH8Target3LUN3.MouseHover, L_CH8Target5LUN0.MouseHover, L_CH8Target5LUN1.MouseHover, L_CH8Target5LUN2.MouseHover, L_CH8Target5LUN3.MouseHover, L_CH8Target7LUN0.MouseHover, L_CH8Target7LUN1.MouseHover, L_CH8Target7LUN2.MouseHover, L_CH8Target7LUN3.MouseHover, L_CH9Target0LUN0.MouseHover, L_CH9Target0LUN1.MouseHover, L_CH9Target0LUN2.MouseHover, L_CH9Target0LUN3.MouseHover, L_CH9Target2LUN0.MouseHover, L_CH9Target2LUN1.MouseHover, L_CH9Target2LUN2.MouseHover, L_CH9Target2LUN3.MouseHover, L_CH9Target4LUN0.MouseHover, L_CH9Target4LUN1.MouseHover, L_CH9Target4LUN2.MouseHover, L_CH9Target4LUN3.MouseHover, L_CH9Target6LUN0.MouseHover, L_CH9Target6LUN1.MouseHover, L_CH9Target6LUN2.MouseHover, L_CH9Target6LUN3.MouseHover, L_CH9Target1LUN0.MouseHover, L_CH9Target1LUN1.MouseHover, L_CH9Target1LUN2.MouseHover, L_CH9Target1LUN3.MouseHover, L_CH9Target3LUN0.MouseHover, L_CH9Target3LUN1.MouseHover, L_CH9Target3LUN2.MouseHover, L_CH9Target3LUN3.MouseHover, L_CH9Target5LUN0.MouseHover, L_CH9Target5LUN1.MouseHover, L_CH9Target5LUN2.MouseHover, L_CH9Target5LUN3.MouseHover, L_CH9Target7LUN0.MouseHover, L_CH9Target7LUN1.MouseHover, L_CH9Target7LUN2.MouseHover, L_CH9Target7LUN3.MouseHover, L_CH10Target0LUN0.MouseHover, L_CH10Target0LUN1.MouseHover, L_CH10Target0LUN2.MouseHover, L_CH10Target0LUN3.MouseHover, L_CH10Target2LUN0.MouseHover, L_CH10Target2LUN1.MouseHover, L_CH10Target2LUN2.MouseHover, L_CH10Target2LUN3.MouseHover, L_CH10Target4LUN0.MouseHover, L_CH10Target4LUN1.MouseHover, L_CH10Target4LUN2.MouseHover, L_CH10Target4LUN3.MouseHover, L_CH10Target6LUN0.MouseHover, L_CH10Target6LUN1.MouseHover, L_CH10Target6LUN2.MouseHover, L_CH10Target6LUN3.MouseHover, L_CH10Target1LUN0.MouseHover, L_CH10Target1LUN1.MouseHover, L_CH10Target1LUN2.MouseHover, L_CH10Target1LUN3.MouseHover, L_CH10Target3LUN0.MouseHover, L_CH10Target3LUN1.MouseHover, L_CH10Target3LUN2.MouseHover, L_CH10Target3LUN3.MouseHover, L_CH10Target5LUN0.MouseHover, L_CH10Target5LUN1.MouseHover, L_CH10Target5LUN2.MouseHover, L_CH10Target5LUN3.MouseHover, L_CH10Target7LUN0.MouseHover, L_CH10Target7LUN1.MouseHover, L_CH10Target7LUN2.MouseHover, L_CH10Target7LUN3.MouseHover, L_CH11Target0LUN0.MouseHover, L_CH11Target0LUN1.MouseHover, L_CH11Target0LUN2.MouseHover, L_CH11Target0LUN3.MouseHover, L_CH11Target2LUN0.MouseHover, L_CH11Target2LUN1.MouseHover, L_CH11Target2LUN2.MouseHover, L_CH11Target2LUN3.MouseHover, L_CH11Target4LUN0.MouseHover, L_CH11Target4LUN1.MouseHover, L_CH11Target4LUN2.MouseHover, L_CH11Target4LUN3.MouseHover, L_CH11Target6LUN0.MouseHover, L_CH11Target6LUN1.MouseHover, L_CH11Target6LUN2.MouseHover, L_CH11Target6LUN3.MouseHover, L_CH11Target1LUN0.MouseHover, L_CH11Target1LUN1.MouseHover, L_CH11Target1LUN2.MouseHover, L_CH11Target1LUN3.MouseHover, L_CH11Target3LUN0.MouseHover, L_CH11Target3LUN1.MouseHover, L_CH11Target3LUN2.MouseHover, L_CH11Target3LUN3.MouseHover, L_CH11Target5LUN0.MouseHover, L_CH11Target5LUN1.MouseHover, L_CH11Target5LUN2.MouseHover, L_CH11Target5LUN3.MouseHover, L_CH11Target7LUN0.MouseHover, L_CH11Target7LUN1.MouseHover, L_CH11Target7LUN2.MouseHover, L_CH11Target7LUN3.MouseHover, L_CH12Target0LUN0.MouseHover, L_CH12Target0LUN1.MouseHover, L_CH12Target0LUN2.MouseHover, L_CH12Target0LUN3.MouseHover, L_CH12Target2LUN0.MouseHover, L_CH12Target2LUN1.MouseHover, L_CH12Target2LUN2.MouseHover, L_CH12Target2LUN3.MouseHover, L_CH12Target4LUN0.MouseHover, L_CH12Target4LUN1.MouseHover, L_CH12Target4LUN2.MouseHover, L_CH12Target4LUN3.MouseHover, L_CH12Target6LUN0.MouseHover, L_CH12Target6LUN1.MouseHover, L_CH12Target6LUN2.MouseHover, L_CH12Target6LUN3.MouseHover, L_CH12Target1LUN0.MouseHover, L_CH12Target1LUN1.MouseHover, L_CH12Target1LUN2.MouseHover, L_CH12Target1LUN3.MouseHover, L_CH12Target3LUN0.MouseHover, L_CH12Target3LUN1.MouseHover, L_CH12Target3LUN2.MouseHover, L_CH12Target3LUN3.MouseHover, L_CH12Target5LUN0.MouseHover, L_CH12Target5LUN1.MouseHover, L_CH12Target5LUN2.MouseHover, L_CH12Target5LUN3.MouseHover, L_CH12Target7LUN0.MouseHover, L_CH12Target7LUN1.MouseHover, L_CH12Target7LUN2.MouseHover, L_CH12Target7LUN3.MouseHover, L_CH13Target0LUN0.MouseHover, L_CH13Target0LUN1.MouseHover, L_CH13Target0LUN2.MouseHover, L_CH13Target0LUN3.MouseHover, L_CH13Target2LUN0.MouseHover, L_CH13Target2LUN1.MouseHover, L_CH13Target2LUN2.MouseHover, L_CH13Target2LUN3.MouseHover, L_CH13Target4LUN0.MouseHover, L_CH13Target4LUN1.MouseHover, L_CH13Target4LUN2.MouseHover, L_CH13Target4LUN3.MouseHover, L_CH13Target6LUN0.MouseHover, L_CH13Target6LUN1.MouseHover, L_CH13Target6LUN2.MouseHover, L_CH13Target6LUN3.MouseHover, L_CH13Target1LUN0.MouseHover, L_CH13Target1LUN1.MouseHover, L_CH13Target1LUN2.MouseHover, L_CH13Target1LUN3.MouseHover, L_CH13Target3LUN0.MouseHover, L_CH13Target3LUN1.MouseHover, L_CH13Target3LUN2.MouseHover, L_CH13Target3LUN3.MouseHover, L_CH13Target5LUN0.MouseHover, L_CH13Target5LUN1.MouseHover, L_CH13Target5LUN2.MouseHover, L_CH13Target5LUN3.MouseHover, L_CH13Target7LUN0.MouseHover, L_CH13Target7LUN1.MouseHover, L_CH13Target7LUN2.MouseHover, L_CH13Target7LUN3.MouseHover, L_CH14Target0LUN0.MouseHover, L_CH14Target0LUN1.MouseHover, L_CH14Target0LUN2.MouseHover, L_CH14Target0LUN3.MouseHover, L_CH14Target2LUN0.MouseHover, L_CH14Target2LUN1.MouseHover, L_CH14Target2LUN2.MouseHover, L_CH14Target2LUN3.MouseHover, L_CH14Target4LUN0.MouseHover, L_CH14Target4LUN1.MouseHover, L_CH14Target4LUN2.MouseHover, L_CH14Target4LUN3.MouseHover, L_CH14Target6LUN0.MouseHover, L_CH14Target6LUN1.MouseHover, L_CH14Target6LUN2.MouseHover, L_CH14Target6LUN3.MouseHover, L_CH14Target1LUN0.MouseHover, L_CH14Target1LUN1.MouseHover, L_CH14Target1LUN2.MouseHover, L_CH14Target1LUN3.MouseHover, L_CH14Target3LUN0.MouseHover, L_CH14Target3LUN1.MouseHover, L_CH14Target3LUN2.MouseHover, L_CH14Target3LUN3.MouseHover, L_CH14Target5LUN0.MouseHover, L_CH14Target5LUN1.MouseHover, L_CH14Target5LUN2.MouseHover, L_CH14Target5LUN3.MouseHover, L_CH14Target7LUN0.MouseHover, L_CH14Target7LUN1.MouseHover, L_CH14Target7LUN2.MouseHover, L_CH14Target7LUN3.MouseHover, L_CH15Target0LUN0.MouseHover, L_CH15Target0LUN1.MouseHover, L_CH15Target0LUN2.MouseHover, L_CH15Target0LUN3.MouseHover, L_CH15Target2LUN0.MouseHover, L_CH15Target2LUN1.MouseHover, L_CH15Target2LUN2.MouseHover, L_CH15Target2LUN3.MouseHover, L_CH15Target4LUN0.MouseHover, L_CH15Target4LUN1.MouseHover, L_CH15Target4LUN2.MouseHover, L_CH15Target4LUN3.MouseHover, L_CH15Target6LUN0.MouseHover, L_CH15Target6LUN1.MouseHover, L_CH15Target6LUN2.MouseHover, L_CH15Target6LUN3.MouseHover, L_CH15Target1LUN0.MouseHover, L_CH15Target1LUN1.MouseHover, L_CH15Target1LUN2.MouseHover, L_CH15Target1LUN3.MouseHover, L_CH15Target3LUN0.MouseHover, L_CH15Target3LUN1.MouseHover, L_CH15Target3LUN2.MouseHover, L_CH15Target3LUN3.MouseHover, L_CH15Target5LUN0.MouseHover, L_CH15Target5LUN1.MouseHover, L_CH15Target5LUN2.MouseHover, L_CH15Target5LUN3.MouseHover, L_CH15Target7LUN0.MouseHover, L_CH15Target7LUN1.MouseHover, L_CH15Target7LUN2.MouseHover, L_CH15Target7LUN3.MouseHover
+void SigNAS3NT:: L_LUN_MouseHover(sender As Object, e As EventArgs) Handles L_CH0Target0LUN0.MouseHover, L_CH0Target0LUN1.MouseHover, L_CH0Target0LUN2.MouseHover, L_CH0Target0LUN3.MouseHover, L_CH0Target2LUN0.MouseHover, L_CH0Target2LUN1.MouseHover, L_CH0Target2LUN2.MouseHover, L_CH0Target2LUN3.MouseHover, L_CH0Target4LUN0.MouseHover, L_CH0Target4LUN1.MouseHover, L_CH0Target4LUN2.MouseHover, L_CH0Target4LUN3.MouseHover, L_CH0Target6LUN0.MouseHover, L_CH0Target6LUN1.MouseHover, L_CH0Target6LUN2.MouseHover, L_CH0Target6LUN3.MouseHover, L_CH0Target1LUN0.MouseHover, L_CH0Target1LUN1.MouseHover, L_CH0Target1LUN2.MouseHover, L_CH0Target1LUN3.MouseHover, L_CH0Target3LUN0.MouseHover, L_CH0Target3LUN1.MouseHover, L_CH0Target3LUN2.MouseHover, L_CH0Target3LUN3.MouseHover, L_CH0Target5LUN0.MouseHover, L_CH0Target5LUN1.MouseHover, L_CH0Target5LUN2.MouseHover, L_CH0Target5LUN3.MouseHover, L_CH0Target7LUN0.MouseHover, L_CH0Target7LUN1.MouseHover, L_CH0Target7LUN2.MouseHover, L_CH0Target7LUN3.MouseHover, L_CH1Target0LUN0.MouseHover, L_CH1Target0LUN1.MouseHover, L_CH1Target0LUN2.MouseHover, L_CH1Target0LUN3.MouseHover, L_CH1Target2LUN0.MouseHover, L_CH1Target2LUN1.MouseHover, L_CH1Target2LUN2.MouseHover, L_CH1Target2LUN3.MouseHover, L_CH1Target4LUN0.MouseHover, L_CH1Target4LUN1.MouseHover, L_CH1Target4LUN2.MouseHover, L_CH1Target4LUN3.MouseHover, L_CH1Target6LUN0.MouseHover, L_CH1Target6LUN1.MouseHover, L_CH1Target6LUN2.MouseHover, L_CH1Target6LUN3.MouseHover, L_CH1Target1LUN0.MouseHover, L_CH1Target1LUN1.MouseHover, L_CH1Target1LUN2.MouseHover, L_CH1Target1LUN3.MouseHover, L_CH1Target3LUN0.MouseHover, L_CH1Target3LUN1.MouseHover, L_CH1Target3LUN2.MouseHover, L_CH1Target3LUN3.MouseHover, L_CH1Target5LUN0.MouseHover, L_CH1Target5LUN1.MouseHover, L_CH1Target5LUN2.MouseHover, L_CH1Target5LUN3.MouseHover, L_CH1Target7LUN0.MouseHover, L_CH1Target7LUN1.MouseHover, L_CH1Target7LUN2.MouseHover, L_CH1Target7LUN3.MouseHover, L_CH2Target0LUN0.MouseHover, L_CH2Target0LUN1.MouseHover, L_CH2Target0LUN2.MouseHover, L_CH2Target0LUN3.MouseHover, L_CH2Target2LUN0.MouseHover, L_CH2Target2LUN1.MouseHover, L_CH2Target2LUN2.MouseHover, L_CH2Target2LUN3.MouseHover, L_CH2Target4LUN0.MouseHover, L_CH2Target4LUN1.MouseHover, L_CH2Target4LUN2.MouseHover, L_CH2Target4LUN3.MouseHover, L_CH2Target6LUN0.MouseHover, L_CH2Target6LUN1.MouseHover, L_CH2Target6LUN2.MouseHover, L_CH2Target6LUN3.MouseHover, L_CH2Target1LUN0.MouseHover, L_CH2Target1LUN1.MouseHover, L_CH2Target1LUN2.MouseHover, L_CH2Target1LUN3.MouseHover, L_CH2Target3LUN0.MouseHover, L_CH2Target3LUN1.MouseHover, L_CH2Target3LUN2.MouseHover, L_CH2Target3LUN3.MouseHover, L_CH2Target5LUN0.MouseHover, L_CH2Target5LUN1.MouseHover, L_CH2Target5LUN2.MouseHover, L_CH2Target5LUN3.MouseHover, L_CH2Target7LUN0.MouseHover, L_CH2Target7LUN1.MouseHover, L_CH2Target7LUN2.MouseHover, L_CH2Target7LUN3.MouseHover, L_CH3Target0LUN0.MouseHover, L_CH3Target0LUN1.MouseHover, L_CH3Target0LUN2.MouseHover, L_CH3Target0LUN3.MouseHover, L_CH3Target2LUN0.MouseHover, L_CH3Target2LUN1.MouseHover, L_CH3Target2LUN2.MouseHover, L_CH3Target2LUN3.MouseHover, L_CH3Target4LUN0.MouseHover, L_CH3Target4LUN1.MouseHover, L_CH3Target4LUN2.MouseHover, L_CH3Target4LUN3.MouseHover, L_CH3Target6LUN0.MouseHover, L_CH3Target6LUN1.MouseHover, L_CH3Target6LUN2.MouseHover, L_CH3Target6LUN3.MouseHover, L_CH3Target1LUN0.MouseHover, L_CH3Target1LUN1.MouseHover, L_CH3Target1LUN2.MouseHover, L_CH3Target1LUN3.MouseHover, L_CH3Target3LUN0.MouseHover, L_CH3Target3LUN1.MouseHover, L_CH3Target3LUN2.MouseHover, L_CH3Target3LUN3.MouseHover, L_CH3Target5LUN0.MouseHover, L_CH3Target5LUN1.MouseHover, L_CH3Target5LUN2.MouseHover, L_CH3Target5LUN3.MouseHover, L_CH3Target7LUN0.MouseHover, L_CH3Target7LUN1.MouseHover, L_CH3Target7LUN2.MouseHover, L_CH3Target7LUN3.MouseHover, L_CH4Target0LUN0.MouseHover, L_CH4Target0LUN1.MouseHover, L_CH4Target0LUN2.MouseHover, L_CH4Target0LUN3.MouseHover, L_CH4Target2LUN0.MouseHover, L_CH4Target2LUN1.MouseHover, L_CH4Target2LUN2.MouseHover, L_CH4Target2LUN3.MouseHover, L_CH4Target4LUN0.MouseHover, L_CH4Target4LUN1.MouseHover, L_CH4Target4LUN2.MouseHover, L_CH4Target4LUN3.MouseHover, L_CH4Target6LUN0.MouseHover, L_CH4Target6LUN1.MouseHover, L_CH4Target6LUN2.MouseHover, L_CH4Target6LUN3.MouseHover, L_CH4Target1LUN0.MouseHover, L_CH4Target1LUN1.MouseHover, L_CH4Target1LUN2.MouseHover, L_CH4Target1LUN3.MouseHover, L_CH4Target3LUN0.MouseHover, L_CH4Target3LUN1.MouseHover, L_CH4Target3LUN2.MouseHover, L_CH4Target3LUN3.MouseHover, L_CH4Target5LUN0.MouseHover, L_CH4Target5LUN1.MouseHover, L_CH4Target5LUN2.MouseHover, L_CH4Target5LUN3.MouseHover, L_CH4Target7LUN0.MouseHover, L_CH4Target7LUN1.MouseHover, L_CH4Target7LUN2.MouseHover, L_CH4Target7LUN3.MouseHover, L_CH5Target0LUN0.MouseHover, L_CH5Target0LUN1.MouseHover, L_CH5Target0LUN2.MouseHover, L_CH5Target0LUN3.MouseHover, L_CH5Target2LUN0.MouseHover, L_CH5Target2LUN1.MouseHover, L_CH5Target2LUN2.MouseHover, L_CH5Target2LUN3.MouseHover, L_CH5Target4LUN0.MouseHover, L_CH5Target4LUN1.MouseHover, L_CH5Target4LUN2.MouseHover, L_CH5Target4LUN3.MouseHover, L_CH5Target6LUN0.MouseHover, L_CH5Target6LUN1.MouseHover, L_CH5Target6LUN2.MouseHover, L_CH5Target6LUN3.MouseHover, L_CH5Target1LUN0.MouseHover, L_CH5Target1LUN1.MouseHover, L_CH5Target1LUN2.MouseHover, L_CH5Target1LUN3.MouseHover, L_CH5Target3LUN0.MouseHover, L_CH5Target3LUN1.MouseHover, L_CH5Target3LUN2.MouseHover, L_CH5Target3LUN3.MouseHover, L_CH5Target5LUN0.MouseHover, L_CH5Target5LUN1.MouseHover, L_CH5Target5LUN2.MouseHover, L_CH5Target5LUN3.MouseHover, L_CH5Target7LUN0.MouseHover, L_CH5Target7LUN1.MouseHover, L_CH5Target7LUN2.MouseHover, L_CH5Target7LUN3.MouseHover, L_CH6Target0LUN0.MouseHover, L_CH6Target0LUN1.MouseHover, L_CH6Target0LUN2.MouseHover, L_CH6Target0LUN3.MouseHover, L_CH6Target2LUN0.MouseHover, L_CH6Target2LUN1.MouseHover, L_CH6Target2LUN2.MouseHover, L_CH6Target2LUN3.MouseHover, L_CH6Target4LUN0.MouseHover, L_CH6Target4LUN1.MouseHover, L_CH6Target4LUN2.MouseHover, L_CH6Target4LUN3.MouseHover, L_CH6Target6LUN0.MouseHover, L_CH6Target6LUN1.MouseHover, L_CH6Target6LUN2.MouseHover, L_CH6Target6LUN3.MouseHover, L_CH6Target1LUN0.MouseHover, L_CH6Target1LUN1.MouseHover, L_CH6Target1LUN2.MouseHover, L_CH6Target1LUN3.MouseHover, L_CH6Target3LUN0.MouseHover, L_CH6Target3LUN1.MouseHover, L_CH6Target3LUN2.MouseHover, L_CH6Target3LUN3.MouseHover, L_CH6Target5LUN0.MouseHover, L_CH6Target5LUN1.MouseHover, L_CH6Target5LUN2.MouseHover, L_CH6Target5LUN3.MouseHover, L_CH6Target7LUN0.MouseHover, L_CH6Target7LUN1.MouseHover, L_CH6Target7LUN2.MouseHover, L_CH6Target7LUN3.MouseHover, L_CH7Target0LUN0.MouseHover, L_CH7Target0LUN1.MouseHover, L_CH7Target0LUN2.MouseHover, L_CH7Target0LUN3.MouseHover, L_CH7Target2LUN0.MouseHover, L_CH7Target2LUN1.MouseHover, L_CH7Target2LUN2.MouseHover, L_CH7Target2LUN3.MouseHover, L_CH7Target4LUN0.MouseHover, L_CH7Target4LUN1.MouseHover, L_CH7Target4LUN2.MouseHover, L_CH7Target4LUN3.MouseHover, L_CH7Target6LUN0.MouseHover, L_CH7Target6LUN1.MouseHover, L_CH7Target6LUN2.MouseHover, L_CH7Target6LUN3.MouseHover, L_CH7Target1LUN0.MouseHover, L_CH7Target1LUN1.MouseHover, L_CH7Target1LUN2.MouseHover, L_CH7Target1LUN3.MouseHover, L_CH7Target3LUN0.MouseHover, L_CH7Target3LUN1.MouseHover, L_CH7Target3LUN2.MouseHover, L_CH7Target3LUN3.MouseHover, L_CH7Target5LUN0.MouseHover, L_CH7Target5LUN1.MouseHover, L_CH7Target5LUN2.MouseHover, L_CH7Target5LUN3.MouseHover, L_CH7Target7LUN0.MouseHover, L_CH7Target7LUN1.MouseHover, L_CH7Target7LUN2.MouseHover, L_CH7Target7LUN3.MouseHover, L_CH8Target0LUN0.MouseHover, L_CH8Target0LUN1.MouseHover, L_CH8Target0LUN2.MouseHover, L_CH8Target0LUN3.MouseHover, L_CH8Target2LUN0.MouseHover, L_CH8Target2LUN1.MouseHover, L_CH8Target2LUN2.MouseHover, L_CH8Target2LUN3.MouseHover, L_CH8Target4LUN0.MouseHover, L_CH8Target4LUN1.MouseHover, L_CH8Target4LUN2.MouseHover, L_CH8Target4LUN3.MouseHover, L_CH8Target6LUN0.MouseHover, L_CH8Target6LUN1.MouseHover, L_CH8Target6LUN2.MouseHover, L_CH8Target6LUN3.MouseHover, L_CH8Target1LUN0.MouseHover, L_CH8Target1LUN1.MouseHover, L_CH8Target1LUN2.MouseHover, L_CH8Target1LUN3.MouseHover, L_CH8Target3LUN0.MouseHover, L_CH8Target3LUN1.MouseHover, L_CH8Target3LUN2.MouseHover, L_CH8Target3LUN3.MouseHover, L_CH8Target5LUN0.MouseHover, L_CH8Target5LUN1.MouseHover, L_CH8Target5LUN2.MouseHover, L_CH8Target5LUN3.MouseHover, L_CH8Target7LUN0.MouseHover, L_CH8Target7LUN1.MouseHover, L_CH8Target7LUN2.MouseHover, L_CH8Target7LUN3.MouseHover, L_CH9Target0LUN0.MouseHover, L_CH9Target0LUN1.MouseHover, L_CH9Target0LUN2.MouseHover, L_CH9Target0LUN3.MouseHover, L_CH9Target2LUN0.MouseHover, L_CH9Target2LUN1.MouseHover, L_CH9Target2LUN2.MouseHover, L_CH9Target2LUN3.MouseHover, L_CH9Target4LUN0.MouseHover, L_CH9Target4LUN1.MouseHover, L_CH9Target4LUN2.MouseHover, L_CH9Target4LUN3.MouseHover, L_CH9Target6LUN0.MouseHover, L_CH9Target6LUN1.MouseHover, L_CH9Target6LUN2.MouseHover, L_CH9Target6LUN3.MouseHover, L_CH9Target1LUN0.MouseHover, L_CH9Target1LUN1.MouseHover, L_CH9Target1LUN2.MouseHover, L_CH9Target1LUN3.MouseHover, L_CH9Target3LUN0.MouseHover, L_CH9Target3LUN1.MouseHover, L_CH9Target3LUN2.MouseHover, L_CH9Target3LUN3.MouseHover, L_CH9Target5LUN0.MouseHover, L_CH9Target5LUN1.MouseHover, L_CH9Target5LUN2.MouseHover, L_CH9Target5LUN3.MouseHover, L_CH9Target7LUN0.MouseHover, L_CH9Target7LUN1.MouseHover, L_CH9Target7LUN2.MouseHover, L_CH9Target7LUN3.MouseHover, L_CH10Target0LUN0.MouseHover, L_CH10Target0LUN1.MouseHover, L_CH10Target0LUN2.MouseHover, L_CH10Target0LUN3.MouseHover, L_CH10Target2LUN0.MouseHover, L_CH10Target2LUN1.MouseHover, L_CH10Target2LUN2.MouseHover, L_CH10Target2LUN3.MouseHover, L_CH10Target4LUN0.MouseHover, L_CH10Target4LUN1.MouseHover, L_CH10Target4LUN2.MouseHover, L_CH10Target4LUN3.MouseHover, L_CH10Target6LUN0.MouseHover, L_CH10Target6LUN1.MouseHover, L_CH10Target6LUN2.MouseHover, L_CH10Target6LUN3.MouseHover, L_CH10Target1LUN0.MouseHover, L_CH10Target1LUN1.MouseHover, L_CH10Target1LUN2.MouseHover, L_CH10Target1LUN3.MouseHover, L_CH10Target3LUN0.MouseHover, L_CH10Target3LUN1.MouseHover, L_CH10Target3LUN2.MouseHover, L_CH10Target3LUN3.MouseHover, L_CH10Target5LUN0.MouseHover, L_CH10Target5LUN1.MouseHover, L_CH10Target5LUN2.MouseHover, L_CH10Target5LUN3.MouseHover, L_CH10Target7LUN0.MouseHover, L_CH10Target7LUN1.MouseHover, L_CH10Target7LUN2.MouseHover, L_CH10Target7LUN3.MouseHover, L_CH11Target0LUN0.MouseHover, L_CH11Target0LUN1.MouseHover, L_CH11Target0LUN2.MouseHover, L_CH11Target0LUN3.MouseHover, L_CH11Target2LUN0.MouseHover, L_CH11Target2LUN1.MouseHover, L_CH11Target2LUN2.MouseHover, L_CH11Target2LUN3.MouseHover, L_CH11Target4LUN0.MouseHover, L_CH11Target4LUN1.MouseHover, L_CH11Target4LUN2.MouseHover, L_CH11Target4LUN3.MouseHover, L_CH11Target6LUN0.MouseHover, L_CH11Target6LUN1.MouseHover, L_CH11Target6LUN2.MouseHover, L_CH11Target6LUN3.MouseHover, L_CH11Target1LUN0.MouseHover, L_CH11Target1LUN1.MouseHover, L_CH11Target1LUN2.MouseHover, L_CH11Target1LUN3.MouseHover, L_CH11Target3LUN0.MouseHover, L_CH11Target3LUN1.MouseHover, L_CH11Target3LUN2.MouseHover, L_CH11Target3LUN3.MouseHover, L_CH11Target5LUN0.MouseHover, L_CH11Target5LUN1.MouseHover, L_CH11Target5LUN2.MouseHover, L_CH11Target5LUN3.MouseHover, L_CH11Target7LUN0.MouseHover, L_CH11Target7LUN1.MouseHover, L_CH11Target7LUN2.MouseHover, L_CH11Target7LUN3.MouseHover, L_CH12Target0LUN0.MouseHover, L_CH12Target0LUN1.MouseHover, L_CH12Target0LUN2.MouseHover, L_CH12Target0LUN3.MouseHover, L_CH12Target2LUN0.MouseHover, L_CH12Target2LUN1.MouseHover, L_CH12Target2LUN2.MouseHover, L_CH12Target2LUN3.MouseHover, L_CH12Target4LUN0.MouseHover, L_CH12Target4LUN1.MouseHover, L_CH12Target4LUN2.MouseHover, L_CH12Target4LUN3.MouseHover, L_CH12Target6LUN0.MouseHover, L_CH12Target6LUN1.MouseHover, L_CH12Target6LUN2.MouseHover, L_CH12Target6LUN3.MouseHover, L_CH12Target1LUN0.MouseHover, L_CH12Target1LUN1.MouseHover, L_CH12Target1LUN2.MouseHover, L_CH12Target1LUN3.MouseHover, L_CH12Target3LUN0.MouseHover, L_CH12Target3LUN1.MouseHover, L_CH12Target3LUN2.MouseHover, L_CH12Target3LUN3.MouseHover, L_CH12Target5LUN0.MouseHover, L_CH12Target5LUN1.MouseHover, L_CH12Target5LUN2.MouseHover, L_CH12Target5LUN3.MouseHover, L_CH12Target7LUN0.MouseHover, L_CH12Target7LUN1.MouseHover, L_CH12Target7LUN2.MouseHover, L_CH12Target7LUN3.MouseHover, L_CH13Target0LUN0.MouseHover, L_CH13Target0LUN1.MouseHover, L_CH13Target0LUN2.MouseHover, L_CH13Target0LUN3.MouseHover, L_CH13Target2LUN0.MouseHover, L_CH13Target2LUN1.MouseHover, L_CH13Target2LUN2.MouseHover, L_CH13Target2LUN3.MouseHover, L_CH13Target4LUN0.MouseHover, L_CH13Target4LUN1.MouseHover, L_CH13Target4LUN2.MouseHover, L_CH13Target4LUN3.MouseHover, L_CH13Target6LUN0.MouseHover, L_CH13Target6LUN1.MouseHover, L_CH13Target6LUN2.MouseHover, L_CH13Target6LUN3.MouseHover, L_CH13Target1LUN0.MouseHover, L_CH13Target1LUN1.MouseHover, L_CH13Target1LUN2.MouseHover, L_CH13Target1LUN3.MouseHover, L_CH13Target3LUN0.MouseHover, L_CH13Target3LUN1.MouseHover, L_CH13Target3LUN2.MouseHover, L_CH13Target3LUN3.MouseHover, L_CH13Target5LUN0.MouseHover, L_CH13Target5LUN1.MouseHover, L_CH13Target5LUN2.MouseHover, L_CH13Target5LUN3.MouseHover, L_CH13Target7LUN0.MouseHover, L_CH13Target7LUN1.MouseHover, L_CH13Target7LUN2.MouseHover, L_CH13Target7LUN3.MouseHover, L_CH14Target0LUN0.MouseHover, L_CH14Target0LUN1.MouseHover, L_CH14Target0LUN2.MouseHover, L_CH14Target0LUN3.MouseHover, L_CH14Target2LUN0.MouseHover, L_CH14Target2LUN1.MouseHover, L_CH14Target2LUN2.MouseHover, L_CH14Target2LUN3.MouseHover, L_CH14Target4LUN0.MouseHover, L_CH14Target4LUN1.MouseHover, L_CH14Target4LUN2.MouseHover, L_CH14Target4LUN3.MouseHover, L_CH14Target6LUN0.MouseHover, L_CH14Target6LUN1.MouseHover, L_CH14Target6LUN2.MouseHover, L_CH14Target6LUN3.MouseHover, L_CH14Target1LUN0.MouseHover, L_CH14Target1LUN1.MouseHover, L_CH14Target1LUN2.MouseHover, L_CH14Target1LUN3.MouseHover, L_CH14Target3LUN0.MouseHover, L_CH14Target3LUN1.MouseHover, L_CH14Target3LUN2.MouseHover, L_CH14Target3LUN3.MouseHover, L_CH14Target5LUN0.MouseHover, L_CH14Target5LUN1.MouseHover, L_CH14Target5LUN2.MouseHover, L_CH14Target5LUN3.MouseHover, L_CH14Target7LUN0.MouseHover, L_CH14Target7LUN1.MouseHover, L_CH14Target7LUN2.MouseHover, L_CH14Target7LUN3.MouseHover, L_CH15Target0LUN0.MouseHover, L_CH15Target0LUN1.MouseHover, L_CH15Target0LUN2.MouseHover, L_CH15Target0LUN3.MouseHover, L_CH15Target2LUN0.MouseHover, L_CH15Target2LUN1.MouseHover, L_CH15Target2LUN2.MouseHover, L_CH15Target2LUN3.MouseHover, L_CH15Target4LUN0.MouseHover, L_CH15Target4LUN1.MouseHover, L_CH15Target4LUN2.MouseHover, L_CH15Target4LUN3.MouseHover, L_CH15Target6LUN0.MouseHover, L_CH15Target6LUN1.MouseHover, L_CH15Target6LUN2.MouseHover, L_CH15Target6LUN3.MouseHover, L_CH15Target1LUN0.MouseHover, L_CH15Target1LUN1.MouseHover, L_CH15Target1LUN2.MouseHover, L_CH15Target1LUN3.MouseHover, L_CH15Target3LUN0.MouseHover, L_CH15Target3LUN1.MouseHover, L_CH15Target3LUN2.MouseHover, L_CH15Target3LUN3.MouseHover, L_CH15Target5LUN0.MouseHover, L_CH15Target5LUN1.MouseHover, L_CH15Target5LUN2.MouseHover, L_CH15Target5LUN3.MouseHover, L_CH15Target7LUN0.MouseHover, L_CH15Target7LUN1.MouseHover, L_CH15Target7LUN2.MouseHover, L_CH15Target7LUN3.MouseHover
 {
         Try
         For k = 0 To 15
@@ -4374,48 +4423,48 @@ void L_LUN_MouseHover(sender As Object, e As EventArgs) Handles L_CH0Target0LUN0
         myToolTip.SetToolTip(L_LUN(k)(j)(i), "Channel " & k & ", Target " & myTarget & ", LUN" & i & vbCrLf & "ID Status: Match" & vbCrLf & "Total BB: " & myBB & vbCrLf & "Factory BB: " & myONFIBB(myLane)(k)(j)(i) & vbCrLf & "Erase BB: " & myEraseSuccessBB(myLane)(k)(j)(i) & vbCrLf & "Program BB: " & myBlockProgramSuccessBB(myLane)(k)(j)(i) & vbCrLf & "ECC BB: " & myECCFailBB(myLane)(k)(j)(i) & vbCrLf & "tErase BB: " & myEraseBusytimeBB(myLane)(k)(j)(i) & vbCrLf & "tProgram  BB: " & myProgramBusytimeBB(myLane)(k)(j)(i) & vbCrLf & "tRead BB: " & myReadBusytimeBB(myLane)(k)(j)(i))
         Else
         myToolTip.SetToolTip(L_LUN(k)(j)(i), "Channel " & k & ", Target " & myTarget & ", LUN" & i & vbCrLf & "ID Status: Miss")
-        End If
+        
         i = 3
         j = 7
         k = 15
-        End If
-        End If
+        
+        
         Next
         Next
         Next
 
-        Catch ex As Exception
-        MsgBox("An exception occured during MouseHover")
-        End Try
-        End Sub
+        
+        Console::WriteLine("An exception occured during MouseHover")
+        
+        
 }
-void Timer_Tick(sender As Object, e As EventArgs) Handles Timer_L0.Tick, Timer_L1.Tick, Timer_L2.Tick, Timer_L3.Tick, Timer_L4.Tick, Timer_L5.Tick, Timer_L6.Tick, Timer_L7.Tick
+void SigNAS3NT::Timer_Tick(sender As Object, e As EventArgs) Handles Timer_L0.Tick, Timer_L1.Tick, Timer_L2.Tick, Timer_L3.Tick, Timer_L4.Tick, Timer_L5.Tick, Timer_L6.Tick, Timer_L7.Tick
 {
         Try
         For k = 0 To 7
         If Equals(myTimer(k), sender) Then
         myTime(k) += 1
         If k = myLane Then
-        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), True)
-        End If
+        BeginInvoke(New RefreshStatusDelegate(AddressOf RefreshStatus), true)
+        
         k = 7
-        End If
+        
         Next
 
-        Catch ex As Exception
-        MsgBox("An exception occured during Timer Update")
-        End Try
+        
+        Console::WriteLine("An exception occured during Timer Update")
+        
 
-        End Sub
+        
 }
-Int32 GetLUNStatus(Int32 lane, Int32 channel, Int32 chip, Int32 lun)
+Int32 SigNAS3NT::GetLUNStatus(Int32 lane, Int32 channel, Int32 chip, Int32 lun)
 {
     Try
         GetLUNStatus = 1
-        If myNANDIDCheck(lane)(channel)(chip) = False Then
+        If myNANDIDCheck(lane)(channel)(chip) = false Then
         GetLUNStatus = 2
         Exit Try
-        End If
+        
         Dim myBB As Integer = myONFIBB(lane)(channel)(chip)(lun)
         myBB += myEraseSuccessBB(lane)(channel)(chip)(lun)
         myBB += myBlockProgramSuccessBB(lane)(channel)(chip)(lun)
@@ -4426,11 +4475,11 @@ Int32 GetLUNStatus(Int32 lane, Int32 channel, Int32 chip, Int32 lun)
         If myBB > myBBSThreshold(lane) Then
         GetLUNStatus = 2
         Exit Try
-        End If
-        Catch ex As Exception
+        
+        
         GetLUNStatus = 0
-        End Try
-        End Function
+        
+        
 }
 Int32 GetNandID(Int32 Lane, SigNAS3Library.AddressParameter AddressParameter, array <unsigned char> &r_NandID())
 {
@@ -4438,59 +4487,59 @@ Int32 GetNandID(Int32 Lane, SigNAS3Library.AddressParameter AddressParameter, ar
 
         If r_NandID.Length < 128 Then
         ReDim r_NandID(127)
-        End If
+        
 
         If Lane < 0 Then
         GetNandID = SigNAS3Library.Err.ErrCode.WrongArgument
         Exit Try
-        End If
+        
         If Lane > 7 Then
         GetNandID = SigNAS3Library.Err.ErrCode.WrongArgument
         Exit Try
-        End If
+        
 
         Dim myAddress(0) As Byte
         Dim r_success(15) As Boolean
         Dim errcode As Integer
 
         For k = 0 To 15
-        r_success(k) = False
+        r_success(k) = false
         Next
-        errcode = myS3.DoCommand(Lane, AddressParameter.channel, AddressParameter.chip, &H90, False, False, r_success)
+        errcode = myS3.DoCommand(Lane, AddressParameter.channel, AddressParameter.chip, &H90, false, false, r_success)
         If errcode < > 0 Then
         GetNandID = errcode
         Exit Try
-        End If
+        
 
         myAddress(0) = CByte(0)
         For k = 0 To 15
-        r_success(k) = False
+        r_success(k) = false
         Next
-        errcode = myS3.DoAddressSend(Lane, AddressParameter.channel, AddressParameter.chip, 1, myAddress, False, r_success)
+        errcode = myS3.DoAddressSend(Lane, AddressParameter.channel, AddressParameter.chip, 1, myAddress, false, r_success)
         If errcode < > 0 Then
         GetNandID = errcode
         Exit Try
-        End If
+        
 
         For k = 0 To 127
         r_NandID(k) = CByte(0)
         Next
         For k = 0 To 15
-        r_success(k) = False
+        r_success(k) = false
         Next
-        errcode = myS3.DoDataGet(Lane, AddressParameter.channel, AddressParameter.chip, 8, True, r_NandID, r_success)
+        errcode = myS3.DoDataGet(Lane, AddressParameter.channel, AddressParameter.chip, 8, true, r_NandID, r_success)
         If errcode < > 0 Then
         GetNandID = errcode
         Exit Try
-        End If
+        
 
         GetNandID = SigNAS3Library.Err.ErrCode.NoError
 
-        Catch ex As Exception
+        
 
         GetNandID = SigNAS3Library.Err.ErrCode.CommandUnexpectedResult
 
-        End Try
+        
 
-        End Function
-}
+        
+}*/
