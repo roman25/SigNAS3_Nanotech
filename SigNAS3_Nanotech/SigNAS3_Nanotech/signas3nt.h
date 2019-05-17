@@ -55,7 +55,7 @@ public:
     /*void GetTypeCodeFromString(array<String^>^ str, array<NandParameter::TypeCode>^ &myTypeCode);
     void GetSubTypeCodeFromString(array<String^>^ str, array<NandParameter::SubTypeCode>^ &mySubTypeCode);
     void GetBlockSizeFromString(array<String^>^ str, array<Int32>^ &myBlockSize);
-
+        //тестовый коммент
     String^ HexCheck(String^ str, Int32 len, String^ oldstr);
 
     Int32 GetVendorIndex(NandParameter::VendorCode myvendor, array<NandParameter::VendorCode>^ myvendorlist);
