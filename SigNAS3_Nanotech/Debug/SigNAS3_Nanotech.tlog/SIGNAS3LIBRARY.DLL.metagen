@@ -1,0 +1,504 @@
+  SigNAS3Library.Resources.resources - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v2.0.50727
+Assembly SigNAS3Library, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly Microsoft.VisualBasic, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Assembly CyUSB, Version=1.2.2.0, Culture=neutral, PublicKeyToken=01f1d2b6c851ae92: 
+	hash=None, flags=None
+Assembly System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class SigNAS3Library.AddressParameter: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Fields:
+    Boolean[] channel : Public
+    Int32 chip : Public
+    Int32 block : Public
+    Int32 page : Public
+    Int32 procorder : Public
+    Boolean multichip_enable : Public
+    Boolean[] multichip_chip : Public
+    Boolean multiplane_enable : Public
+    Int32 multiplane_planenum : Public
+    Int32[] multiplane_block : Public
+    Boolean partoperation_enable : Public
+    Int32 partoperation_stoppage : Public
+    Boolean failnotstop : Public
+  Methods:
+    MakeClone(AddressParameter&): PrivateScope, Public
+    Check(Boolean, Boolean): PrivateScope, Public
+Class SigNAS3Library.BlockPatternParameter: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Fields:
+    BlockPatternCode patternselect : Public
+    UInt32 inivalue : Public
+    UInt32 stepvalue : Public
+    UInt32 seedvalue : Public
+    Boolean bitflip : Public
+    Byte[] patbuf : Public
+Struct SigNAS3Library.BlockPatternParameter+BlockPatternCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    BlockPatternCode UserDefined = 0 : Public, Static, Literal, HasDefault
+    BlockPatternCode Increment = 1 : Public, Static, Literal, HasDefault
+    BlockPatternCode IncrementOverall = 2 : Public, Static, Literal, HasDefault
+    BlockPatternCode PseudoRandom = 3 : Public, Static, Literal, HasDefault
+    BlockPatternCode PseudoRandomOverall = 4 : Public, Static, Literal, HasDefault
+Class SigNAS3Library.CellParameter: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Fields:
+    CellTypeCode type : Public
+    UInt32 lowerpage : Public
+    UInt32 middlepage : Public
+    UInt32 upperpage : Public
+    SigNAS3Library.PagePatternParameter lowerpage_pattern : Public
+    SigNAS3Library.PagePatternParameter middlepage_pattern : Public
+    SigNAS3Library.PagePatternParameter upperpage_pattern : Public
+Struct SigNAS3Library.CellParameter+CellTypeCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    CellTypeCode SLC = 0 : Public, Static, Literal, HasDefault
+    CellTypeCode MLC = 1 : Public, Static, Literal, HasDefault
+    CellTypeCode TLC = 2 : Public, Static, Literal, HasDefault
+Class SigNAS3Library.Connection: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Fields:
+    Boolean USB_SUPERSPEED : Public
+    System.Threading.ManualResetEvent[] manualEvent : Public
+  Properties:
+    UInt32 USB_TimeOut 'get set' : 
+    UInt32 ReceiveTimeOut 'get set' : 
+  Methods:
+    get_USB_TimeOut(): PrivateScope, Public, SpecialName
+    set_USB_TimeOut(UInt32): PrivateScope, Public, SpecialName
+    get_ReceiveTimeOut(): PrivateScope, Public, SpecialName
+    set_ReceiveTimeOut(UInt32): PrivateScope, Public, SpecialName
+    USB_Connect(Boolean&): PrivateScope, Public
+    USB_Reset(): PrivateScope, Public
+Class SigNAS3Library.Err: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    GetErrDescription(Int32): PrivateScope, Public, Static
+Struct SigNAS3Library.Err+ErrCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    ErrCode NoError = 0 : Public, Static, Literal, HasDefault
+    ErrCode WrongArgument = -1 : Public, Static, Literal, HasDefault
+    ErrCode NotSupported = -2 : Public, Static, Literal, HasDefault
+    ErrCode AccessDenied = -3 : Public, Static, Literal, HasDefault
+    ErrCode ConnectionBusy = -100 : Public, Static, Literal, HasDefault
+    ErrCode WrongCommandCodeReceived = -101 : Public, Static, Literal, HasDefault
+    ErrCode ReceiveTimeout = -102 : Public, Static, Literal, HasDefault
+    ErrCode USBFirmwareLoadFailed = -200 : Public, Static, Literal, HasDefault
+    ErrCode USBConnectionNotEstablished = -202 : Public, Static, Literal, HasDefault
+    ErrCode USBSendFailed = -203 : Public, Static, Literal, HasDefault
+    ErrCode USBReceiveFailed = -204 : Public, Static, Literal, HasDefault
+    ErrCode USBResetTimeout = -205 : Public, Static, Literal, HasDefault
+    ErrCode USBConnectionUnstable = -206 : Public, Static, Literal, HasDefault
+    ErrCode ProgramSPIFlashFail = -30032 : Public, Static, Literal, HasDefault
+    ErrCode ReadSPIFlashFail = -30033 : Public, Static, Literal, HasDefault
+    ErrCode EraseSPIFlashFail = -30034 : Public, Static, Literal, HasDefault
+    ErrCode LaneUnconnected = -2520000 : Public, Static, Literal, HasDefault
+    ErrCode LaneBusy = -2530000 : Public, Static, Literal, HasDefault
+    ErrCode CommandUndefined = -2550000 : Public, Static, Literal, HasDefault
+    ErrCode CommandUnexpectedResult = -2560000 : Public, Static, Literal, HasDefault
+Class SigNAS3Library.NandParameter: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Properties:
+    Int32 Vendor 'get set' : 
+    Int32 Type 'get set' : 
+    Int32 SubType 'get set' : 
+    Int32 IFMode 'get set' : 
+    Int32 BlockSize 'get set' : 
+    Int32 PageSize 'get set' : 
+    Boolean EDOMode 'get set' : 
+    Int32 BaseClock 'get set' : 
+    Int32 tWH  'get set' : 
+    Int32 tWP  'get set' : 
+    Int32 tREH 'get set' : 
+    Int32 tRP  'get set' : 
+    Int32 tCS  'get set' : 
+    Int32 tCLS 'get set' : 
+    Int32 tCLH 'get set' : 
+    Int32 tDS  'get set' : 
+    Int32 tDH  'get set' : 
+    Int32 tADL 'get set' : 
+  Methods:
+    get_Vendor(): PrivateScope, Public, SpecialName
+    set_Vendor(Int32): PrivateScope, Public, SpecialName
+    get_Type(): PrivateScope, Public, SpecialName
+    set_Type(Int32): PrivateScope, Public, SpecialName
+    get_SubType(): PrivateScope, Public, SpecialName
+    set_SubType(Int32): PrivateScope, Public, SpecialName
+    get_IFMode(): PrivateScope, Public, SpecialName
+    set_IFMode(Int32): PrivateScope, Public, SpecialName
+    get_BlockSize(): PrivateScope, Public, SpecialName
+    set_BlockSize(Int32): PrivateScope, Public, SpecialName
+    get_PageSize(): PrivateScope, Public, SpecialName
+    set_PageSize(Int32): PrivateScope, Public, SpecialName
+    get_EDOMode(): PrivateScope, Public, SpecialName
+    set_EDOMode(Boolean): PrivateScope, Public, SpecialName
+    get_BaseClock(): PrivateScope, Public, SpecialName
+    set_BaseClock(Int32): PrivateScope, Public, SpecialName
+    get_tWH(): PrivateScope, Public, SpecialName
+    set_tWH(Int32): PrivateScope, Public, SpecialName
+    get_tWP(): PrivateScope, Public, SpecialName
+    set_tWP(Int32): PrivateScope, Public, SpecialName
+    get_tREH(): PrivateScope, Public, SpecialName
+    set_tREH(Int32): PrivateScope, Public, SpecialName
+    get_tRP(): PrivateScope, Public, SpecialName
+    set_tRP(Int32): PrivateScope, Public, SpecialName
+    get_tCS(): PrivateScope, Public, SpecialName
+    set_tCS(Int32): PrivateScope, Public, SpecialName
+    get_tCLS(): PrivateScope, Public, SpecialName
+    set_tCLS(Int32): PrivateScope, Public, SpecialName
+    get_tCLH(): PrivateScope, Public, SpecialName
+    set_tCLH(Int32): PrivateScope, Public, SpecialName
+    get_tDS(): PrivateScope, Public, SpecialName
+    set_tDS(Int32): PrivateScope, Public, SpecialName
+    get_tDH(): PrivateScope, Public, SpecialName
+    set_tDH(Int32): PrivateScope, Public, SpecialName
+    get_tADL(): PrivateScope, Public, SpecialName
+    set_tADL(Int32): PrivateScope, Public, SpecialName
+    IsMicron(): PrivateScope, Public
+    IsToshiba(): PrivateScope, Public
+    IsSamsung(): PrivateScope, Public
+    IsIntel(): PrivateScope, Public
+    IsSanDisk(): PrivateScope, Public
+    IsHynix(): PrivateScope, Public
+    IsOther1(): PrivateScope, Public
+    IsSLC(): PrivateScope, Public
+    IsMLC(): PrivateScope, Public
+    IsTLC(): PrivateScope, Public
+    IsSLC_3D(): PrivateScope, Public
+    IsMLC_3D(): PrivateScope, Public
+    IsTLC_3D(): PrivateScope, Public
+    IsQLC_3D(): PrivateScope, Public
+    IsMLC_SLCMODE(): PrivateScope, Public
+    IsTLC_SLCMODE(): PrivateScope, Public
+    IsMLC_3D_SLCMODE(): PrivateScope, Public
+    IsTLC_3D_SLCMODE(): PrivateScope, Public
+    IsSubType0(): PrivateScope, Public
+    IsSubType1(): PrivateScope, Public
+    IsSubType2(): PrivateScope, Public
+    IsSubType3(): PrivateScope, Public
+    IsAsynchronous(): PrivateScope, Public
+    IsSynchronous(): PrivateScope, Public
+    IsToggleDDR(): PrivateScope, Public
+    GetTypeItems(String[]&): PrivateScope, Public
+    GetSubTypeItems(String[]&): PrivateScope, Public
+    GetBlocksizeItems(String[]&): PrivateScope, Public
+    IsPageProgramEnable(): PrivateScope, Public
+    MakeClone(NandParameter&): PrivateScope, Public
+Struct SigNAS3Library.NandParameter+VendorCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    VendorCode Micron = 0 : Public, Static, Literal, HasDefault
+    VendorCode Toshiba = 1 : Public, Static, Literal, HasDefault
+    VendorCode Samsung = 2 : Public, Static, Literal, HasDefault
+    VendorCode Intel = 3 : Public, Static, Literal, HasDefault
+    VendorCode SanDisk = 4 : Public, Static, Literal, HasDefault
+    VendorCode Hynix = 5 : Public, Static, Literal, HasDefault
+    VendorCode Other1 = 16 : Public, Static, Literal, HasDefault
+Struct SigNAS3Library.NandParameter+TypeCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    TypeCode SLC = 0 : Public, Static, Literal, HasDefault
+    TypeCode MLC = 1 : Public, Static, Literal, HasDefault
+    TypeCode TLC = 2 : Public, Static, Literal, HasDefault
+    TypeCode SLC_3D = 4 : Public, Static, Literal, HasDefault
+    TypeCode MLC_3D = 5 : Public, Static, Literal, HasDefault
+    TypeCode TLC_3D = 6 : Public, Static, Literal, HasDefault
+    TypeCode QLC_3D = 7 : Public, Static, Literal, HasDefault
+    TypeCode MLC_SLCMODE = 17 : Public, Static, Literal, HasDefault
+    TypeCode TLC_SLCMODE = 18 : Public, Static, Literal, HasDefault
+    TypeCode MLC_3D_SLCMODE = 21 : Public, Static, Literal, HasDefault
+    TypeCode TLC_3D_SLCMODE = 22 : Public, Static, Literal, HasDefault
+Struct SigNAS3Library.NandParameter+SubTypeCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    SubTypeCode Type0 = 0 : Public, Static, Literal, HasDefault
+    SubTypeCode Type1 = 1 : Public, Static, Literal, HasDefault
+    SubTypeCode Type2 = 2 : Public, Static, Literal, HasDefault
+    SubTypeCode Type3 = 3 : Public, Static, Literal, HasDefault
+Struct SigNAS3Library.NandParameter+IFModeCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    IFModeCode Asynchronous = 0 : Public, Static, Literal, HasDefault
+    IFModeCode Synchronous = 1 : Public, Static, Literal, HasDefault
+    IFModeCode Toggle_DDR = 2 : Public, Static, Literal, HasDefault
+    IFModeCode NV_DDR2 = 3 : Public, Static, Literal, HasDefault
+Class SigNAS3Library.PagePatternParameter: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Fields:
+    PagePatternCode patternselect : Public
+    UInt32 inivalue : Public
+    UInt32 stepvalue : Public
+    UInt32 seedvalue : Public
+    Boolean bitflip : Public
+    Byte[] patbuf : Public
+Struct SigNAS3Library.PagePatternParameter+PagePatternCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    PagePatternCode UserDefined = 0 : Public, Static, Literal, HasDefault
+    PagePatternCode Increment = 1 : Public, Static, Literal, HasDefault
+    PagePatternCode PseudoRandom = 2 : Public, Static, Literal, HasDefault
+Class SigNAS3Library.Pattern: AutoLayout, AnsiClass, Class, Public
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+  Methods:
+    GetIncrement(Int32, UInt32, UInt32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetIncrement(Int32, UInt32, UInt32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetPseudoRandom(Int32, UInt32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetPseudoRandom(Int32, UInt32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockAll0(Int32, Int32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockAll0(Int32, Int32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockAll1(Int32, Int32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockAll1(Int32, Int32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockIncrement(Int32, Int32, UInt32, UInt32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockIncrement(Int32, Int32, UInt32, UInt32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockIncrementOverall(Int32, Int32, UInt32, UInt32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockIncrementOverall(Int32, Int32, UInt32, UInt32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockPseudoRandom(Int32, Int32, UInt32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockPseudoRandom(Int32, Int32, UInt32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockPseudoRandomOverall(Int32, Int32, UInt32, Boolean, Byte[]&): PrivateScope, Public, Static, HideBySig
+    GetBlockPseudoRandomOverall(Int32, Int32, UInt32, Byte[]&): PrivateScope, Public, Static, HideBySig
+    CountError(Byte[], Int32, Byte[], Int32, Int32, Int32&): PrivateScope, Public, Static
+Class SigNAS3Library.S3: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, SpecialName, RTSpecialName
+    Void .ctor(SigNAS3Library.Connection): PrivateScope, Public, SpecialName, RTSpecialName
+  Fields:
+    System.String STR_LIBNAME = SigNAS3 : Public, Static, Literal, HasDefault
+    System.String STR_LIBDESCRIPTION = Siglead NAND Analyzer System : Public, Static, Literal, HasDefault
+    System.String STR_COMPANYNAME = SIGLEAD Inc. : Public, Static, Literal, HasDefault
+    System.String STR_EMAILADDRESS = info@siglead.com : Public, Static, Literal, HasDefault
+    System.String STR_URL = http://www.siglead.com : Public, Static, Literal, HasDefault
+    System.String STR_LIBVERSION = Ver2.0 Beta4 : Public, Static, Literal, HasDefault
+    Int32 SPIFLASH_SECSIZE = 65536 : Public, Static, Literal, HasDefault
+    Int32 SPIFLASH_PAGESIZE = 256 : Public, Static, Literal, HasDefault
+    Int32 SPIFLASH_PAGEPERSECTOR = 256 : Public, Static, Literal, HasDefault
+    Int32 CHIP_MIN = 0 : Public, Static, Literal, HasDefault
+    Int32 CHIP_MAX = 7 : Public, Static, Literal, HasDefault
+    Int32 BLOCK_MIN = 0 : Public, Static, Literal, HasDefault
+    Int32 BLOCK_MAX = 65535 : Public, Static, Literal, HasDefault
+    Int32 PAGE_MIN = 0 : Public, Static, Literal, HasDefault
+    Int32 PAGE_MAX = 5183 : Public, Static, Literal, HasDefault
+    Int32 BLOCKSIZE_MAX = 5184 : Public, Static, Literal, HasDefault
+    Int32 BLOCKSIZE_MAX_PAGESETTINGS = 2304 : Public, Static, Literal, HasDefault
+    Int32 PAGESIZE_MAX = 36864 : Public, Static, Literal, HasDefault
+    Int32 PATTERN_BUFFERSIZE = 36864 : Public, Static, Literal, HasDefault
+  Properties:
+    SigNAS3Library.Connection con 'get set' : 
+    Boolean[] pageenable_program [Int32] 'get set' : 
+    Boolean[] pageenable_read [Int32] 'get set' : 
+  Methods:
+    DoBlockReadErrCntPseudoRandom(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntPseudoRandom(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntPseudoRandom(Int32, Int32, Boolean[], Int32, Int32, UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntPseudoRandomOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntPseudoRandomOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntPseudoRandomOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    SetBlockBusytimeParameter(Int32, Int32, Int32, Int32): PrivateScope, Public
+    GetBlockBusytimeParameter(Int32, Int32&, Int32&, Int32&): PrivateScope, Public
+    GetBlockBusytime(Int32, AddressParameter, Int32, UInt32[]&, Int32&): PrivateScope, Public
+    DoCommand(Int32, AddressParameter, Int32, Boolean, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    DoCommand(Int32, AddressParameter, Int32, Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommand(Int32, Boolean[], Int32, Int32, Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandDSet(Int32, AddressParameter, Int32, Int32, Int32[], Boolean, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    DoCommandDSet(Int32, AddressParameter, Int32, Int32, Int32[], Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandDSet(Int32, Boolean[], Int32, Int32, Int32, Int32[], Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandADGet(Int32, AddressParameter, Int32, Int32, Int32[], Int32, Boolean, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    DoCommandADGet(Int32, AddressParameter, Int32, Int32, Int32[], Int32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandADGet(Int32, Boolean[], Int32, Int32, Int32, Int32[], Int32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    GetFeatures(Int32, AddressParameter, Int32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    GetFeatures(Int32, Boolean[], Int32, Int32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandADSet(Int32, AddressParameter, Int32, Int32, Int32[], Int32, Int32[], Boolean, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    DoCommandADSet(Int32, AddressParameter, Int32, Int32, Int32[], Int32, Int32[], Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandADSet(Int32, Boolean[], Int32, Int32, Int32, Int32[], Int32, Int32[], Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    SetFeatures(Int32, AddressParameter, Int32, Int32[], Boolean[]&): PrivateScope, Public, HideBySig
+    SetFeatures(Int32, Boolean[], Int32, Int32, Int32[], Boolean[]&): PrivateScope, Public, HideBySig
+    DoAddressSend(Int32, AddressParameter, Int32, Byte[], Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoAddressSend(Int32, Boolean[], Int32, Int32, Byte[], Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoDataGet(Int32, AddressParameter, Int32, Boolean, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoDataGet(Int32, Boolean[], Int32, Int32, Boolean, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoDataSet(Int32, AddressParameter, Int32, Byte[], Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoDataSet(Int32, Boolean[], Int32, Int32, Byte[], Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandSequence(Int32, AddressParameter, Int32, Int32[], Int32[], Int32[], Byte[], Int32[], Byte[], Boolean[], Boolean[], Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandSequence(Int32, Boolean[], Int32, Int32, Int32[], Int32[], Int32[], Byte[], Int32[], Byte[], Boolean[], Boolean[], Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandSequenceEx(Int32, AddressParameter, Int32, Int32[], Int32[], Int32[], Byte[], Int32[], Byte[], Boolean[], Boolean[], Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandSequenceEx(Int32, Boolean[], Int32, Int32, Int32[], Int32[], Int32[], Byte[], Int32[], Byte[], Boolean[], Boolean[], Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandMultiple(Int32, AddressParameter, Int32, Int32, UInt32, Boolean, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    DoCommandMultiple(Int32, AddressParameter, Int32, Int32, UInt32, Boolean, Boolean, Boolean[]&): PrivateScope, Public, HideBySig
+    DoCommandMultiple(Int32, AddressParameter, Int32, Int32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig
+    CountCellDistribution(Int32, AddressParameter, Int32, CellParameter[]&, Int32[]&, Boolean[]&): PrivateScope, Public
+    SaveDebugInformation(Int32, String, Boolean): PrivateScope, Public, HideBySig
+    SaveDebugInformation(String, Boolean): PrivateScope, Public, HideBySig
+    BlockProgram(Int32, AddressParameter, BlockPatternParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    BlockProgram(Int32, AddressParameter, BlockPatternParameter, Int32, Boolean[]&, Int32[]&): PrivateScope, Public, HideBySig
+    BlockProgram(Int32, AddressParameter, BlockPatternParameter, Int32, Boolean[]&, Int32[]&, UInt32&): PrivateScope, Public, HideBySig
+    DoBlockProgram(Int32, Int32, Int32, Boolean[], Int32, Int32, Byte[], Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramIncrement(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockProgramIncrement(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockProgramIncrementOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramIncrementOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramPseudoRandom(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramPseudoRandom(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramPseudoRandomOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramPseudoRandomOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichip(Int32, Int32, Int32, Boolean[], Boolean[], Int32, Byte[], Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipIncrement(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockProgramMultichipIncrement(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockProgramMultichipIncrementOverall(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipIncrementOverall(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipPseudoRandom(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipPseudoRandom(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipPseudoRandomOverall(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipPseudoRandomOverall(Int32, Int32, Boolean[], Boolean[], Int32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplane(Int32, Int32, Int32, Boolean[], Boolean[], Int32[], Int32, Byte[], Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplaneIncrement(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockProgramMultichipMultiplaneIncrement(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockProgramMultichipMultiplaneIncrementOverall(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplaneIncrementOverall(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplanePseudoRandom(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplanePseudoRandom(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplanePseudoRandomOverall(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public (Obsolete)
+    DoBlockProgramMultichipMultiplanePseudoRandomOverall(Int32, Int32, Boolean[], Boolean[], Int32[], Int32, UInt32, Boolean[]&): PrivateScope, Public (Obsolete)
+    BlockErase(Int32, AddressParameter, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    BlockErase(Int32, AddressParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    DoErase(Int32, Boolean[], Int32, Int32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoErase(Int32, Boolean[], Int32, Int32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoEraseMultichip(Int32, Boolean[], Boolean[], Int32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoEraseMultichip(Int32, Boolean[], Boolean[], Int32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoEraseMultichipMultiplane(Int32, Boolean[], Boolean[], Int32[], Int32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoEraseMultichipMultiplane(Int32, Boolean[], Boolean[], Int32[], Int32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DumpCacheRegister(Int32, AddressParameter, UInt32, UInt32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoDump(Int32, Boolean[], Int32, UInt32, UInt32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    PageReadDump(Int32, AddressParameter, UInt32, UInt32, Byte[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    PageReadDump(Int32, AddressParameter, UInt32, UInt32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoReadDump(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Byte[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadDump(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    BlockReadDump(Int32, AddressParameter, UInt32, UInt32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    BlockReadDump(Int32, AddressParameter, UInt32, UInt32, Int32, Byte[]&, Boolean[]&, Int32[]&): PrivateScope, Public, HideBySig
+    DoBlockReadDump(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Byte[]&, Boolean[]&): PrivateScope, Public (Obsolete)
+    PageReadErrCnt(Int32, AddressParameter, PagePatternParameter, Int32, Int32[]&, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    PageReadErrCnt(Int32, AddressParameter, PagePatternParameter, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    PageReadErrCnt(Int32, AddressParameter, PagePatternParameter, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    PageReadErrCnt(Int32, AddressParameter, PagePatternParameter, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    DoReadErrCnt(Int32, Boolean[], Int32, Int32, Int32, Byte[], UInt32, Int32, Int32[]&, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCnt(Int32, Boolean[], Int32, Int32, Int32, Byte[], UInt32, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCnt(Int32, Boolean[], Int32, Int32, Int32, Byte[], UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Int32[]&, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoReadErrCntPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    BlockReadErrCnt(Int32, AddressParameter, BlockPatternParameter, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    BlockReadErrCnt(Int32, AddressParameter, BlockPatternParameter, Int32, Int32, Int32[]&, Int32[]&, Boolean[]&, Int32[]&): PrivateScope, Public, HideBySig
+    BlockReadErrCnt(Int32, AddressParameter, BlockPatternParameter, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    BlockReadErrCnt(Int32, AddressParameter, BlockPatternParameter, Int32, Int32[]&, Boolean[]&, Int32[]&): PrivateScope, Public, HideBySig
+    DoBlockReadErrCnt(Int32, Int32, Boolean[], Int32, Int32, Byte[], UInt32, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCnt(Int32, Int32, Boolean[], Int32, Int32, Byte[], UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntIncrement(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntIncrement(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntIncrement(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntIncrementOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Int32, Int32[]&, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntIncrementOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoBlockReadErrCntIncrementOverall(Int32, Int32, Boolean[], Int32, Int32, UInt32, UInt32, Int32[]&, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    get_con(): PrivateScope, Public, SpecialName
+    set_con(Connection): PrivateScope, Public, SpecialName
+    get_pageenable_program(Int32): PrivateScope, Public, SpecialName
+    set_pageenable_program(Int32, Boolean[]): PrivateScope, Public, SpecialName
+    get_pageenable_read(Int32): PrivateScope, Public, SpecialName
+    set_pageenable_read(Int32, Boolean[]): PrivateScope, Public, SpecialName
+    IsProperVersion(): PrivateScope, Public
+    GetVersion(Int32[]&, Int32[]&): PrivateScope, Public
+    GetNFIFVersion(Int32, Int32[]&, Int32[]&): PrivateScope, Public
+    GetSubVersion(Int32, Int32[]&, Int32[]&): PrivateScope, Public
+    ConnectLane(Boolean[]): PrivateScope, Public
+    DisconnectLane(Boolean[]): PrivateScope, Public
+    GetLaneStatus(Int32[]&): PrivateScope, Public
+    ResetLane(Boolean[]): PrivateScope, Public
+    CheckEcho(): PrivateScope, Public
+    EraseSPIFlash(Int32, Int32): PrivateScope, Public
+    WriteSPIFlash(Int32, Int32, Byte[]): PrivateScope, Public
+    VerifySPIFlash(Int32, Int32, Byte[], Boolean&): PrivateScope, Public
+    ReadSPIFlash(Int32, Int32, Int32, Int32, Byte[]&): PrivateScope, Public
+    IssueDebugCommand(Int32[], Byte[]&): PrivateScope, Public
+    SetNANDParameter(Int32, NandParameter): PrivateScope, Public
+    GetNANDParameter(Int32, NandParameter&): PrivateScope, Public
+    SetVoltage(Int32, Int32, Int32, Boolean, Boolean): PrivateScope, Public
+    GetVoltage(Int32, Int32&, Int32&, Boolean&): PrivateScope, Public
+    CalibrateReadClockPhase(Int32, AddressParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    CalibrateDQSPhase(Int32, Boolean[], Int32, Int32, Boolean[]&): PrivateScope, Public (Obsolete)
+    SelectMonitor(Int32, Int32): PrivateScope, Public
+    Reset(Int32, AddressParameter, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    Reset(Int32, AddressParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    Reset(Int32, Boolean[], Int32, Boolean[]&): PrivateScope, Public, HideBySig
+    GetNandID(Int32, AddressParameter, Byte[]&): PrivateScope, Public, HideBySig
+    GetNandID(Int32, Boolean[], Byte[]&): PrivateScope, Public, HideBySig
+    GetNandStatus(Int32, AddressParameter, Byte[]&): PrivateScope, Public, HideBySig
+    GetNandStatus(Int32, Boolean[], Int32, Byte[]&): PrivateScope, Public, HideBySig
+    GetParameterPage(Int32, AddressParameter, Int32, Int32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    GetParameterPage(Int32, Boolean[], Int32, Int32, Int32, Byte[]&, Boolean[]&): PrivateScope, Public, HideBySig
+    PageRead(Int32, AddressParameter, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    PageRead(Int32, AddressParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    DoRead(Int32, Boolean[], Int32, Int32, Int32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoRead(Int32, Boolean[], Int32, Int32, Int32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    BlockRead(Int32, AddressParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    BlockRead(Int32, AddressParameter, Int32, Boolean[]&, Int32[]&): PrivateScope, Public, HideBySig
+    DoBlockRead(Int32, Int32, Boolean[], Int32, Int32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    PageProgram(Int32, AddressParameter, PagePatternParameter, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig
+    PageProgram(Int32, AddressParameter, PagePatternParameter, Boolean[]&): PrivateScope, Public, HideBySig
+    DoProgram(Int32, Boolean[], Int32, Int32, Int32, Byte[], Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgram(Int32, Boolean[], Int32, Int32, Int32, Byte[], Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramIncrement(Int32, Boolean[], Int32, Int32, Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramPseudoRandom(Int32, Boolean[], Int32, Int32, Int32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichip(Int32, Boolean[], Boolean[], Int32, Int32, Byte[], Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichip(Int32, Boolean[], Boolean[], Int32, Int32, Byte[], Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipIncrement(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipIncrement(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, UInt32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipIncrement(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipIncrement(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipPseudoRandom(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipPseudoRandom(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipPseudoRandom(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipPseudoRandom(Int32, Boolean[], Boolean[], Int32, Int32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplane(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, Byte[], Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplane(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, Byte[], Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplaneIncrement(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplaneIncrement(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, UInt32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplaneIncrement(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplaneIncrement(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplanePseudoRandom(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, Boolean, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplanePseudoRandom(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, Boolean[]&, UInt32[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplanePseudoRandom(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, Boolean, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+    DoProgramMultichipMultiplanePseudoRandom(Int32, Boolean[], Boolean[], Int32[], Int32, Int32, UInt32, Boolean[]&): PrivateScope, Public, HideBySig (Obsolete)
+Struct SigNAS3Library.S3+LaneStatusCode: AutoLayout, AnsiClass, Class, NestedPublic, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    LaneStatusCode Unconnected = 0 : Public, Static, Literal, HasDefault
+    LaneStatusCode Idle = 1 : Public, Static, Literal, HasDefault
+    LaneStatusCode Busy = 2 : Public, Static, Literal, HasDefault

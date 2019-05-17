@@ -1,0 +1,6 @@
+﻿  main.cpp
+  signas3nt.cpp
+  Generating Code...
+  main.obj : /DEBUG:FASTLINK is not supported when managed code is present; restarting link with /DEBUG:FULL
+  SigNAS3_Nanotech.vcxproj -> D:\projects\SigNAS3_NT_For_GS_Nanotech\Debug\SigNAS3_Nanotech.exe
+  SigNAS3_Nanotech.vcxproj -> D:\projects\SigNAS3_NT_For_GS_Nanotech\Debug\SigNAS3_Nanotech.pdb (Partial PDB)

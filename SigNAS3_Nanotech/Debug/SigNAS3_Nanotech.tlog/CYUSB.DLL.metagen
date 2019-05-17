@@ -1,0 +1,880 @@
+  CyUSB.CyUSBEndPoint.resources - Embedded, ContainedInManifestFile, 
+  CyUSB.CyUSBDevice.resources - Embedded, ContainedInManifestFile, 
+  CyUSB.CyUSBInterfaceContainer.resources - Embedded, ContainedInManifestFile, 
+  CyUSB.MsgForm.resources - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v2.0.50727
+Assembly CyUSB, Version=1.2.2.0, Culture=neutral, PublicKeyToken=01f1d2b6c851ae92: 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Struct CyUSB.OVERLAPPED: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    IntPtr Internal : Public
+    IntPtr InternalHigh : Public
+    UInt32 UnionPointerOffsetLow : Public
+    UInt32 UnionPointerOffsetHigh : Public
+    IntPtr hEvent : Public
+Struct CyUSB.USB_DEVICE_DESCRIPTOR: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    UInt16 bcdUSB : Public
+    Byte bDeviceClass : Public
+    Byte bDeviceSubClass : Public
+    Byte bDeviceProtocol : Public
+    Byte bMaxPacketSize0 : Public
+    UInt16 idVendor : Public
+    UInt16 idProduct : Public
+    UInt16 bcdDevice : Public
+    Byte iManufacturer : Public
+    Byte iProduct : Public
+    Byte iSerialNumber : Public
+    Byte bNumConfigurations : Public
+Struct CyUSB.USB_CONFIGURATION_DESCRIPTOR: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    UInt16 wTotalLength : Public
+    Byte bNumInterfaces : Public
+    Byte bConfigurationValue : Public
+    Byte iConfiguration : Public
+    Byte bmAttributes : Public
+    Byte MaxPower : Public
+Struct CyUSB.USB_BOS_DESCRIPTOR: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    UInt16 wToatalLength : Public
+    Byte bNumDeviceCaps : Public
+Struct CyUSB.USB_BOS_USB20_DEVICE_EXTENSION: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    Byte bDevCapabilityType : Public
+    UInt32 bmAttribute : Public
+Struct CyUSB.USB_BOS_SS_DEVICE_CAPABILITY: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    Byte bDevCapabilityType : Public
+    Byte bmAttribute : Public
+    UInt16 wSpeedsSuported : Public
+    Byte bFunctionalitySupporte : Public
+    Byte bU1DevExitLat : Public
+    UInt16 bU2DevExitLat : Public
+Struct CyUSB.USB_BOS_CONTAINER_ID: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    Byte bDevCapabilityType : Public
+    Byte bReserved : Public
+    <ContainerID>e__FixedBuffer0 ContainerID : Public
+Struct CyUSB.USB_BOS_CONTAINER_ID+<ContainerID>e__FixedBuffer0: AutoLayout, AnsiClass, Class, NestedPublic, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte FixedElementField : Public
+Struct CyUSB.USB_INTERFACE_DESCRIPTOR: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte bLength : Public
+    Byte bDescriptorType : Public
+    Byte bInterfaceNumber : Public
+    Byte bAlternateSetting : Public
+    Byte bNumEndpoints : Public
+    Byte bInterfaceClass : Public
+    Byte bInterfaceSubClass : Public
+    Byte bInterfaceProtocol : Public
+    Byte iInterface : Public
+Struct CyUSB.ISO_PKT_INFO: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    UInt32 Status : Public
+    UInt32 Length : Public
+Struct CyUSB.HIDD_ATTRIBUTES: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    UInt32 size : Public
+    UInt16 VendorID : Public
+    UInt16 ProductID : Public
+    UInt16 VersionNumber : Public
+Struct CyUSB.HIDP_CAPS: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    UInt16 Usage : Public
+    UInt16 UsagePage : Public
+    UInt16 InputReportByteLength : Public
+    UInt16 OutputReportByteLength : Public
+    UInt16 FeatureReportByteLength : Public
+    UInt16 R0 : Public
+    UInt16 R1 : Public
+    UInt16 R2 : Public
+    UInt16 R3 : Public
+    UInt16 R4 : Public
+    UInt16 R5 : Public
+    UInt16 R6 : Public
+    UInt16 R7 : Public
+    UInt16 R8 : Public
+    UInt16 R9 : Public
+    UInt16 R10 : Public
+    UInt16 R11 : Public
+    UInt16 R12 : Public
+    UInt16 R13 : Public
+    UInt16 R14 : Public
+    UInt16 R15 : Public
+    UInt16 R16 : Public
+    UInt16 NumberLinkCollectionNodes : Public
+    UInt16 NumberInputButtonCaps : Public
+    UInt16 NumberInputValueCaps : Public
+    UInt16 NumberInputDataIndices : Public
+    UInt16 NumberOutputButtonCaps : Public
+    UInt16 NumberOutputValueCaps : Public
+    UInt16 NumberOutputDataIndices : Public
+    UInt16 NumberFeatureButtonCaps : Public
+    UInt16 NumberFeatureValueCaps : Public
+    UInt16 NumberFeatureDataIndices : Public
+Struct CyUSB.HIDP_BTN_VAL_CAPS: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    UInt16 UsagePage : Public
+    Byte ReportID : Public
+    Byte IsAlias : Public
+    UInt16 BitField : Public
+    UInt16 LinkCollection : Public
+    UInt16 LinkUsage : Public
+    UInt16 LinkUsagePage : Public
+    Byte IsRange : Public
+    Byte IsStringRange : Public
+    Byte IsDesignatorRange : Public
+    Byte IsAbsolute : Public
+    Byte HasNull : Public
+    Byte Reserved : Public
+    UInt16 BitSize : Public
+    UInt16 ReportCount : Public
+    UInt16 R0 : Public
+    UInt16 R1 : Public
+    UInt16 R2 : Public
+    UInt16 R3 : Public
+    UInt16 R4 : Public
+    UInt32 UnitsExp : Public
+    UInt32 Units : Public
+    Int32 LogicalMin : Public
+    Int32 LogicalMax : Public
+    Int32 PhysicalMin : Public
+    Int32 PhysicalMax : Public
+    UInt16 Usage : Public
+    UInt16 UsageMax : Public
+    UInt16 StringIndex : Public
+    UInt16 StringMax : Public
+    UInt16 DesignatorIndex : Public
+    UInt16 DesignatorMax : Public
+    UInt16 DataIndex : Public
+    UInt16 DataIndexMax : Public
+Struct CyUSB.HID_DATA: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, BeforeFieldInit
+  :System.ValueType
+  Fields:
+    Byte IsButtonData : Public
+    Byte Reserved : Public
+    UInt16 UsagePage : Public
+    UInt32 Status : Public
+    UInt32 ReportID : Public
+    Byte IsDataSet : Public
+    UInt16 Usage : Public
+    UInt32 Value : Public
+    UInt32 UsageMin : Public
+    UInt16 UsageMax : Public
+    UInt32 MaxUsageLength : Public
+    UInt16[] Usages : Public
+Struct CyUSB.HIDP_REPORT_TYPE: AutoLayout, AnsiClass, Class, Public, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    CyUSB.HIDP_REPORT_TYPE HidP_Input = 0 : Public, Static, Literal, HasDefault
+    CyUSB.HIDP_REPORT_TYPE HidP_Output = 1 : Public, Static, Literal, HasDefault
+    CyUSB.HIDP_REPORT_TYPE HidP_Feature = 2 : Public, Static, Literal, HasDefault
+Struct CyUSB.XMODE: AutoLayout, AnsiClass, Class, Public, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    CyUSB.XMODE DIRECT = 0 : Public, Static, Literal, HasDefault
+    CyUSB.XMODE BUFFERED = 1 : Public, Static, Literal, HasDefault
+Struct CyUSB.FX3_FWDWNLOAD_MEDIA_TYPE: AutoLayout, AnsiClass, Class, Public, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    CyUSB.FX3_FWDWNLOAD_MEDIA_TYPE RAM = 1 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_MEDIA_TYPE I2CE2PROM = 2 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_MEDIA_TYPE SPIFLASH = 3 : Public, Static, Literal, HasDefault
+Struct CyUSB.FX3_FWDWNLOAD_ERROR_CODE: AutoLayout, AnsiClass, Class, Public, Sealed
+  :System.Enum
+  Fields:
+    Int32 value__ : Public, SpecialName, RTSpecialName
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE SUCCESS = 0 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE FAILED = 1 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE INVALID_MEDIA_TYPE = 2 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE INVALID_FWSIGNATURE = 3 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE DEVICE_CREATE_FAILED = 4 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE INCORRECT_IMAGE_LENGTH = 5 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE INVALID_FILE = 6 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE SPILASH_ERASE_FAILED = 7 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE CORRUPT_FIRMWARE_IMAGE_FILE = 8 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE EXCEED_IMAGE_LENGTH = 9 : Public, Static, Literal, HasDefault
+    CyUSB.FX3_FWDWNLOAD_ERROR_CODE I2CE2PROM_UNKNOWN_I2C_SIZE = 10 : Public, Static, Literal, HasDefault
+Class CyUSB.CyConst: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Fields:
+    IntPtr INVALID_HANDLE : Public, Static
+    Int32 OverlapSignalAllocSize : Public, Static
+    IntPtr DBT_DEVICEARRIVAL : Public, Static
+    IntPtr DBT_DEVICEREMOVECOMPLETE : Public, Static
+    Byte TGT_DEVICE = 0 : Public, Static, Literal, HasDefault
+    Byte TGT_INTFC = 1 : Public, Static, Literal, HasDefault
+    Byte TGT_ENDPT = 2 : Public, Static, Literal, HasDefault
+    Byte TGT_OTHER = 3 : Public, Static, Literal, HasDefault
+    Byte REQ_STD = 0 : Public, Static, Literal, HasDefault
+    Byte REQ_CLASS = 32 : Public, Static, Literal, HasDefault
+    Byte REQ_VENDOR = 64 : Public, Static, Literal, HasDefault
+    Byte DIR_TO_DEVICE = 0 : Public, Static, Literal, HasDefault
+    Byte DIR_FROM_DEVICE = 128 : Public, Static, Literal, HasDefault
+    Byte DEVICES_CYUSB = 1 : Public, Static, Literal, HasDefault
+    Byte DEVICES_MSC = 2 : Public, Static, Literal, HasDefault
+    Byte DEVICES_HID = 4 : Public, Static, Literal, HasDefault
+    UInt32 INFINITE = 4294967295 : Public, Static, Literal, HasDefault
+    Byte SINGLE_XFER_LEN = 38 : Public, Static, Literal, HasDefault
+  Methods:
+    SetCustomerGUID(String, String): PrivateScope, Public, Static, HideBySig
+    SetClassGuid(String): PrivateScope, Public, Static, HideBySig
+Class CyUSB.App_PnP_Callback: AutoLayout, AnsiClass, Class, Public, Sealed
+  :System.MulticastDelegate
+    Void .ctor(System.Object, IntPtr): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    Invoke(IntPtr, IntPtr): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    BeginInvoke(IntPtr, IntPtr, AsyncCallback, Object): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    EndInvoke(IAsyncResult): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+Class CyUSB.CyUSBEndPoint: AutoLayout, AnsiClass, Class, Public, Abstract, BeforeFieldInit
+  Fields:
+    CyUSB.XMODE _xferMode : Public
+  Properties:
+    IntPtr hDevice 'get ' : 
+    Byte DscLen 'get ' : 
+    Byte DscType 'get ' : 
+    Byte Address 'get ' : 
+    Byte Attributes 'get ' : 
+    Int32 MaxPktSize 'get ' : 
+    Byte Interval 'get ' : 
+    Byte SSDscLen 'get ' : 
+    Byte SSDscType 'get ' : 
+    Byte SSMaxBurst 'get ' : 
+    Byte SSBmAttribute 'get ' : 
+    UInt16 SSBytePerInterval 'get ' : 
+    UInt32 TimeOut 'get set' : 
+    UInt32 UsbdStatus 'get ' : 
+    UInt32 NtStatus 'get ' : 
+    UInt32 BytesWritten 'get ' : 
+    UInt32 LastError 'get ' : 
+    Boolean bIn 'get ' : 
+    Int32 OverlapSignalAllocSize 'get ' : 
+    CyUSB.XMODE XferMode 'get set' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+    Int32 XferSize 'get set' : 
+  Methods:
+    get_hDevice(): PrivateScope, Public, HideBySig, SpecialName
+    get_DscLen(): PrivateScope, Public, HideBySig, SpecialName
+    get_DscType(): PrivateScope, Public, HideBySig, SpecialName
+    get_Address(): PrivateScope, Public, HideBySig, SpecialName
+    get_Attributes(): PrivateScope, Public, HideBySig, SpecialName
+    get_MaxPktSize(): PrivateScope, Public, HideBySig, SpecialName
+    get_Interval(): PrivateScope, Public, HideBySig, SpecialName
+    get_SSDscLen(): PrivateScope, Public, HideBySig, SpecialName
+    get_SSDscType(): PrivateScope, Public, HideBySig, SpecialName
+    get_SSMaxBurst(): PrivateScope, Public, HideBySig, SpecialName
+    get_SSBmAttribute(): PrivateScope, Public, HideBySig, SpecialName
+    get_SSBytePerInterval(): PrivateScope, Public, HideBySig, SpecialName
+    get_TimeOut(): PrivateScope, Public, HideBySig, SpecialName
+    set_TimeOut(UInt32): PrivateScope, Public, HideBySig, SpecialName
+    get_UsbdStatus(): PrivateScope, Public, HideBySig, SpecialName
+    get_NtStatus(): PrivateScope, Public, HideBySig, SpecialName
+    get_BytesWritten(): PrivateScope, Public, HideBySig, SpecialName
+    get_LastError(): PrivateScope, Public, HideBySig, SpecialName
+    get_bIn(): PrivateScope, Public, HideBySig, SpecialName
+    get_OverlapSignalAllocSize(): PrivateScope, Public, HideBySig, SpecialName
+    get_XferMode(): PrivateScope, Public, HideBySig, SpecialName
+    set_XferMode(XMODE): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+    XferData(Byte[]&, Int32&, Boolean): PrivateScope, Public, HideBySig
+    XferData(Byte[]&, Int32&): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    BeginDataXfer(Byte[]&, Byte[]&, Int32&, Byte[]&): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    FinishDataXfer(Byte[]&, Byte[]&, Int32&, Byte[]&): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    WaitForXfer(IntPtr, UInt32): PrivateScope, Public, HideBySig
+    get_XferSize(): PrivateScope, Public, HideBySig, SpecialName
+    set_XferSize(Int32): PrivateScope, Public, HideBySig, SpecialName
+    Reset(): PrivateScope, Public, HideBySig
+    Abort(): PrivateScope, Public, HideBySig
+Class CyUSB.CyControlEndPoint: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyUSBEndPoint
+  Properties:
+    Byte Target 'get set' : 
+    Byte ReqType 'get set' : 
+    Byte Direction 'get set' : 
+    Byte ReqCode 'get set' : 
+    UInt16 Value 'get set' : 
+    UInt16 Index 'get set' : 
+  Methods:
+    get_Target(): PrivateScope, Public, HideBySig, SpecialName
+    set_Target(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_ReqType(): PrivateScope, Public, HideBySig, SpecialName
+    set_ReqType(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_Direction(): PrivateScope, Public, HideBySig, SpecialName
+    set_Direction(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_ReqCode(): PrivateScope, Public, HideBySig, SpecialName
+    set_ReqCode(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_Value(): PrivateScope, Public, HideBySig, SpecialName
+    set_Value(UInt16): PrivateScope, Public, HideBySig, SpecialName
+    get_Index(): PrivateScope, Public, HideBySig, SpecialName
+    set_Index(UInt16): PrivateScope, Public, HideBySig, SpecialName
+    Read(Byte[]&, Int32&): PrivateScope, Public, HideBySig
+    Write(Byte[]&, Int32&): PrivateScope, Public, HideBySig
+    XferData(Byte[]&, Int32&): PrivateScope, Public, HideBySig
+Class CyUSB.CyIsocEndPoint: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyUSBEndPoint
+  Methods:
+    GetPktBlockSize(Int32): PrivateScope, Public, HideBySig
+    GetPktCount(Int32): PrivateScope, Public, HideBySig
+    XferData(Byte[]&, Int32&): PrivateScope, Public, Virtual, HideBySig
+    XferData(Byte[]&, Int32&, ISO_PKT_INFO[]&): PrivateScope, Public, HideBySig
+    BeginDataXfer(Byte[]&, Byte[]&, Int32&, Byte[]&): PrivateScope, Public, Virtual, HideBySig
+    FinishDataXfer(Byte[]&, Byte[]&, Int32&, Byte[]&, ISO_PKT_INFO[]&): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+Class CyUSB.CyBulkEndPoint: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyUSBEndPoint
+Class CyUSB.CyInterruptEndPoint: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyUSBEndPoint
+Class CyUSB.USBDevice: AutoLayout, AnsiClass, Class, Public, Abstract, BeforeFieldInit
+  Interfaces:
+    System.IDisposable
+  Fields:
+    System.String _path : Public
+  Properties:
+    System.String Name 'get ' : 
+    System.String FriendlyName 'get ' : 
+    System.String Manufacturer 'get ' : 
+    System.String Product 'get ' : 
+    System.String SerialNumber 'get ' : 
+    UInt16 VendorID 'get ' : 
+    UInt16 ProductID 'get ' : 
+    System.String Path 'get ' : 
+    Byte USBAddress 'get ' : 
+    UInt16 BcdUSB 'get ' : 
+    Byte DevClass 'get ' : 
+    Byte DevSubClass 'get ' : 
+    Byte DevProtocol 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+    System.String DriverName 'get ' : 
+  Methods:
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask
+    Equals(Object): PrivateScope, Public, Virtual, HideBySig
+    GetHashCode(): PrivateScope, Public, Virtual, HideBySig
+    get_Name(): PrivateScope, Public, HideBySig, SpecialName
+    get_FriendlyName(): PrivateScope, Public, HideBySig, SpecialName
+    get_Manufacturer(): PrivateScope, Public, HideBySig, SpecialName
+    get_Product(): PrivateScope, Public, HideBySig, SpecialName
+    get_SerialNumber(): PrivateScope, Public, HideBySig, SpecialName
+    get_VendorID(): PrivateScope, Public, HideBySig, SpecialName
+    get_ProductID(): PrivateScope, Public, HideBySig, SpecialName
+    get_Path(): PrivateScope, Public, HideBySig, SpecialName
+    get_USBAddress(): PrivateScope, Public, HideBySig, SpecialName
+    get_BcdUSB(): PrivateScope, Public, HideBySig, SpecialName
+    get_DevClass(): PrivateScope, Public, HideBySig, SpecialName
+    get_DevSubClass(): PrivateScope, Public, HideBySig, SpecialName
+    get_DevProtocol(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_DriverName(): PrivateScope, Public, HideBySig, SpecialName
+Class CyUSB.CyUSBDevice: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.USBDevice
+  Fields:
+    CyUSB.CyUSBConfig[] USBCfgs : Public
+    CyUSB.CyUSBBOS USBBos : Public
+    CyUSB.CyUSBEndPoint[] EndPoints : Public
+    CyUSB.CyControlEndPoint ControlEndPt : Public
+    CyUSB.CyIsocEndPoint IsocInEndPt : Public
+    CyUSB.CyIsocEndPoint IsocOutEndPt : Public
+    CyUSB.CyBulkEndPoint BulkInEndPt : Public
+    CyUSB.CyBulkEndPoint BulkOutEndPt : Public
+    CyUSB.CyInterruptEndPoint InterruptInEndPt : Public
+    CyUSB.CyInterruptEndPoint InterruptOutEndPt : Public
+  Properties:
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+    Boolean IsFX2Device 'get ' : 
+    UInt16 StrLangID 'get ' : 
+    UInt32 DriverVersion 'get ' : 
+    UInt32 USBDIVersion 'get ' : 
+    Int32 MaxPacketSize 'get ' : 
+    UInt16 BcdDevice 'get ' : 
+    Byte ConfigValue 'get ' : 
+    Byte ConfigAttrib 'get ' : 
+    Byte MaxPower 'get ' : 
+    Byte IntfcClass 'get ' : 
+    Byte IntfcSubClass 'get ' : 
+    Byte IntfcProtocol 'get ' : 
+    Boolean bSuperSpeed 'get ' : 
+    Boolean bHighSpeed 'get ' : 
+    Byte ConfigCount 'get ' : 
+    Byte IntfcCount 'get ' : 
+    Byte AltIntfcCount 'get ' : 
+    Byte AltIntfc 'get set' : 
+    Byte EndPointCount 'get ' : 
+    Byte Config 'get set' : 
+    IntPtr DeviceHandle 'get ' : 
+  Methods:
+    get_Tree(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+    get_IsFX2Device(): PrivateScope, Public, HideBySig, SpecialName
+    get_StrLangID(): PrivateScope, Public, HideBySig, SpecialName
+    get_DriverVersion(): PrivateScope, Public, HideBySig, SpecialName
+    get_USBDIVersion(): PrivateScope, Public, HideBySig, SpecialName
+    get_MaxPacketSize(): PrivateScope, Public, HideBySig, SpecialName
+    get_BcdDevice(): PrivateScope, Public, HideBySig, SpecialName
+    get_ConfigValue(): PrivateScope, Public, HideBySig, SpecialName
+    get_ConfigAttrib(): PrivateScope, Public, HideBySig, SpecialName
+    get_MaxPower(): PrivateScope, Public, HideBySig, SpecialName
+    get_IntfcClass(): PrivateScope, Public, HideBySig, SpecialName
+    get_IntfcSubClass(): PrivateScope, Public, HideBySig, SpecialName
+    get_IntfcProtocol(): PrivateScope, Public, HideBySig, SpecialName
+    get_bSuperSpeed(): PrivateScope, Public, HideBySig, SpecialName
+    get_bHighSpeed(): PrivateScope, Public, HideBySig, SpecialName
+    get_ConfigCount(): PrivateScope, Public, HideBySig, SpecialName
+    get_IntfcCount(): PrivateScope, Public, HideBySig, SpecialName
+    get_AltIntfcCount(): PrivateScope, Public, HideBySig, SpecialName
+    get_AltIntfc(): PrivateScope, Public, HideBySig, SpecialName
+    set_AltIntfc(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_EndPointCount(): PrivateScope, Public, HideBySig, SpecialName
+    get_Config(): PrivateScope, Public, HideBySig, SpecialName
+    set_Config(Byte): PrivateScope, Public, HideBySig, SpecialName
+    get_DeviceHandle(): PrivateScope, Public, HideBySig, SpecialName
+    UsbdStatusString(UInt32): PrivateScope, Public, Static, HideBySig
+    EndPointOf(Byte): PrivateScope, Public, HideBySig
+    Reset(): PrivateScope, Public, HideBySig
+    ReConnect(): PrivateScope, Public, HideBySig
+    GetBosDescriptor(USB_BOS_DESCRIPTOR&): PrivateScope, Public, HideBySig
+    GetBosUSB20DeviceExtensionDescriptor(USB_BOS_USB20_DEVICE_EXTENSION&): PrivateScope, Public, HideBySig
+    GetBosContainedIDDescriptor(USB_BOS_CONTAINER_ID&): PrivateScope, Public, HideBySig
+    GetBosSSCapabilityDescriptor(USB_BOS_SS_DEVICE_CAPABILITY&): PrivateScope, Public, HideBySig
+    GetDeviceDescriptor(USB_DEVICE_DESCRIPTOR&): PrivateScope, Public, HideBySig
+    GetConfigDescriptor(USB_CONFIGURATION_DESCRIPTOR&): PrivateScope, Public, HideBySig
+    GetIntfcDescriptor(USB_INTERFACE_DESCRIPTOR&): PrivateScope, Public, HideBySig
+    CheckDeviceTypeFX3FX2(): PrivateScope, Public, HideBySig
+Class CyUSB.CyFX2Device: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyUSBDevice
+  Fields:
+    Boolean m_bRecording : Public
+    Byte m_ConfigNum : Public
+    Byte m_IntfcNum : Public
+    Byte m_AltIntfc : Public
+  Properties:
+    System.String Vend_AX 'get set' : 
+  Methods:
+    ScriptFileForDwld(FileStream): PrivateScope, Public, HideBySig
+    SetRecordingFlag(Boolean, Byte, Byte, Byte): PrivateScope, Public, HideBySig
+    IsRecordingFlagSet(): PrivateScope, Public, HideBySig
+    get_Vend_AX(): PrivateScope, Public, HideBySig, SpecialName
+    set_Vend_AX(String): PrivateScope, Public, HideBySig, SpecialName
+    LoadEEPROM(String): PrivateScope, Public, HideBySig
+    LoadEEPROM(String, Boolean): PrivateScope, Public, HideBySig
+    LoadExternalRam(String): PrivateScope, Public, HideBySig
+    LoadRAM(String): PrivateScope, Public, HideBySig
+    Reset(Int32): PrivateScope, Public, HideBySig
+Class CyUSB.CyFX3Device: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyUSBDevice
+  Fields:
+    Boolean m_bRecording : Public
+    Byte m_ConfigNum : Public
+    Byte m_IntfcNum : Public
+    Byte m_AltIntfc : Public
+  Methods:
+    ScriptFileForDwld(FileStream): PrivateScope, Public, HideBySig
+    SetRecordingFlag(Boolean, Byte, Byte, Byte): PrivateScope, Public, HideBySig
+    IsRecordingFlagSet(): PrivateScope, Public, HideBySig
+    IsBootLoaderRunning(): PrivateScope, Public, HideBySig
+    GetFwErrorString(FX3_FWDWNLOAD_ERROR_CODE): PrivateScope, Public, HideBySig
+    DownloadFw(String, FX3_FWDWNLOAD_MEDIA_TYPE): PrivateScope, Public, HideBySig
+Class CyUSB.CyHidDevice: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.USBDevice
+  Properties:
+    CyUSB.HIDP_CAPS Capabilities 'get ' : 
+    UInt16 Usage 'get ' : 
+    UInt16 UsagePage 'get ' : 
+    UInt16 Version 'get ' : 
+    CyUSB.CyHidReport Inputs 'get ' : 
+    CyUSB.CyHidReport Outputs 'get ' : 
+    CyUSB.CyHidReport Features 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+    Boolean RwAccessible 'get ' : 
+  Methods:
+    get_Capabilities(): PrivateScope, Public, HideBySig, SpecialName
+    get_Usage(): PrivateScope, Public, HideBySig, SpecialName
+    get_UsagePage(): PrivateScope, Public, HideBySig, SpecialName
+    get_Version(): PrivateScope, Public, HideBySig, SpecialName
+    get_Inputs(): PrivateScope, Public, HideBySig, SpecialName
+    get_Outputs(): PrivateScope, Public, HideBySig, SpecialName
+    get_Features(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+    get_RwAccessible(): PrivateScope, Public, HideBySig, SpecialName
+    GetFeature(Int32): PrivateScope, Public, HideBySig
+    SetFeature(Int32): PrivateScope, Public, HideBySig
+    GetInput(Int32): PrivateScope, Public, HideBySig
+    SetOutput(Int32): PrivateScope, Public, HideBySig
+    WriteOutput(): PrivateScope, Public, HideBySig
+    ReadInput(): PrivateScope, Public, HideBySig
+Class CyUSB.CyHidReport: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Fields:
+    CyUSB.CyHidButton[] Buttons : Public
+    CyUSB.CyHidValue[] Values : Public
+    Byte[] DataBuf : Public
+  Properties:
+    Byte ID    'get ' : 
+    Int32 RptByteLen 'get ' : 
+    Int32 NumBtnCaps 'get ' : 
+    Int32 NumValCaps 'get ' : 
+    Int32 NumValues 'get ' : 
+    Int32 NumItems 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_ID(): PrivateScope, Public, HideBySig, SpecialName
+    get_RptByteLen(): PrivateScope, Public, HideBySig, SpecialName
+    get_NumBtnCaps(): PrivateScope, Public, HideBySig, SpecialName
+    get_NumValCaps(): PrivateScope, Public, HideBySig, SpecialName
+    get_NumValues(): PrivateScope, Public, HideBySig, SpecialName
+    get_NumItems(): PrivateScope, Public, HideBySig, SpecialName
+    Clear(): PrivateScope, Public, HideBySig
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyHidButton: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(CyUSB.HIDP_BTN_VAL_CAPS): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    UInt16 ReportID 'get ' : 
+    UInt16 BitField 'get ' : 
+    UInt16 LinkUsage 'get ' : 
+    UInt16 LinkUsagePage 'get ' : 
+    UInt16 LinkCollection 'get ' : 
+    UInt16 DataIndex 'get ' : 
+    UInt16 DataIndexMax 'get ' : 
+    UInt16 StringIndex 'get ' : 
+    UInt16 StringMax 'get ' : 
+    UInt16 DesignatorIndex 'get ' : 
+    UInt16 DesignatorIndexMax 'get ' : 
+    UInt16 Usage 'get ' : 
+    UInt16 UsagePage 'get ' : 
+    UInt16 UsageMax 'get ' : 
+    Boolean IsAlias 'get ' : 
+    Boolean IsRange 'get ' : 
+    Boolean IsStringRange 'get ' : 
+    Boolean IsDesignatorRange 'get ' : 
+    Boolean IsAbsolute 'get ' : 
+  Methods:
+    get_ReportID(): PrivateScope, Public, HideBySig, SpecialName
+    get_BitField(): PrivateScope, Public, HideBySig, SpecialName
+    get_LinkUsage(): PrivateScope, Public, HideBySig, SpecialName
+    get_LinkUsagePage(): PrivateScope, Public, HideBySig, SpecialName
+    get_LinkCollection(): PrivateScope, Public, HideBySig, SpecialName
+    get_DataIndex(): PrivateScope, Public, HideBySig, SpecialName
+    get_DataIndexMax(): PrivateScope, Public, HideBySig, SpecialName
+    get_StringIndex(): PrivateScope, Public, HideBySig, SpecialName
+    get_StringMax(): PrivateScope, Public, HideBySig, SpecialName
+    get_DesignatorIndex(): PrivateScope, Public, HideBySig, SpecialName
+    get_DesignatorIndexMax(): PrivateScope, Public, HideBySig, SpecialName
+    get_Usage(): PrivateScope, Public, HideBySig, SpecialName
+    get_UsagePage(): PrivateScope, Public, HideBySig, SpecialName
+    get_UsageMax(): PrivateScope, Public, HideBySig, SpecialName
+    get_IsAlias(): PrivateScope, Public, HideBySig, SpecialName
+    get_IsRange(): PrivateScope, Public, HideBySig, SpecialName
+    get_IsStringRange(): PrivateScope, Public, HideBySig, SpecialName
+    get_IsDesignatorRange(): PrivateScope, Public, HideBySig, SpecialName
+    get_IsAbsolute(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyHidValue: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.CyHidButton
+    Void .ctor(CyUSB.HIDP_BTN_VAL_CAPS): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    UInt16 BitSize 'get ' : 
+    Boolean HasNull 'get ' : 
+    UInt32 Units 'get ' : 
+    UInt32 UnitsExp 'get ' : 
+    Int32 LogicalMin 'get ' : 
+    Int32 LogicalMax 'get ' : 
+    Int32 PhysicalMin 'get ' : 
+    Int32 PhysicalMax 'get ' : 
+  Methods:
+    get_BitSize(): PrivateScope, Public, HideBySig, SpecialName
+    get_HasNull(): PrivateScope, Public, HideBySig, SpecialName
+    get_Units(): PrivateScope, Public, HideBySig, SpecialName
+    get_UnitsExp(): PrivateScope, Public, HideBySig, SpecialName
+    get_LogicalMin(): PrivateScope, Public, HideBySig, SpecialName
+    get_LogicalMax(): PrivateScope, Public, HideBySig, SpecialName
+    get_PhysicalMin(): PrivateScope, Public, HideBySig, SpecialName
+    get_PhysicalMax(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.TTransaction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    UInt32 Signature : Public
+    UInt32 RecordSize : Public
+    UInt16 HeaderSize : Public
+    Byte Tag : Public
+    Byte ConfigNum : Public
+    Byte IntfcNum : Public
+    Byte AltIntfc : Public
+    Byte EndPtAddr : Public
+    Byte bReqType : Public
+    Byte CtlReqCode : Public
+    Byte reserved0 : Public
+    UInt16 wValue : Public
+    UInt16 wIndex : Public
+    Byte reserved1 : Public
+    Byte reserved2 : Public
+    UInt32 Timeout : Public
+    UInt32 DataLen : Public
+    Byte ReqType_DIR_MASK = 128 : Public, Static, Literal, HasDefault
+    Byte ReqType_TYPE_MASK = 96 : Public, Static, Literal, HasDefault
+    Byte ReqType_TGT_MASK = 3 : Public, Static, Literal, HasDefault
+    Byte TotalHeaderSize = 32 : Public, Static, Literal, HasDefault
+  Methods:
+    WriteToStream(FileStream): PrivateScope, Public, HideBySig
+    ReadFromStream(FileStream): PrivateScope, Public, HideBySig
+    ReadToBuffer(FileStream, Byte[]&, Int32&): PrivateScope, Public, HideBySig
+    WriteFromBuffer(FileStream, Byte[]&, Int32&): PrivateScope, Public, HideBySig
+Class CyUSB.CyUSBBOS: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Fields:
+    CyUSB.CyBOS_USB20_DEVICE_EXT USB20_DeviceExt : Public
+    CyUSB.CyBOS_SS_DEVICE_CAPABILITY SS_DeviceCap : Public
+    CyUSB.CyBOS_CONTAINER_ID Container_ID : Public
+  Properties:
+    Byte Lenght 'get ' : 
+    Byte DescriptorType 'get ' : 
+    UInt16 ToatalLength 'get ' : 
+    Byte NumDeviceCaps 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_Lenght(): PrivateScope, Public, HideBySig, SpecialName
+    get_DescriptorType(): PrivateScope, Public, HideBySig, SpecialName
+    get_ToatalLength(): PrivateScope, Public, HideBySig, SpecialName
+    get_NumDeviceCaps(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.InvalidDeviceCapability: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyBOS_USB20_DEVICE_EXT: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Properties:
+    Byte Lenght 'get ' : 
+    Byte DescriptorType 'get ' : 
+    Byte DevCapabilityType 'get ' : 
+    UInt32 bmAttribute 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_Lenght(): PrivateScope, Public, HideBySig, SpecialName
+    get_DescriptorType(): PrivateScope, Public, HideBySig, SpecialName
+    get_DevCapabilityType(): PrivateScope, Public, HideBySig, SpecialName
+    get_bmAttribute(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyBOS_SS_DEVICE_CAPABILITY: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Properties:
+    Byte Lenght 'get ' : 
+    Byte DescriptorType 'get ' : 
+    Byte DevCapabilityType 'get ' : 
+    Byte bmAttribute 'get ' : 
+    UInt16 SpeedsSuported 'get ' : 
+    Byte FunctionalitySupporte 'get ' : 
+    Byte U1DevExitLat 'get ' : 
+    UInt16 U2DevExitLat 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_Lenght(): PrivateScope, Public, HideBySig, SpecialName
+    get_DescriptorType(): PrivateScope, Public, HideBySig, SpecialName
+    get_DevCapabilityType(): PrivateScope, Public, HideBySig, SpecialName
+    get_bmAttribute(): PrivateScope, Public, HideBySig, SpecialName
+    get_SpeedsSuported(): PrivateScope, Public, HideBySig, SpecialName
+    get_FunctionalitySupporte(): PrivateScope, Public, HideBySig, SpecialName
+    get_U1DevExitLat(): PrivateScope, Public, HideBySig, SpecialName
+    get_U2DevExitLat(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyBOS_CONTAINER_ID: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Properties:
+    Byte Lenght 'get ' : 
+    Byte DescriptorType 'get ' : 
+    Byte DevCapabilityType 'get ' : 
+    Byte Reserved 'get ' : 
+    Byte[] ContainerID 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_Lenght(): PrivateScope, Public, HideBySig, SpecialName
+    get_DescriptorType(): PrivateScope, Public, HideBySig, SpecialName
+    get_DevCapabilityType(): PrivateScope, Public, HideBySig, SpecialName
+    get_Reserved(): PrivateScope, Public, HideBySig, SpecialName
+    get_ContainerID(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyUSBConfig: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Fields:
+    CyUSB.CyUSBInterface[] Interfaces : Public
+  Properties:
+    Byte bLength 'get ' : 
+    Byte bDescriptorType 'get ' : 
+    UInt16 wTotalLength 'get ' : 
+    Byte bNumInterfaces 'get ' : 
+    Byte bConfigurationValue 'get ' : 
+    Byte iConfiguration 'get ' : 
+    Byte bmAttributes 'get ' : 
+    Byte MaxPower 'get ' : 
+    Byte AltInterfaces 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_bLength(): PrivateScope, Public, HideBySig, SpecialName
+    get_bDescriptorType(): PrivateScope, Public, HideBySig, SpecialName
+    get_wTotalLength(): PrivateScope, Public, HideBySig, SpecialName
+    get_bNumInterfaces(): PrivateScope, Public, HideBySig, SpecialName
+    get_bConfigurationValue(): PrivateScope, Public, HideBySig, SpecialName
+    get_iConfiguration(): PrivateScope, Public, HideBySig, SpecialName
+    get_bmAttributes(): PrivateScope, Public, HideBySig, SpecialName
+    get_MaxPower(): PrivateScope, Public, HideBySig, SpecialName
+    get_AltInterfaces(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyUSBInterfaceContainer: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Byte, Byte): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    CyUSB.CyUSBInterface[] Interfaces : Public
+  Properties:
+    Byte bInterfaceNumber 'get ' : 
+    Byte AltInterfacesCount 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_bInterfaceNumber(): PrivateScope, Public, HideBySig, SpecialName
+    get_AltInterfacesCount(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyUSBInterface: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  Fields:
+    CyUSB.CyUSBEndPoint[] EndPoints : Public
+  Properties:
+    Byte bLength 'get ' : 
+    Byte bDescriptorType 'get ' : 
+    Byte bInterfaceNumber 'get ' : 
+    Byte bAlternateSetting 'get ' : 
+    Byte bNumEndpoints 'get ' : 
+    Byte bInterfaceClass 'get ' : 
+    Byte bInterfaceSubClass 'get ' : 
+    Byte bInterfaceProtocol 'get ' : 
+    Byte iInterface 'get ' : 
+    Byte bAltSettings 'get ' : 
+    UInt16 wTotalLength 'get ' : 
+    System.Windows.Forms.TreeNode Tree 'get ' : 
+  Methods:
+    get_bLength(): PrivateScope, Public, HideBySig, SpecialName
+    get_bDescriptorType(): PrivateScope, Public, HideBySig, SpecialName
+    get_bInterfaceNumber(): PrivateScope, Public, HideBySig, SpecialName
+    get_bAlternateSetting(): PrivateScope, Public, HideBySig, SpecialName
+    get_bNumEndpoints(): PrivateScope, Public, HideBySig, SpecialName
+    get_bInterfaceClass(): PrivateScope, Public, HideBySig, SpecialName
+    get_bInterfaceSubClass(): PrivateScope, Public, HideBySig, SpecialName
+    get_bInterfaceProtocol(): PrivateScope, Public, HideBySig, SpecialName
+    get_iInterface(): PrivateScope, Public, HideBySig, SpecialName
+    get_bAltSettings(): PrivateScope, Public, HideBySig, SpecialName
+    get_wTotalLength(): PrivateScope, Public, HideBySig, SpecialName
+    get_Tree(): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+Class CyUSB.CyUSBStorDevice: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :CyUSB.USBDevice
+  Properties:
+    Int32 BlockSize 'get ' : 
+    UInt32 TimeOut 'get set' : 
+  Methods:
+    get_BlockSize(): PrivateScope, Public, HideBySig, SpecialName
+    get_TimeOut(): PrivateScope, Public, HideBySig, SpecialName
+    set_TimeOut(UInt32): PrivateScope, Public, HideBySig, SpecialName
+    ToString(): PrivateScope, Public, Virtual, HideBySig
+    SendScsiCmd(Byte, Byte, Byte, Byte, Int32, Int32, Int32, Byte[]): PrivateScope, Public, HideBySig
+Class CyUSB.PInvoke: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Methods:
+    CreateEvent(UInt32(In), UInt32(In), UInt32(In), UInt32(In)): PrivateScope, Public, Static, HideBySig, PinvokeImpl
+    WaitForSingleObject(IntPtr(In), UInt32(In)): PrivateScope, Public, Static, HideBySig, PinvokeImpl
+Class CyUSB.USBDeviceList: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(Byte): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(Byte, CyUSB.App_PnP_Callback): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.IDisposable
+    System.Collections.IEnumerable
+  Properties:
+    CyUSB.USBDevice Item [Int32] 'get set' : 
+    CyUSB.USBDevice Item [System.String] 'get ' : 
+    CyUSB.USBDevice Item [Int32, Int32] 'get ' : 
+    Int32 Count 'get ' : 
+    CyUSB.CyHidDevice Item [Int32, Int32, Int32, Int32] 'get ' : 
+    CyUSB.CyHidDevice Item [System.String, System.String] 'get ' : 
+    CyUSB.CyHidDevice Item [System.String, System.String, Int32, Int32] 'get ' : 
+  Events:
+    System.EventHandler DeviceAttached: 
+    System.EventHandler DeviceRemoved: 
+  Methods:
+    add_DeviceAttached(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_DeviceAttached(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_DeviceRemoved(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_DeviceRemoved(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask
+    GetEnumerator(): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask
+    Remove(IntPtr): PrivateScope, Public, HideBySig
+    Remove(IntPtr, USBEventArgs): PrivateScope, Public, HideBySig
+    DeviceIndex(USBDevice): PrivateScope, Public, HideBySig
+    Add(): PrivateScope, Public, HideBySig
+    get_Item(Int32): PrivateScope, Public, HideBySig, SpecialName
+    set_Item(Int32, USBDevice): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(String): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(Int32, Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Count(): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(String, String): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(String, String, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName
+Class CyUSB.USBEventArgs: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.EventArgs
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    CyUSB.USBDevice Device : Public
+    UInt16 VendorID : Public
+    UInt16 ProductID : Public
+    System.String SerialNum : Public
+    System.String Product : Public
+    System.String Manufacturer : Public
+    System.String FriendlyName : Public
+Class CyUSB.Util: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed, BeforeFieldInit
+  Properties:
+    UInt16 MaxFwSize 'get set' : 
+    System.String Assemblies 'get ' : 
+  Methods:
+    get_MaxFwSize(): PrivateScope, Public, Static, HideBySig, SpecialName
+    set_MaxFwSize(UInt16): PrivateScope, Public, Static, HideBySig, SpecialName
+    ReverseBytes(Byte[], Int32, Int32): PrivateScope, Public, Static, HideBySig
+    ReverseBytes(Byte*, Int32): PrivateScope, Public, Static, HideBySig
+    HexToInt(String): PrivateScope, Public, Static, HideBySig
+    get_Assemblies(): PrivateScope, Public, Static, HideBySig, SpecialName
+    ParseHexFile(String, Byte[], UInt16&, UInt16&): PrivateScope, Public, Static, HideBySig
+    ParseHexData(ArrayList, Byte[], UInt16&, UInt16&): PrivateScope, Public, Static, HideBySig
+    ParseIICFile(String, Byte[], UInt16&, UInt16&): PrivateScope, Public, Static, HideBySig
+    ParseIICData(Byte[], Byte[], UInt16&, UInt16&): PrivateScope, Public, Static, HideBySig
+    byteStr(UInt16): PrivateScope, Public, Static, HideBySig
