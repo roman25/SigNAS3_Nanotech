@@ -125,9 +125,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="signas3nt.cpp" />
+    <ClCompile Include="testplan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="signas3nt.h" />
+    <ClInclude Include="testplan.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CyUSB">
@@ -136,6 +138,11 @@
     <Reference Include="SigNAS3Library">
       <HintPath>..\Debug\SigNAS3Library.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
