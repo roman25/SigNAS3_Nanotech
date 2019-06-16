@@ -7,10 +7,13 @@ using namespace System::IO;
 ref class TestPlan
 {
 public:
-    TestPlan();
+    TestPlan(String^ pathToSettings);
 
-    ArrayList ^getTestPlan(String^ pathToSettings);
+    ArrayList ^getTestPlan();
 
+private:
+
+    String^ m_pathToSettings;
     const double minVcc3V = 2.7;
     const double maxVcc3V = 3.6;
 

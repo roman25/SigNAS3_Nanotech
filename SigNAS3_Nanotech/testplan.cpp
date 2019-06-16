@@ -1,10 +1,10 @@
 #include "testplan.h"
 
-TestPlan::TestPlan()
+TestPlan::TestPlan(String^ pathToSettings) : m_pathToSettings(pathToSettings)
 {
 }
 
-ArrayList ^TestPlan::getTestPlan(String^ pathToSettings)
+ArrayList ^TestPlan::getTestPlan()
 {  
     /*
         Converts input text data with test plan into
@@ -15,10 +15,10 @@ ArrayList ^TestPlan::getTestPlan(String^ pathToSettings)
     ArrayList ^casesTestPlan = gcnew Collections::ArrayList();
 
     // Check file is exists
-    if (File::Exists(pathToSettings))
+    if (File::Exists(m_pathToSettings))
     {
         // Create reader
-        StreamReader ^sr = File::OpenText(pathToSettings);
+        StreamReader ^sr = File::OpenText(m_pathToSettings);
         String ^inputLine = "";
 
         // Read every line in file
