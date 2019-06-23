@@ -92,7 +92,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>Main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -113,7 +113,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>Main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -130,11 +130,15 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="signas3nt.cpp" />
     <ClCompile Include="testplan.cpp" />
+    <ClCompile Include="ui_settings.cpp" />
     <ClCompile Include="ui_signas3nt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="signas3nt.h" />
     <ClInclude Include="testplan.h" />
+    <ClInclude Include="ui_settings.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="ui_signas3nt.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -153,6 +157,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ui_settings.resx">
+      <DependentUpon>ui_settings.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ui_signas3nt.resx">
       <DependentUpon>ui_signas3nt.h</DependentUpon>
     </EmbeddedResource>

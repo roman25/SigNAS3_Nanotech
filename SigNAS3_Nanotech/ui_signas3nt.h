@@ -1,4 +1,5 @@
 #pragma once
+#include "ui_settings.h"
 
 namespace SigNAS3_Nanotech {
 
@@ -35,6 +36,14 @@ namespace SigNAS3_Nanotech {
 
 	private:
         void InitializeComponent();
+
+
+    private: System::Void settingsClick(System::Object^ sender, System::EventArgs^ e)
+    {
+        SigNAS3_Nanotech::ui_settings^ objSettings = gcnew ui_settings();
+        objSettings->ShowDialog();
+    }
+
         System::Windows::Forms::GroupBox^  laneBox;
         System::Windows::Forms::GroupBox^  channelBox;
         System::Windows::Forms::Label^  ln0;
@@ -243,8 +252,138 @@ private: System::Windows::Forms::CheckBox^  checkBox122;
 private: System::Windows::Forms::CheckBox^  checkBox121;
 private: System::Windows::Forms::CheckBox^  checkBox120;
 private: System::Windows::Forms::CheckBox^  checkBox119;
+private: System::Windows::Forms::CheckBox^  cbLn7;
+private: System::Windows::Forms::CheckBox^  cbLn6;
+private: System::Windows::Forms::CheckBox^  cbLn5;
+private: System::Windows::Forms::CheckBox^  cbLn4;
+private: System::Windows::Forms::CheckBox^  cbLn3;
+private: System::Windows::Forms::CheckBox^  cbLn2;
+private: System::Windows::Forms::CheckBox^  cbLn1;
+private: System::Windows::Forms::CheckBox^  cbLn0;
+private: System::Windows::Forms::Label^  lbLn7;
+private: System::Windows::Forms::Label^  lbLn6;
+private: System::Windows::Forms::Label^  lbLn5;
+private: System::Windows::Forms::Label^  lbLn1;
+private: System::Windows::Forms::Label^  lbLn2;
+private: System::Windows::Forms::Label^  lbLn3;
+private: System::Windows::Forms::Label^  lbLn4;
+private: System::Windows::Forms::Label^  lbLn0;
+private: System::Windows::Forms::MenuStrip^  menuStrip1;
+private: System::Windows::Forms::ToolStripMenuItem^  nandSettings;
+
+private: System::Windows::Forms::ToolStripMenuItem^  settings;
+
+
+
+
+
+
 private: System::Windows::Forms::CheckBox^  checkBox118;
 
+
+         void cbLn0Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn0->Checked)
+             {
+                 lbLn0->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn0->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn1Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn1->Checked)
+             {
+                 lbLn1->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn1->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn2Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn2->Checked)
+             {
+                 lbLn2->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn2->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn3Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn3->Checked)
+             {
+                 lbLn3->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn3->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn4Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn4->Checked)
+             {
+                 lbLn4->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn4->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn5Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn5->Checked)
+             {
+                 lbLn5->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn5->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn6Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn6->Checked)
+             {
+                 lbLn6->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn6->BackColor = System::Drawing::Color::Red;
+             }
+         }
+
+         void cbLn7Click(Object^ Sender, EventArgs^ Args)
+         {
+             if (cbLn7->Checked)
+             {
+                 lbLn7->BackColor = System::Drawing::Color::Green;
+
+             }
+             else
+             {
+                 lbLn7->BackColor = System::Drawing::Color::Red;
+             }
+         }
 
 private:
     void checkBox16Click(Object^ Sender, EventArgs^ Args)

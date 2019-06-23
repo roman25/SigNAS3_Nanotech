@@ -9,6 +9,22 @@ SigNAS3_Nanotech::ui_signas3nt::ui_signas3nt()
 void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
 {
     this->laneBox = (gcnew System::Windows::Forms::GroupBox());
+    this->cbLn7 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn6 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn5 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn4 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn3 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn2 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn1 = (gcnew System::Windows::Forms::CheckBox());
+    this->cbLn0 = (gcnew System::Windows::Forms::CheckBox());
+    this->lbLn7 = (gcnew System::Windows::Forms::Label());
+    this->lbLn6 = (gcnew System::Windows::Forms::Label());
+    this->lbLn5 = (gcnew System::Windows::Forms::Label());
+    this->lbLn1 = (gcnew System::Windows::Forms::Label());
+    this->lbLn2 = (gcnew System::Windows::Forms::Label());
+    this->lbLn3 = (gcnew System::Windows::Forms::Label());
+    this->lbLn4 = (gcnew System::Windows::Forms::Label());
+    this->lbLn0 = (gcnew System::Windows::Forms::Label());
     this->channelBox = (gcnew System::Windows::Forms::GroupBox());
     this->checkBox0 = (gcnew System::Windows::Forms::CheckBox());
     this->checkBox179 = (gcnew System::Windows::Forms::CheckBox());
@@ -216,17 +232,191 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->ch8 = (gcnew System::Windows::Forms::Label());
     this->ch7 = (gcnew System::Windows::Forms::Label());
     this->ch0 = (gcnew System::Windows::Forms::Label());
+    this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+    this->nandSettings = (gcnew System::Windows::Forms::ToolStripMenuItem());
+    this->settings = (gcnew System::Windows::Forms::ToolStripMenuItem());
+    this->laneBox->SuspendLayout();
     this->channelBox->SuspendLayout();
+    this->menuStrip1->SuspendLayout();
     this->SuspendLayout();
     // 
     // laneBox
     // 
+    this->laneBox->Controls->Add(this->cbLn7);
+    this->laneBox->Controls->Add(this->cbLn6);
+    this->laneBox->Controls->Add(this->cbLn5);
+    this->laneBox->Controls->Add(this->cbLn4);
+    this->laneBox->Controls->Add(this->cbLn3);
+    this->laneBox->Controls->Add(this->cbLn2);
+    this->laneBox->Controls->Add(this->cbLn1);
+    this->laneBox->Controls->Add(this->cbLn0);
+    this->laneBox->Controls->Add(this->lbLn7);
+    this->laneBox->Controls->Add(this->lbLn6);
+    this->laneBox->Controls->Add(this->lbLn5);
+    this->laneBox->Controls->Add(this->lbLn1);
+    this->laneBox->Controls->Add(this->lbLn2);
+    this->laneBox->Controls->Add(this->lbLn3);
+    this->laneBox->Controls->Add(this->lbLn4);
+    this->laneBox->Controls->Add(this->lbLn0);
     this->laneBox->Location = System::Drawing::Point(13, 28);
     this->laneBox->Name = L"laneBox";
-    this->laneBox->Size = System::Drawing::Size(455, 64);
+    this->laneBox->Size = System::Drawing::Size(822, 74);
     this->laneBox->TabIndex = 0;
     this->laneBox->TabStop = false;
     this->laneBox->Text = L"Lane Connection";
+    // 
+    // cbLn7
+    // 
+    this->cbLn7->AutoSize = true;
+    this->cbLn7->Location = System::Drawing::Point(512, 54);
+    this->cbLn7->Name = L"cbLn7";
+    this->cbLn7->Size = System::Drawing::Size(15, 14);
+    this->cbLn7->TabIndex = 215;
+    this->cbLn7->UseVisualStyleBackColor = true;
+    this->cbLn7->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn7Click);
+    // 
+    // cbLn6
+    // 
+    this->cbLn6->AutoSize = true;
+    this->cbLn6->Location = System::Drawing::Point(444, 54);
+    this->cbLn6->Name = L"cbLn6";
+    this->cbLn6->Size = System::Drawing::Size(15, 14);
+    this->cbLn6->TabIndex = 214;
+    this->cbLn6->UseVisualStyleBackColor = true;
+    this->cbLn6->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn6Click);
+    // 
+    // cbLn5
+    // 
+    this->cbLn5->AutoSize = true;
+    this->cbLn5->Location = System::Drawing::Point(379, 54);
+    this->cbLn5->Name = L"cbLn5";
+    this->cbLn5->Size = System::Drawing::Size(15, 14);
+    this->cbLn5->TabIndex = 213;
+    this->cbLn5->UseVisualStyleBackColor = true;
+    this->cbLn5->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn5Click);
+    // 
+    // cbLn4
+    // 
+    this->cbLn4->AutoSize = true;
+    this->cbLn4->Location = System::Drawing::Point(312, 54);
+    this->cbLn4->Name = L"cbLn4";
+    this->cbLn4->Size = System::Drawing::Size(15, 14);
+    this->cbLn4->TabIndex = 212;
+    this->cbLn4->UseVisualStyleBackColor = true;
+    this->cbLn4->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn4Click);
+    // 
+    // cbLn3
+    // 
+    this->cbLn3->AutoSize = true;
+    this->cbLn3->Location = System::Drawing::Point(240, 54);
+    this->cbLn3->Name = L"cbLn3";
+    this->cbLn3->Size = System::Drawing::Size(15, 14);
+    this->cbLn3->TabIndex = 211;
+    this->cbLn3->UseVisualStyleBackColor = true;
+    this->cbLn3->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn3Click);
+    // 
+    // cbLn2
+    // 
+    this->cbLn2->AutoSize = true;
+    this->cbLn2->Location = System::Drawing::Point(162, 54);
+    this->cbLn2->Name = L"cbLn2";
+    this->cbLn2->Size = System::Drawing::Size(15, 14);
+    this->cbLn2->TabIndex = 210;
+    this->cbLn2->UseVisualStyleBackColor = true;
+    this->cbLn2->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn2Click);
+    // 
+    // cbLn1
+    // 
+    this->cbLn1->AutoSize = true;
+    this->cbLn1->Location = System::Drawing::Point(89, 54);
+    this->cbLn1->Name = L"cbLn1";
+    this->cbLn1->Size = System::Drawing::Size(15, 14);
+    this->cbLn1->TabIndex = 209;
+    this->cbLn1->UseVisualStyleBackColor = true;
+    this->cbLn1->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn1Click);
+    // 
+    // cbLn0
+    // 
+    this->cbLn0->AutoSize = true;
+    this->cbLn0->Location = System::Drawing::Point(28, 54);
+    this->cbLn0->Name = L"cbLn0";
+    this->cbLn0->Size = System::Drawing::Size(15, 14);
+    this->cbLn0->TabIndex = 208;
+    this->cbLn0->UseVisualStyleBackColor = true;
+    this->cbLn0->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn0Click);
+    // 
+    // lbLn7
+    // 
+    this->lbLn7->AutoSize = true;
+    this->lbLn7->Location = System::Drawing::Point(514, 28);
+    this->lbLn7->Name = L"lbLn7";
+    this->lbLn7->Size = System::Drawing::Size(13, 13);
+    this->lbLn7->TabIndex = 8;
+    this->lbLn7->Text = L"7";
+    // 
+    // lbLn6
+    // 
+    this->lbLn6->AutoSize = true;
+    this->lbLn6->Location = System::Drawing::Point(446, 28);
+    this->lbLn6->Name = L"lbLn6";
+    this->lbLn6->Size = System::Drawing::Size(13, 13);
+    this->lbLn6->TabIndex = 7;
+    this->lbLn6->Text = L"6";
+    // 
+    // lbLn5
+    // 
+    this->lbLn5->AutoSize = true;
+    this->lbLn5->Location = System::Drawing::Point(381, 28);
+    this->lbLn5->Name = L"lbLn5";
+    this->lbLn5->Size = System::Drawing::Size(13, 13);
+    this->lbLn5->TabIndex = 6;
+    this->lbLn5->Text = L"5";
+    // 
+    // lbLn1
+    // 
+    this->lbLn1->AutoSize = true;
+    this->lbLn1->Location = System::Drawing::Point(91, 28);
+    this->lbLn1->Name = L"lbLn1";
+    this->lbLn1->Size = System::Drawing::Size(13, 13);
+    this->lbLn1->TabIndex = 5;
+    this->lbLn1->Text = L"1";
+    // 
+    // lbLn2
+    // 
+    this->lbLn2->AutoSize = true;
+    this->lbLn2->Location = System::Drawing::Point(164, 28);
+    this->lbLn2->Name = L"lbLn2";
+    this->lbLn2->Size = System::Drawing::Size(13, 13);
+    this->lbLn2->TabIndex = 4;
+    this->lbLn2->Text = L"2";
+    // 
+    // lbLn3
+    // 
+    this->lbLn3->AutoSize = true;
+    this->lbLn3->Location = System::Drawing::Point(242, 28);
+    this->lbLn3->Name = L"lbLn3";
+    this->lbLn3->Size = System::Drawing::Size(13, 13);
+    this->lbLn3->TabIndex = 3;
+    this->lbLn3->Text = L"3";
+    // 
+    // lbLn4
+    // 
+    this->lbLn4->AutoSize = true;
+    this->lbLn4->Location = System::Drawing::Point(314, 28);
+    this->lbLn4->Name = L"lbLn4";
+    this->lbLn4->Size = System::Drawing::Size(13, 13);
+    this->lbLn4->TabIndex = 2;
+    this->lbLn4->Text = L"4";
+    // 
+    // lbLn0
+    // 
+    this->lbLn0->AutoSize = true;
+    this->lbLn0->BackColor = System::Drawing::SystemColors::Control;
+    this->lbLn0->Location = System::Drawing::Point(30, 28);
+    this->lbLn0->Name = L"lbLn0";
+    this->lbLn0->Size = System::Drawing::Size(13, 13);
+    this->lbLn0->TabIndex = 1;
+    this->lbLn0->Text = L"0";
     // 
     // channelBox
     // 
@@ -447,12 +637,11 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     // 
     // checkBox0
     // 
-    this->checkBox0->AutoSize = true;    
+    this->checkBox0->AutoSize = true;
     this->checkBox0->Location = System::Drawing::Point(54, 36);
     this->checkBox0->Name = L"checkBox0";
     this->checkBox0->Size = System::Drawing::Size(15, 14);
     this->checkBox0->TabIndex = 207;
-    this->checkBox0->Checked = false;
     this->checkBox0->UseVisualStyleBackColor = true;
     // 
     // checkBox179
@@ -1041,7 +1230,6 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->checkBox117->Size = System::Drawing::Size(15, 14);
     this->checkBox117->TabIndex = 144;
     this->checkBox117->UseVisualStyleBackColor = true;
-
     // 
     // checkBox116
     // 
@@ -2352,6 +2540,29 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->ch0->TabIndex = 0;
     this->ch0->Text = L"0";
     // 
+    // menuStrip1
+    // 
+    this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->nandSettings });
+    this->menuStrip1->Location = System::Drawing::Point(0, 0);
+    this->menuStrip1->Name = L"menuStrip1";
+    this->menuStrip1->Size = System::Drawing::Size(854, 24);
+    this->menuStrip1->TabIndex = 2;
+    this->menuStrip1->Text = L"menuStrip1";
+    // 
+    // nandSettings
+    // 
+    this->nandSettings->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->settings });
+    this->nandSettings->Name = L"nandSettings";
+    this->nandSettings->Size = System::Drawing::Size(94, 20);
+    this->nandSettings->Text = L"NAND Settings";
+    // 
+    // settings
+    // 
+    this->settings->Name = L"settings";
+    this->settings->Size = System::Drawing::Size(152, 22);
+    this->settings->Text = L"Settings";
+    this->settings->Click += gcnew System::EventHandler(this, &ui_signas3nt::settingsClick);
+    // 
     // ui_signas3nt
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -2361,11 +2572,15 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->ClientSize = System::Drawing::Size(854, 532);
     this->Controls->Add(this->laneBox);
     this->Controls->Add(this->channelBox);
+    this->Controls->Add(this->menuStrip1);
     this->Name = L"ui_signas3nt";
-    this->Text = L"Lane/Channel Settings";
     this->Load += gcnew System::EventHandler(this, &ui_signas3nt::ui_signas3nt_Load);
+    this->laneBox->ResumeLayout(false);
+    this->laneBox->PerformLayout();
     this->channelBox->ResumeLayout(false);
     this->channelBox->PerformLayout();
+    this->menuStrip1->ResumeLayout(false);
+    this->menuStrip1->PerformLayout();
     this->ResumeLayout(false);
     this->PerformLayout();
 
