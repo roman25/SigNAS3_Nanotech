@@ -5,6 +5,25 @@ SigNAS3_Nanotech::ui_signas3nt::ui_signas3nt()
     InitializeComponent();
    
 }
+
+void SigNAS3_Nanotech::ui_signas3nt::butRun_Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    SigNAS3_Nanotech::settings s2;
+    s2 = objSettings->getNandSettings();
+
+    objS.vendor = s2.vendor;
+    
+    Console::WriteLine("butRun_Click " + objS.vendor);
+
+
+}
+
+SigNAS3_Nanotech::fullSettings SigNAS3_Nanotech::ui_signas3nt::getSettings()
+{
+    return objS;
+}
+
+
     
 void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
 {
@@ -235,6 +254,7 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
     this->nandSettings = (gcnew System::Windows::Forms::ToolStripMenuItem());
     this->settings = (gcnew System::Windows::Forms::ToolStripMenuItem());
+    this->butRun = (gcnew System::Windows::Forms::Button());
     this->laneBox->SuspendLayout();
     this->channelBox->SuspendLayout();
     this->menuStrip1->SuspendLayout();
@@ -2545,7 +2565,7 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->nandSettings });
     this->menuStrip1->Location = System::Drawing::Point(0, 0);
     this->menuStrip1->Name = L"menuStrip1";
-    this->menuStrip1->Size = System::Drawing::Size(854, 24);
+    this->menuStrip1->Size = System::Drawing::Size(853, 24);
     this->menuStrip1->TabIndex = 2;
     this->menuStrip1->Text = L"menuStrip1";
     // 
@@ -2553,15 +2573,25 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     // 
     this->nandSettings->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->settings });
     this->nandSettings->Name = L"nandSettings";
-    this->nandSettings->Size = System::Drawing::Size(94, 20);
+    this->nandSettings->Size = System::Drawing::Size(98, 20);
     this->nandSettings->Text = L"NAND Settings";
     // 
     // settings
     // 
     this->settings->Name = L"settings";
-    this->settings->Size = System::Drawing::Size(152, 22);
+    this->settings->Size = System::Drawing::Size(116, 22);
     this->settings->Text = L"Settings";
     this->settings->Click += gcnew System::EventHandler(this, &ui_signas3nt::settingsClick);
+    // 
+    // butRun
+    // 
+    this->butRun->Location = System::Drawing::Point(760, 501);
+    this->butRun->Name = L"butRun";
+    this->butRun->Size = System::Drawing::Size(75, 23);
+    this->butRun->TabIndex = 3;
+    this->butRun->Text = L"Run";
+    this->butRun->UseVisualStyleBackColor = true;
+    this->butRun->Click += gcnew System::EventHandler(this, &ui_signas3nt::butRun_Click);
     // 
     // ui_signas3nt
     // 
@@ -2569,7 +2599,8 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
     this->AutoSize = true;
     this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
-    this->ClientSize = System::Drawing::Size(854, 532);
+    this->ClientSize = System::Drawing::Size(853, 535);
+    this->Controls->Add(this->butRun);
     this->Controls->Add(this->laneBox);
     this->Controls->Add(this->channelBox);
     this->Controls->Add(this->menuStrip1);

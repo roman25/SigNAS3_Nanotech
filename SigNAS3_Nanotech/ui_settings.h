@@ -8,7 +8,7 @@ namespace SigNAS3_Nanotech {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
+    
     value struct settings
     {
         Int32 vendor = 1001;
@@ -30,7 +30,7 @@ namespace SigNAS3_Nanotech {
 	{
 	public:
         ui_settings();
-        settings getSettings();
+        settings getNandSettings();
 
 	protected:
 		/// <summary>
@@ -127,18 +127,7 @@ namespace SigNAS3_Nanotech {
     
 		System::ComponentModel::Container ^components;
 
-        void butSet_Click(Object^ Sender, EventArgs^ Args)
-        {
-            outSettings.vendor    = cbVendor->SelectedIndex;
-            outSettings.type      = cbType->SelectedIndex;
-            outSettings.subtype   = cbSubType->SelectedIndex;
-            outSettings.ifMode    = cbIfMode->SelectedIndex;
-            outSettings.blockSize = cbBlockSize->SelectedIndex;
-
-            Close();
-            //Console::WriteLine(s.vendor);
-        }
-
+        void butSet_Click(Object^ Sender, EventArgs^ Args);
 
 #pragma region Windows Form Designer generated code
 		/// <summary>

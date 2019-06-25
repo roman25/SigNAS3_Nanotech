@@ -8,15 +8,20 @@ using namespace System::Windows::Forms;
     
 void Main(array<String^>^ args)
 {
-    Application::EnableVisualStyles();
-    Application::SetCompatibleTextRenderingDefault(false);
-    SigNAS3_Nanotech::ui_signas3nt form;
-    Application::Run(%form);
+    //Application::EnableVisualStyles();
+    //Application::SetCompatibleTextRenderingDefault(false);
+    SigNAS3_Nanotech::ui_signas3nt^ form = gcnew SigNAS3_Nanotech::ui_signas3nt();    
+    form->ShowDialog();
     
-    SigNAS3_Nanotech::ui_settings form2;
-    SigNAS3_Nanotech::settings s2;
-    s2 = form2.getSettings();
-    Console::WriteLine(s2.vendor);
+    
+    /*SigNAS3_Nanotech::settings s2;
+    SigNAS3_Nanotech::ui_settings^ objSettings = gcnew SigNAS3_Nanotech::ui_settings();
+    s2 = objSettings->getSettings();
+    Console::WriteLine("main " + s2.vendor);*/
+
+    
+    
+
     
 }
 

@@ -10,20 +10,34 @@ namespace SigNAS3_Nanotech {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Summary for ui_signas3nt
-	/// </summary>
+    value struct fullSettings
+    {
+        Int32 vendor;
+        Int32 type;
+        Int32 subtype;
+        Int32 ifMode;
+        Int32 blockSize;
+        Int32 pageSize;
+        bool edoMode;
+        Int32 baseClock;
+
+        double core;
+        double io;
+        bool vRef;
+        bool reset;
+    };
+
+
+
 	public ref class ui_signas3nt : public System::Windows::Forms::Form
 	{
 	public:
         ui_signas3nt(void);
-		
+        fullSettings getSettings();
 
 	protected:
         
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
+
 		~ui_signas3nt()
 		{
 			if (components)
@@ -32,18 +46,18 @@ namespace SigNAS3_Nanotech {
 			}
 		}
 
-
-
 	private:
+        fullSettings objS;
         void InitializeComponent();
-
-
-    private: System::Void settingsClick(System::Object^ sender, System::EventArgs^ e)
-    {
         SigNAS3_Nanotech::ui_settings^ objSettings = gcnew ui_settings();
-        objSettings->ShowDialog();
-    }
 
+        void ui_signas3nt::settingsClick(System::Object^ sender, System::EventArgs^ e)
+        {
+            objSettings->ShowDialog();
+        }
+
+        void ui_signas3nt::butRun_Click(Object^ Sender, EventArgs^ Args);
+        
         System::Windows::Forms::GroupBox^  laneBox;
         System::Windows::Forms::GroupBox^  channelBox;
         System::Windows::Forms::Label^  ln0;
@@ -272,6 +286,7 @@ private: System::Windows::Forms::MenuStrip^  menuStrip1;
 private: System::Windows::Forms::ToolStripMenuItem^  nandSettings;
 
 private: System::Windows::Forms::ToolStripMenuItem^  settings;
+private: System::Windows::Forms::Button^  butRun;
 
 
 
