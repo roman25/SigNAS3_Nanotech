@@ -1,5 +1,6 @@
 #pragma once
 #include "ui_settings.h"
+#include "settings.h"
 
 namespace SigNAS3_Nanotech {
 
@@ -9,31 +10,12 @@ namespace SigNAS3_Nanotech {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-
-    value struct fullSettings
-    {
-        Int32 vendor;
-        Int32 type;
-        Int32 subtype;
-        Int32 ifMode;
-        Int32 blockSize;
-        Int32 pageSize;
-        bool edoMode;
-        Int32 baseClock;
-
-        double core;
-        double io;
-        bool vRef;
-        bool reset;
-    };
-
-
+    
 
 	public ref class ui_signas3nt : public System::Windows::Forms::Form
 	{
 	public:
         ui_signas3nt(void);
-        fullSettings getSettings();
 
 	protected:
         
@@ -47,7 +29,7 @@ namespace SigNAS3_Nanotech {
 		}
 
 	private:
-        fullSettings objS;
+        settings objS;
         void InitializeComponent();
         SigNAS3_Nanotech::ui_settings^ objSettings = gcnew ui_settings();
 

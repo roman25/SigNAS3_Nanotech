@@ -17,13 +17,6 @@ void SigNAS3_Nanotech::ui_signas3nt::butRun_Click(System::Object^ Sender, System
 
 
 }
-
-SigNAS3_Nanotech::fullSettings SigNAS3_Nanotech::ui_signas3nt::getSettings()
-{
-    return objS;
-}
-
-
     
 void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
 {

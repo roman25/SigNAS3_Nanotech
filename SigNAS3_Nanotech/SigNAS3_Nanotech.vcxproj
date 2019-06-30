@@ -134,6 +134,7 @@
     <ClCompile Include="ui_signas3nt.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="settings.h" />
     <ClInclude Include="signas3nt.h" />
     <ClInclude Include="testplan.h" />
     <ClInclude Include="ui_settings.h">

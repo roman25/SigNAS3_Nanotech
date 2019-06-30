@@ -1,5 +1,7 @@
 #pragma once
 
+#include "settings.h"
+
 namespace SigNAS3_Nanotech {
 
 	using namespace System;
@@ -9,22 +11,7 @@ namespace SigNAS3_Nanotech {
 	using namespace System::Data;
 	using namespace System::Drawing;
     
-    value struct settings
-    {
-        Int32 vendor = 1001;
-        Int32 type;
-        Int32 subtype;
-        Int32 ifMode;
-        Int32 blockSize;
-        Int32 pageSize;
-        bool edoMode;
-        Int32 baseClock;
-        
-        double core;
-        double io;
-        bool vRef;
-        bool reset;
-    };
+    
 
 	public ref class ui_settings : public System::Windows::Forms::Form
 	{
@@ -86,7 +73,6 @@ namespace SigNAS3_Nanotech {
         System::Windows::Forms::Label^  lbNs;
         System::Windows::Forms::Label^  lbCore;
         System::Windows::Forms::Label^  lbBaseClock;
-        System::Windows::Forms::Label^  label1;
         System::Windows::Forms::Label^  lbIO;
         System::Windows::Forms::Label^  lbRead;
         System::Windows::Forms::Label^  lbProgram;
@@ -98,8 +84,13 @@ namespace SigNAS3_Nanotech {
         System::Windows::Forms::Label^  lbLunTar;
         System::Windows::Forms::Label^  lbLunSep;
         System::Windows::Forms::Label^  lbBlocksLun;
-
-        System::Windows::Forms::NumericUpDown^  numericUpDown1;
+        System::Windows::Forms::Label^  lbtWP;
+        System::Windows::Forms::Label^  lbtREH;
+        System::Windows::Forms::Label^  lbtRP;
+        System::Windows::Forms::Label^  lbtWH;
+        System::Windows::Forms::Label^  lbtDQS;
+        
+        System::Windows::Forms::NumericUpDown^  numPageSize;
         System::Windows::Forms::NumericUpDown^  numtWH;
         System::Windows::Forms::NumericUpDown^  numtWP;
         System::Windows::Forms::NumericUpDown^  numtREH;
@@ -108,14 +99,14 @@ namespace SigNAS3_Nanotech {
         System::Windows::Forms::NumericUpDown^  numRead;
         System::Windows::Forms::NumericUpDown^  numProgram;
         System::Windows::Forms::NumericUpDown^  numErase;
-        System::Windows::Forms::NumericUpDown^  numBit;
-        System::Windows::Forms::NumericUpDown^  numCode;
-        System::Windows::Forms::NumericUpDown^  numScan;
+        System::Windows::Forms::NumericUpDown^  numBitCorrectability;
+        System::Windows::Forms::NumericUpDown^  numCodeLength;
+        System::Windows::Forms::NumericUpDown^  numBadBlockByte;
         System::Windows::Forms::NumericUpDown^  numTotalBB;
-        System::Windows::Forms::NumericUpDown^  numericUpDown4;
-        System::Windows::Forms::NumericUpDown^  numericUpDown2;
-        System::Windows::Forms::NumericUpDown^  numericUpDown3;
-   
+        System::Windows::Forms::NumericUpDown^  numLunSep;
+        System::Windows::Forms::NumericUpDown^  numLunTar;
+        System::Windows::Forms::NumericUpDown^  numBlocksLun;
+           
         System::Windows::Forms::TextBox^  tb7;
         System::Windows::Forms::TextBox^  tb6;
         System::Windows::Forms::TextBox^  tb5;
@@ -124,16 +115,26 @@ namespace SigNAS3_Nanotech {
         System::Windows::Forms::TextBox^  tb2;
         System::Windows::Forms::TextBox^  tb1;
         System::Windows::Forms::TextBox^  tb0;
-    
+        System::Windows::Forms::TextBox^  tbtWP;
+        System::Windows::Forms::TextBox^  tbtREH;
+        System::Windows::Forms::TextBox^  tbtRP;
+        System::Windows::Forms::TextBox^  tbtWH;
+        System::Windows::Forms::TextBox^  textBox1;
+private: System::Windows::Forms::Label^  lbBytes;
+private: System::Windows::Forms::Label^  lbByte;
+private: System::Windows::Forms::Label^  lbBlocks;
+private: System::Windows::Forms::Label^  lbRd;
+private: System::Windows::Forms::Label^  lbProg;
+private: System::Windows::Forms::Label^  lbEr;
+private: System::Windows::Forms::Label^  lbBits;
+
 		System::ComponentModel::Container ^components;
 
         void butSet_Click(Object^ Sender, EventArgs^ Args);
+        void cbVendor_SelectedIndexChanged(Object^ sender, System::EventArgs^ e);
+        
 
-#pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
+        #pragma region Windows Form Designer generated code
 		void InitializeComponent(void)
 		{
             this->cbEdoMode = (gcnew System::Windows::Forms::CheckBox());
@@ -158,9 +159,9 @@ namespace SigNAS3_Nanotech {
             this->numRead = (gcnew System::Windows::Forms::NumericUpDown());
             this->numProgram = (gcnew System::Windows::Forms::NumericUpDown());
             this->numErase = (gcnew System::Windows::Forms::NumericUpDown());
-            this->numBit = (gcnew System::Windows::Forms::NumericUpDown());
-            this->numCode = (gcnew System::Windows::Forms::NumericUpDown());
-            this->numScan = (gcnew System::Windows::Forms::NumericUpDown());
+            this->numBitCorrectability = (gcnew System::Windows::Forms::NumericUpDown());
+            this->numCodeLength = (gcnew System::Windows::Forms::NumericUpDown());
+            this->numBadBlockByte = (gcnew System::Windows::Forms::NumericUpDown());
             this->numTotalBB = (gcnew System::Windows::Forms::NumericUpDown());
             this->lbRead = (gcnew System::Windows::Forms::Label());
             this->lbProgram = (gcnew System::Windows::Forms::Label());
@@ -180,8 +181,17 @@ namespace SigNAS3_Nanotech {
             this->tb0 = (gcnew System::Windows::Forms::TextBox());
             this->gbTarget = (gcnew System::Windows::Forms::GroupBox());
             this->gbNand = (gcnew System::Windows::Forms::GroupBox());
-            this->label1 = (gcnew System::Windows::Forms::Label());
-            this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
+            this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+            this->lbtDQS = (gcnew System::Windows::Forms::Label());
+            this->lbtWP = (gcnew System::Windows::Forms::Label());
+            this->lbtREH = (gcnew System::Windows::Forms::Label());
+            this->lbtRP = (gcnew System::Windows::Forms::Label());
+            this->tbtWP = (gcnew System::Windows::Forms::TextBox());
+            this->tbtREH = (gcnew System::Windows::Forms::TextBox());
+            this->tbtRP = (gcnew System::Windows::Forms::TextBox());
+            this->tbtWH = (gcnew System::Windows::Forms::TextBox());
+            this->lbtWH = (gcnew System::Windows::Forms::Label());
+            this->numPageSize = (gcnew System::Windows::Forms::NumericUpDown());
             this->numtWH = (gcnew System::Windows::Forms::NumericUpDown());
             this->numtWP = (gcnew System::Windows::Forms::NumericUpDown());
             this->numtREH = (gcnew System::Windows::Forms::NumericUpDown());
@@ -197,37 +207,44 @@ namespace SigNAS3_Nanotech {
             this->lbPageSize = (gcnew System::Windows::Forms::Label());
             this->lbVendor = (gcnew System::Windows::Forms::Label());
             this->gbAddress = (gcnew System::Windows::Forms::GroupBox());
-            this->numericUpDown4 = (gcnew System::Windows::Forms::NumericUpDown());
+            this->numLunSep = (gcnew System::Windows::Forms::NumericUpDown());
             this->lbLunSep = (gcnew System::Windows::Forms::Label());
-            this->numericUpDown3 = (gcnew System::Windows::Forms::NumericUpDown());
+            this->numBlocksLun = (gcnew System::Windows::Forms::NumericUpDown());
             this->lbBlocksLun = (gcnew System::Windows::Forms::Label());
-            this->numericUpDown2 = (gcnew System::Windows::Forms::NumericUpDown());
+            this->numLunTar = (gcnew System::Windows::Forms::NumericUpDown());
             this->lbLunTar = (gcnew System::Windows::Forms::Label());
             this->gbVoltage = (gcnew System::Windows::Forms::GroupBox());
             this->lbIO = (gcnew System::Windows::Forms::Label());
             this->lbCore = (gcnew System::Windows::Forms::Label());
             this->butSet = (gcnew System::Windows::Forms::Button());
+            this->lbBlocks = (gcnew System::Windows::Forms::Label());
+            this->lbByte = (gcnew System::Windows::Forms::Label());
+            this->lbBytes = (gcnew System::Windows::Forms::Label());
+            this->lbBits = (gcnew System::Windows::Forms::Label());
+            this->lbEr = (gcnew System::Windows::Forms::Label());
+            this->lbProg = (gcnew System::Windows::Forms::Label());
+            this->lbRd = (gcnew System::Windows::Forms::Label());
             this->gbTest->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numRead))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numProgram))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numErase))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBit))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCode))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numScan))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBitCorrectability))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCodeLength))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBadBlockByte))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numTotalBB))->BeginInit();
             this->gbNandID->SuspendLayout();
             this->gbTarget->SuspendLayout();
             this->gbNand->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numPageSize))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtWH))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtWP))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtREH))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtRP))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBaseClock))->BeginInit();
             this->gbAddress->SuspendLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown4))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numLunSep))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBlocksLun))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numLunTar))->BeginInit();
             this->gbVoltage->SuspendLayout();
             this->SuspendLayout();
             // 
@@ -254,6 +271,8 @@ namespace SigNAS3_Nanotech {
             // cbReset
             // 
             this->cbReset->AutoSize = true;
+            this->cbReset->Checked = true;
+            this->cbReset->CheckState = System::Windows::Forms::CheckState::Checked;
             this->cbReset->Location = System::Drawing::Point(116, 48);
             this->cbReset->Name = L"cbReset";
             this->cbReset->Size = System::Drawing::Size(136, 17);
@@ -357,23 +376,22 @@ namespace SigNAS3_Nanotech {
             this->cbVendor->Name = L"cbVendor";
             this->cbVendor->Size = System::Drawing::Size(121, 21);
             this->cbVendor->TabIndex = 0;
+            this->cbVendor->SelectedIndexChanged += gcnew System::EventHandler(this, &ui_settings::cbVendor_SelectedIndexChanged);
             // 
             // cbType
             // 
             this->cbType->FormattingEnabled = true;
-            this->cbType->Items->AddRange(gcnew cli::array< System::Object^  >(10) {
-                L"SLC", L"MLC", L"TLC", L"SLC_3D", L"MLC_3D", L"TLC_3D",
-                    L"MLC_SLCMODE", L"TLC_SLCMODE", L"MLC_3D_SLCMODE", L"TLC_3D_SLCMODE"
-            });
+            this->cbType->Items->AddRange(gcnew cli::array< System::Object^  >(6) { L"SLC", L"MLC", L"TLC", L"MLC_3D", L"TLC_3D", L"MLC_3D_SLCMODE" });
             this->cbType->Location = System::Drawing::Point(103, 47);
             this->cbType->Name = L"cbType";
             this->cbType->Size = System::Drawing::Size(121, 21);
             this->cbType->TabIndex = 6;
+            
             // 
             // cbSubType
             // 
             this->cbSubType->FormattingEnabled = true;
-            this->cbSubType->Items->AddRange(gcnew cli::array< System::Object^  >(3) { L"Type0", L"Type1", L"Type2" });
+            this->cbSubType->Items->AddRange(gcnew cli::array< System::Object^  >(1) { L"Type0" });
             this->cbSubType->Location = System::Drawing::Point(103, 77);
             this->cbSubType->Name = L"cbSubType";
             this->cbSubType->Size = System::Drawing::Size(121, 21);
@@ -394,10 +412,7 @@ namespace SigNAS3_Nanotech {
             // cbBlockSize
             // 
             this->cbBlockSize->FormattingEnabled = true;
-            this->cbBlockSize->Items->AddRange(gcnew cli::array< System::Object^  >(6) {
-                L"Micron", L"Toshiba", L"Samsung", L"Intel",
-                    L"SanDisk", L"Hynix"
-            });
+            this->cbBlockSize->Items->AddRange(gcnew cli::array< System::Object^  >(6) { L"32", L"64", L"128", L"256", L"512", L"1024" });
             this->cbBlockSize->Location = System::Drawing::Point(103, 152);
             this->cbBlockSize->Name = L"cbBlockSize";
             this->cbBlockSize->Size = System::Drawing::Size(121, 21);
@@ -435,12 +450,19 @@ namespace SigNAS3_Nanotech {
             // 
             // gbTest
             // 
+            this->gbTest->Controls->Add(this->lbRd);
+            this->gbTest->Controls->Add(this->lbProg);
+            this->gbTest->Controls->Add(this->lbEr);
+            this->gbTest->Controls->Add(this->lbBits);
+            this->gbTest->Controls->Add(this->lbBytes);
+            this->gbTest->Controls->Add(this->lbByte);
+            this->gbTest->Controls->Add(this->lbBlocks);
             this->gbTest->Controls->Add(this->numRead);
             this->gbTest->Controls->Add(this->numProgram);
             this->gbTest->Controls->Add(this->numErase);
-            this->gbTest->Controls->Add(this->numBit);
-            this->gbTest->Controls->Add(this->numCode);
-            this->gbTest->Controls->Add(this->numScan);
+            this->gbTest->Controls->Add(this->numBitCorrectability);
+            this->gbTest->Controls->Add(this->numCodeLength);
+            this->gbTest->Controls->Add(this->numBadBlockByte);
             this->gbTest->Controls->Add(this->numTotalBB);
             this->gbTest->Controls->Add(this->lbRead);
             this->gbTest->Controls->Add(this->lbProgram);
@@ -459,66 +481,75 @@ namespace SigNAS3_Nanotech {
             // 
             // numRead
             // 
-            this->numRead->Location = System::Drawing::Point(292, 90);
+            this->numRead->Location = System::Drawing::Point(313, 90);
+            this->numRead->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
             this->numRead->Name = L"numRead";
-            this->numRead->Size = System::Drawing::Size(112, 20);
+            this->numRead->Size = System::Drawing::Size(67, 20);
             this->numRead->TabIndex = 40;
             this->numRead->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // numProgram
             // 
-            this->numProgram->Location = System::Drawing::Point(155, 174);
+            this->numProgram->Location = System::Drawing::Point(175, 176);
+            this->numProgram->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
             this->numProgram->Name = L"numProgram";
-            this->numProgram->Size = System::Drawing::Size(119, 20);
+            this->numProgram->Size = System::Drawing::Size(67, 20);
             this->numProgram->TabIndex = 39;
             this->numProgram->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // numErase
             // 
-            this->numErase->Location = System::Drawing::Point(154, 135);
+            this->numErase->Location = System::Drawing::Point(175, 135);
+            this->numErase->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000000, 0, 0, 0 });
             this->numErase->Name = L"numErase";
-            this->numErase->Size = System::Drawing::Size(120, 20);
+            this->numErase->Size = System::Drawing::Size(69, 20);
             this->numErase->TabIndex = 38;
             this->numErase->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
-            // numBit
+            // numBitCorrectability
             // 
-            this->numBit->Location = System::Drawing::Point(154, 90);
-            this->numBit->Name = L"numBit";
-            this->numBit->Size = System::Drawing::Size(120, 20);
-            this->numBit->TabIndex = 37;
-            this->numBit->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-            this->numBit->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 32, 0, 0, 0 });
+            this->numBitCorrectability->Location = System::Drawing::Point(175, 90);
+            this->numBitCorrectability->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 253, 0, 0, 0 });
+            this->numBitCorrectability->Name = L"numBitCorrectability";
+            this->numBitCorrectability->Size = System::Drawing::Size(69, 20);
+            this->numBitCorrectability->TabIndex = 37;
+            this->numBitCorrectability->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numBitCorrectability->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 32, 0, 0, 0 });
             // 
-            // numCode
+            // numCodeLength
             // 
-            this->numCode->Location = System::Drawing::Point(15, 174);
-            this->numCode->Name = L"numCode";
-            this->numCode->Size = System::Drawing::Size(113, 20);
-            this->numCode->TabIndex = 36;
-            this->numCode->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-            this->numCode->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 50, 0, 0, 0 });
+            this->numCodeLength->Location = System::Drawing::Point(15, 191);
+            this->numCodeLength->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 36864, 0, 0, 0 });
+            this->numCodeLength->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+            this->numCodeLength->Name = L"numCodeLength";
+            this->numCodeLength->Size = System::Drawing::Size(69, 20);
+            this->numCodeLength->TabIndex = 36;
+            this->numCodeLength->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numCodeLength->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1024, 0, 0, 0 });
             // 
-            // numScan
+            // numBadBlockByte
             // 
-            this->numScan->Location = System::Drawing::Point(15, 135);
-            this->numScan->Name = L"numScan";
-            this->numScan->Size = System::Drawing::Size(113, 20);
-            this->numScan->TabIndex = 35;
-            this->numScan->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numBadBlockByte->Location = System::Drawing::Point(15, 138);
+            this->numBadBlockByte->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 8191, 0, 0, 0 });
+            this->numBadBlockByte->Name = L"numBadBlockByte";
+            this->numBadBlockByte->Size = System::Drawing::Size(69, 20);
+            this->numBadBlockByte->TabIndex = 35;
+            this->numBadBlockByte->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // numTotalBB
             // 
             this->numTotalBB->Location = System::Drawing::Point(15, 90);
+            this->numTotalBB->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 65535, 0, 0, 0 });
             this->numTotalBB->Name = L"numTotalBB";
-            this->numTotalBB->Size = System::Drawing::Size(113, 20);
+            this->numTotalBB->Size = System::Drawing::Size(69, 20);
             this->numTotalBB->TabIndex = 22;
             this->numTotalBB->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numTotalBB->ValueChanged += gcnew System::EventHandler(this, &ui_settings::numTotalBB_ValueChanged);
             // 
             // lbRead
             // 
             this->lbRead->AutoSize = true;
-            this->lbRead->Location = System::Drawing::Point(319, 74);
+            this->lbRead->Location = System::Drawing::Point(310, 74);
             this->lbRead->Name = L"lbRead";
             this->lbRead->Size = System::Drawing::Size(59, 13);
             this->lbRead->TabIndex = 34;
@@ -545,7 +576,7 @@ namespace SigNAS3_Nanotech {
             // lbBit
             // 
             this->lbBit->AutoSize = true;
-            this->lbBit->Location = System::Drawing::Point(157, 74);
+            this->lbBit->Location = System::Drawing::Point(172, 74);
             this->lbBit->Name = L"lbBit";
             this->lbBit->Size = System::Drawing::Size(107, 13);
             this->lbBit->TabIndex = 31;
@@ -554,7 +585,7 @@ namespace SigNAS3_Nanotech {
             // lbCode
             // 
             this->lbCode->AutoSize = true;
-            this->lbCode->Location = System::Drawing::Point(26, 158);
+            this->lbCode->Location = System::Drawing::Point(16, 175);
             this->lbCode->Name = L"lbCode";
             this->lbCode->Size = System::Drawing::Size(93, 13);
             this->lbCode->TabIndex = 30;
@@ -563,7 +594,7 @@ namespace SigNAS3_Nanotech {
             // lbScan
             // 
             this->lbScan->AutoSize = true;
-            this->lbScan->Location = System::Drawing::Point(8, 119);
+            this->lbScan->Location = System::Drawing::Point(14, 122);
             this->lbScan->Name = L"lbScan";
             this->lbScan->Size = System::Drawing::Size(139, 13);
             this->lbScan->TabIndex = 29;
@@ -694,8 +725,17 @@ namespace SigNAS3_Nanotech {
             // 
             // gbNand
             // 
-            this->gbNand->Controls->Add(this->label1);
-            this->gbNand->Controls->Add(this->numericUpDown1);
+            this->gbNand->Controls->Add(this->textBox1);
+            this->gbNand->Controls->Add(this->lbtDQS);
+            this->gbNand->Controls->Add(this->lbtWP);
+            this->gbNand->Controls->Add(this->lbtREH);
+            this->gbNand->Controls->Add(this->lbtRP);
+            this->gbNand->Controls->Add(this->tbtWP);
+            this->gbNand->Controls->Add(this->tbtREH);
+            this->gbNand->Controls->Add(this->tbtRP);
+            this->gbNand->Controls->Add(this->tbtWH);
+            this->gbNand->Controls->Add(this->lbtWH);
+            this->gbNand->Controls->Add(this->numPageSize);
             this->gbNand->Controls->Add(this->numtWH);
             this->gbNand->Controls->Add(this->numtWP);
             this->gbNand->Controls->Add(this->numtREH);
@@ -724,61 +764,138 @@ namespace SigNAS3_Nanotech {
             this->gbNand->Text = L"NAND Settings";
             this->gbNand->Enter += gcnew System::EventHandler(this, &ui_settings::groupBox1_Enter);
             // 
-            // label1
+            // textBox1
             // 
-            this->label1->AutoSize = true;
-            this->label1->Location = System::Drawing::Point(196, 197);
-            this->label1->Name = L"label1";
-            this->label1->Size = System::Drawing::Size(28, 13);
-            this->label1->TabIndex = 21;
-            this->label1->Text = L"Byte";
+            this->textBox1->Location = System::Drawing::Point(168, 399);
+            this->textBox1->Name = L"textBox1";
+            this->textBox1->Size = System::Drawing::Size(55, 20);
+            this->textBox1->TabIndex = 31;
             // 
-            // numericUpDown1
+            // lbtDQS
             // 
-            this->numericUpDown1->Location = System::Drawing::Point(103, 195);
-            this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 36864, 0, 0, 0 });
-            this->numericUpDown1->Name = L"numericUpDown1";
-            this->numericUpDown1->Size = System::Drawing::Size(87, 20);
-            this->numericUpDown1->TabIndex = 20;
-            this->numericUpDown1->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-            this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 8192, 0, 0, 0 });
+            this->lbtDQS->AutoSize = true;
+            this->lbtDQS->Location = System::Drawing::Point(7, 402);
+            this->lbtDQS->Name = L"lbtDQS";
+            this->lbtDQS->Size = System::Drawing::Size(33, 13);
+            this->lbtDQS->TabIndex = 30;
+            this->lbtDQS->Text = L"tDQS";
+            // 
+            // lbtWP
+            // 
+            this->lbtWP->AutoSize = true;
+            this->lbtWP->Location = System::Drawing::Point(7, 324);
+            this->lbtWP->Name = L"lbtWP";
+            this->lbtWP->Size = System::Drawing::Size(28, 13);
+            this->lbtWP->TabIndex = 29;
+            this->lbtWP->Text = L"tWP";
+            // 
+            // lbtREH
+            // 
+            this->lbtREH->AutoSize = true;
+            this->lbtREH->Location = System::Drawing::Point(7, 348);
+            this->lbtREH->Name = L"lbtREH";
+            this->lbtREH->Size = System::Drawing::Size(33, 13);
+            this->lbtREH->TabIndex = 28;
+            this->lbtREH->Text = L"tREH";
+            // 
+            // lbtRP
+            // 
+            this->lbtRP->AutoSize = true;
+            this->lbtRP->Location = System::Drawing::Point(7, 376);
+            this->lbtRP->Name = L"lbtRP";
+            this->lbtRP->Size = System::Drawing::Size(25, 13);
+            this->lbtRP->TabIndex = 27;
+            this->lbtRP->Text = L"tRP";
+            // 
+            // tbtWP
+            // 
+            this->tbtWP->Location = System::Drawing::Point(168, 322);
+            this->tbtWP->Name = L"tbtWP";
+            this->tbtWP->Size = System::Drawing::Size(55, 20);
+            this->tbtWP->TabIndex = 26;
+            this->tbtWP->Text = L"50ns";
+            // 
+            // tbtREH
+            // 
+            this->tbtREH->Location = System::Drawing::Point(168, 348);
+            this->tbtREH->Name = L"tbtREH";
+            this->tbtREH->Size = System::Drawing::Size(55, 20);
+            this->tbtREH->TabIndex = 25;
+            this->tbtREH->Text = L"50ns";
+            // 
+            // tbtRP
+            // 
+            this->tbtRP->Location = System::Drawing::Point(168, 374);
+            this->tbtRP->Name = L"tbtRP";
+            this->tbtRP->Size = System::Drawing::Size(55, 20);
+            this->tbtRP->TabIndex = 24;
+            this->tbtRP->Text = L"50ns";
+            // 
+            // tbtWH
+            // 
+            this->tbtWH->Location = System::Drawing::Point(168, 295);
+            this->tbtWH->Name = L"tbtWH";
+            this->tbtWH->Size = System::Drawing::Size(55, 20);
+            this->tbtWH->TabIndex = 23;
+            this->tbtWH->Text = L"50ns";
+            // 
+            // lbtWH
+            // 
+            this->lbtWH->AutoSize = true;
+            this->lbtWH->Location = System::Drawing::Point(7, 298);
+            this->lbtWH->Name = L"lbtWH";
+            this->lbtWH->Size = System::Drawing::Size(29, 13);
+            this->lbtWH->TabIndex = 22;
+            this->lbtWH->Text = L"tWH";
+            // 
+            // numPageSize
+            // 
+            this->numPageSize->Increment = System::Decimal(gcnew cli::array< System::Int32 >(4) { 4, 0, 0, 0 });
+            this->numPageSize->Location = System::Drawing::Point(103, 195);
+            this->numPageSize->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 36864, 0, 0, 0 });
+            this->numPageSize->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 4, 0, 0, 0 });
+            this->numPageSize->Name = L"numPageSize";
+            this->numPageSize->Size = System::Drawing::Size(87, 20);
+            this->numPageSize->TabIndex = 20;
+            this->numPageSize->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numPageSize->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 8192, 0, 0, 0 });
             // 
             // numtWH
             // 
-            this->numtWH->Location = System::Drawing::Point(103, 299);
+            this->numtWH->Location = System::Drawing::Point(103, 296);
             this->numtWH->Name = L"numtWH";
-            this->numtWH->Size = System::Drawing::Size(97, 20);
+            this->numtWH->Size = System::Drawing::Size(59, 20);
             this->numtWH->TabIndex = 19;
             this->numtWH->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // numtWP
             // 
-            this->numtWP->Location = System::Drawing::Point(103, 325);
+            this->numtWP->Location = System::Drawing::Point(103, 322);
             this->numtWP->Name = L"numtWP";
-            this->numtWP->Size = System::Drawing::Size(97, 20);
+            this->numtWP->Size = System::Drawing::Size(59, 20);
             this->numtWP->TabIndex = 18;
             this->numtWP->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // numtREH
             // 
-            this->numtREH->Location = System::Drawing::Point(103, 351);
+            this->numtREH->Location = System::Drawing::Point(103, 348);
             this->numtREH->Name = L"numtREH";
-            this->numtREH->Size = System::Drawing::Size(97, 20);
+            this->numtREH->Size = System::Drawing::Size(59, 20);
             this->numtREH->TabIndex = 17;
             this->numtREH->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // numtRP
             // 
-            this->numtRP->Location = System::Drawing::Point(103, 377);
+            this->numtRP->Location = System::Drawing::Point(103, 374);
             this->numtRP->Name = L"numtRP";
-            this->numtRP->Size = System::Drawing::Size(97, 20);
+            this->numtRP->Size = System::Drawing::Size(59, 20);
             this->numtRP->TabIndex = 16;
             this->numtRP->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // lbNs
             // 
             this->lbNs->AutoSize = true;
-            this->lbNs->Location = System::Drawing::Point(206, 276);
+            this->lbNs->Location = System::Drawing::Point(206, 273);
             this->lbNs->Name = L"lbNs";
             this->lbNs->Size = System::Drawing::Size(18, 13);
             this->lbNs->TabIndex = 15;
@@ -786,7 +903,7 @@ namespace SigNAS3_Nanotech {
             // 
             // numBaseClock
             // 
-            this->numBaseClock->Location = System::Drawing::Point(103, 273);
+            this->numBaseClock->Location = System::Drawing::Point(103, 270);
             this->numBaseClock->Name = L"numBaseClock";
             this->numBaseClock->Size = System::Drawing::Size(97, 20);
             this->numBaseClock->TabIndex = 14;
@@ -796,7 +913,7 @@ namespace SigNAS3_Nanotech {
             // lbBaseClock
             // 
             this->lbBaseClock->AutoSize = true;
-            this->lbBaseClock->Location = System::Drawing::Point(7, 275);
+            this->lbBaseClock->Location = System::Drawing::Point(7, 272);
             this->lbBaseClock->Name = L"lbBaseClock";
             this->lbBaseClock->Size = System::Drawing::Size(61, 13);
             this->lbBaseClock->TabIndex = 13;
@@ -868,11 +985,11 @@ namespace SigNAS3_Nanotech {
             // 
             // gbAddress
             // 
-            this->gbAddress->Controls->Add(this->numericUpDown4);
+            this->gbAddress->Controls->Add(this->numLunSep);
             this->gbAddress->Controls->Add(this->lbLunSep);
-            this->gbAddress->Controls->Add(this->numericUpDown3);
+            this->gbAddress->Controls->Add(this->numBlocksLun);
             this->gbAddress->Controls->Add(this->lbBlocksLun);
-            this->gbAddress->Controls->Add(this->numericUpDown2);
+            this->gbAddress->Controls->Add(this->numLunTar);
             this->gbAddress->Controls->Add(this->gbTarget);
             this->gbAddress->Controls->Add(this->lbLunTar);
             this->gbAddress->Location = System::Drawing::Point(269, 100);
@@ -882,14 +999,14 @@ namespace SigNAS3_Nanotech {
             this->gbAddress->TabStop = false;
             this->gbAddress->Text = L"Address Settings";
             // 
-            // numericUpDown4
+            // numLunSep
             // 
-            this->numericUpDown4->Location = System::Drawing::Point(266, 91);
-            this->numericUpDown4->Name = L"numericUpDown4";
-            this->numericUpDown4->Size = System::Drawing::Size(97, 20);
-            this->numericUpDown4->TabIndex = 32;
-            this->numericUpDown4->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-            this->numericUpDown4->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 50, 0, 0, 0 });
+            this->numLunSep->Location = System::Drawing::Point(266, 91);
+            this->numLunSep->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 65535, 0, 0, 0 });
+            this->numLunSep->Name = L"numLunSep";
+            this->numLunSep->Size = System::Drawing::Size(97, 20);
+            this->numLunSep->TabIndex = 32;
+            this->numLunSep->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // lbLunSep
             // 
@@ -900,14 +1017,14 @@ namespace SigNAS3_Nanotech {
             this->lbLunSep->TabIndex = 31;
             this->lbLunSep->Text = L"LUN Separation";
             // 
-            // numericUpDown3
+            // numBlocksLun
             // 
-            this->numericUpDown3->Location = System::Drawing::Point(266, 64);
-            this->numericUpDown3->Name = L"numericUpDown3";
-            this->numericUpDown3->Size = System::Drawing::Size(97, 20);
-            this->numericUpDown3->TabIndex = 30;
-            this->numericUpDown3->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-            this->numericUpDown3->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 50, 0, 0, 0 });
+            this->numBlocksLun->Location = System::Drawing::Point(266, 64);
+            this->numBlocksLun->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 65535, 0, 0, 0 });
+            this->numBlocksLun->Name = L"numBlocksLun";
+            this->numBlocksLun->Size = System::Drawing::Size(97, 20);
+            this->numBlocksLun->TabIndex = 30;
+            this->numBlocksLun->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             // 
             // lbBlocksLun
             // 
@@ -918,14 +1035,16 @@ namespace SigNAS3_Nanotech {
             this->lbBlocksLun->TabIndex = 29;
             this->lbBlocksLun->Text = L"Blocks/LUN";
             // 
-            // numericUpDown2
+            // numLunTar
             // 
-            this->numericUpDown2->Location = System::Drawing::Point(266, 38);
-            this->numericUpDown2->Name = L"numericUpDown2";
-            this->numericUpDown2->Size = System::Drawing::Size(97, 20);
-            this->numericUpDown2->TabIndex = 28;
-            this->numericUpDown2->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
-            this->numericUpDown2->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 50, 0, 0, 0 });
+            this->numLunTar->Location = System::Drawing::Point(266, 38);
+            this->numLunTar->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 4, 0, 0, 0 });
+            this->numLunTar->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
+            this->numLunTar->Name = L"numLunTar";
+            this->numLunTar->Size = System::Drawing::Size(97, 20);
+            this->numLunTar->TabIndex = 28;
+            this->numLunTar->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numLunTar->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
             // 
             // lbLunTar
             // 
@@ -979,6 +1098,69 @@ namespace SigNAS3_Nanotech {
             this->butSet->UseVisualStyleBackColor = true;
             this->butSet->Click += gcnew System::EventHandler(this, &ui_settings::butSet_Click);
             // 
+            // lbBlocks
+            // 
+            this->lbBlocks->AutoSize = true;
+            this->lbBlocks->Location = System::Drawing::Point(90, 92);
+            this->lbBlocks->Name = L"lbBlocks";
+            this->lbBlocks->Size = System::Drawing::Size(38, 13);
+            this->lbBlocks->TabIndex = 32;
+            this->lbBlocks->Text = L"blocks";
+            // 
+            // lbByte
+            // 
+            this->lbByte->AutoSize = true;
+            this->lbByte->Location = System::Drawing::Point(90, 142);
+            this->lbByte->Name = L"lbByte";
+            this->lbByte->Size = System::Drawing::Size(27, 13);
+            this->lbByte->TabIndex = 41;
+            this->lbByte->Text = L"byte";
+            // 
+            // lbBytes
+            // 
+            this->lbBytes->AutoSize = true;
+            this->lbBytes->Location = System::Drawing::Point(90, 193);
+            this->lbBytes->Name = L"lbBytes";
+            this->lbBytes->Size = System::Drawing::Size(32, 13);
+            this->lbBytes->TabIndex = 42;
+            this->lbBytes->Text = L"bytes";
+            // 
+            // lbBits
+            // 
+            this->lbBits->AutoSize = true;
+            this->lbBits->Location = System::Drawing::Point(250, 94);
+            this->lbBits->Name = L"lbBits";
+            this->lbBits->Size = System::Drawing::Size(23, 13);
+            this->lbBits->TabIndex = 43;
+            this->lbBits->Text = L"bits";
+            // 
+            // lbEr
+            // 
+            this->lbEr->AutoSize = true;
+            this->lbEr->Location = System::Drawing::Point(250, 138);
+            this->lbEr->Name = L"lbEr";
+            this->lbEr->Size = System::Drawing::Size(18, 13);
+            this->lbEr->TabIndex = 44;
+            this->lbEr->Text = L"us";
+            // 
+            // lbProg
+            // 
+            this->lbProg->AutoSize = true;
+            this->lbProg->Location = System::Drawing::Point(248, 178);
+            this->lbProg->Name = L"lbProg";
+            this->lbProg->Size = System::Drawing::Size(18, 13);
+            this->lbProg->TabIndex = 45;
+            this->lbProg->Text = L"us";
+            // 
+            // lbRd
+            // 
+            this->lbRd->AutoSize = true;
+            this->lbRd->Location = System::Drawing::Point(386, 94);
+            this->lbRd->Name = L"lbRd";
+            this->lbRd->Size = System::Drawing::Size(18, 13);
+            this->lbRd->TabIndex = 46;
+            this->lbRd->Text = L"us";
+            // 
             // ui_settings
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -996,9 +1178,9 @@ namespace SigNAS3_Nanotech {
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numRead))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numProgram))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numErase))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBit))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCode))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numScan))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBitCorrectability))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCodeLength))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBadBlockByte))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numTotalBB))->EndInit();
             this->gbNandID->ResumeLayout(false);
             this->gbNandID->PerformLayout();
@@ -1006,7 +1188,7 @@ namespace SigNAS3_Nanotech {
             this->gbTarget->PerformLayout();
             this->gbNand->ResumeLayout(false);
             this->gbNand->PerformLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numPageSize))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtWH))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtWP))->EndInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numtREH))->EndInit();
@@ -1014,9 +1196,9 @@ namespace SigNAS3_Nanotech {
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBaseClock))->EndInit();
             this->gbAddress->ResumeLayout(false);
             this->gbAddress->PerformLayout();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown4))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numLunSep))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numBlocksLun))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numLunTar))->EndInit();
             this->gbVoltage->ResumeLayout(false);
             this->gbVoltage->PerformLayout();
             this->ResumeLayout(false);
@@ -1028,6 +1210,8 @@ namespace SigNAS3_Nanotech {
     private: System::Void lbType_Click(System::Object^  sender, System::EventArgs^  e) {
     }
 private: System::Void checkBox8_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void numTotalBB_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
 }
 };
 }
