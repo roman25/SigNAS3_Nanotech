@@ -10,9 +10,45 @@ SigNAS3_Nanotech::settings SigNAS3_Nanotech::ui_settings::getNandSettings()
     return outSettings;
 }
 
-void SigNAS3_Nanotech::ui_settings::cbVendor_SelectedIndexChanged(Object^ sender, System::EventArgs^ e)
-{   
+void SigNAS3_Nanotech::ui_settings::numt_ValueChanged(Object^ sender, System::EventArgs^ e)
+{
     
+    int numValueBC = (int)this->numBaseClock->Value;
+
+    int numValuetWH = (int)this->numtWH->Value;
+    this->tbtWH->Text = L"";
+    this->tbtWH->Text = (numValueBC * numValuetWH + numValueBC).ToString() + "ns";
+
+    int numValuetWP = (int)this->numtWP->Value;
+    this->tbtWP->Text = L"";
+    this->tbtWP->Text = (numValueBC * numValuetWP + numValueBC).ToString() + "ns";
+
+    int numValuetREH = (int)this->numtREH->Value;
+    this->tbtREH->Text = L"";
+    this->tbtREH->Text = (numValueBC * numValuetREH + numValueBC).ToString() + "ns";
+
+    int numValuetRP = (int)this->numtRP->Value;
+    this->tbtRP->Text = L"";
+    this->tbtRP->Text = (numValueBC * numValuetRP + numValueBC).ToString() + "ns";
+
+}
+
+void SigNAS3_Nanotech::ui_settings::cbIfMode_SelectedIndexChanged(Object^ sender, System::EventArgs^ e)
+{
+    if (cbIfMode->SelectedIndex == 0)
+    {
+        numBaseClock->Maximum = 500;
+        numBaseClock->Minimum = 10;
+    }
+    else
+    {
+        numBaseClock->Maximum = 250;
+        numBaseClock->Minimum = 5;
+    }
+}
+
+void SigNAS3_Nanotech::ui_settings::cbVendor_SelectedIndexChanged(Object^ sender, System::EventArgs^ e)
+{       
     if (cbVendor->SelectedIndex == 1)
     {             
         this->cbType->Items->Clear();

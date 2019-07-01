@@ -132,11 +132,12 @@ private: System::Windows::Forms::Label^  lbBits;
 
         void butSet_Click(Object^ Sender, EventArgs^ Args);
         void cbVendor_SelectedIndexChanged(Object^ sender, System::EventArgs^ e);
-        
+        void cbIfMode_SelectedIndexChanged(Object^ sender, System::EventArgs^ e);        
+        void numt_ValueChanged(Object^ sender, System::EventArgs^ e);
 
         #pragma region Windows Form Designer generated code
 		void InitializeComponent(void)
-		{
+		{            
             this->cbEdoMode = (gcnew System::Windows::Forms::CheckBox());
             this->cbVref = (gcnew System::Windows::Forms::CheckBox());
             this->cbReset = (gcnew System::Windows::Forms::CheckBox());
@@ -156,6 +157,13 @@ private: System::Windows::Forms::Label^  lbBits;
             this->cbCore = (gcnew System::Windows::Forms::ComboBox());
             this->cbIO = (gcnew System::Windows::Forms::ComboBox());
             this->gbTest = (gcnew System::Windows::Forms::GroupBox());
+            this->lbRd = (gcnew System::Windows::Forms::Label());
+            this->lbProg = (gcnew System::Windows::Forms::Label());
+            this->lbEr = (gcnew System::Windows::Forms::Label());
+            this->lbBits = (gcnew System::Windows::Forms::Label());
+            this->lbBytes = (gcnew System::Windows::Forms::Label());
+            this->lbByte = (gcnew System::Windows::Forms::Label());
+            this->lbBlocks = (gcnew System::Windows::Forms::Label());
             this->numRead = (gcnew System::Windows::Forms::NumericUpDown());
             this->numProgram = (gcnew System::Windows::Forms::NumericUpDown());
             this->numErase = (gcnew System::Windows::Forms::NumericUpDown());
@@ -217,13 +225,6 @@ private: System::Windows::Forms::Label^  lbBits;
             this->lbIO = (gcnew System::Windows::Forms::Label());
             this->lbCore = (gcnew System::Windows::Forms::Label());
             this->butSet = (gcnew System::Windows::Forms::Button());
-            this->lbBlocks = (gcnew System::Windows::Forms::Label());
-            this->lbByte = (gcnew System::Windows::Forms::Label());
-            this->lbBytes = (gcnew System::Windows::Forms::Label());
-            this->lbBits = (gcnew System::Windows::Forms::Label());
-            this->lbEr = (gcnew System::Windows::Forms::Label());
-            this->lbProg = (gcnew System::Windows::Forms::Label());
-            this->lbRd = (gcnew System::Windows::Forms::Label());
             this->gbTest->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numRead))->BeginInit();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numProgram))->BeginInit();
@@ -386,7 +387,6 @@ private: System::Windows::Forms::Label^  lbBits;
             this->cbType->Name = L"cbType";
             this->cbType->Size = System::Drawing::Size(121, 21);
             this->cbType->TabIndex = 6;
-            
             // 
             // cbSubType
             // 
@@ -408,6 +408,7 @@ private: System::Windows::Forms::Label^  lbBits;
             this->cbIfMode->Name = L"cbIfMode";
             this->cbIfMode->Size = System::Drawing::Size(121, 21);
             this->cbIfMode->TabIndex = 8;
+            this->cbIfMode->SelectedIndexChanged += gcnew System::EventHandler(this, &ui_settings::cbIfMode_SelectedIndexChanged);
             // 
             // cbBlockSize
             // 
@@ -478,6 +479,69 @@ private: System::Windows::Forms::Label^  lbBits;
             this->gbTest->TabIndex = 33;
             this->gbTest->TabStop = false;
             this->gbTest->Text = L"Test Settings";
+            // 
+            // lbRd
+            // 
+            this->lbRd->AutoSize = true;
+            this->lbRd->Location = System::Drawing::Point(386, 94);
+            this->lbRd->Name = L"lbRd";
+            this->lbRd->Size = System::Drawing::Size(18, 13);
+            this->lbRd->TabIndex = 46;
+            this->lbRd->Text = L"us";
+            // 
+            // lbProg
+            // 
+            this->lbProg->AutoSize = true;
+            this->lbProg->Location = System::Drawing::Point(248, 178);
+            this->lbProg->Name = L"lbProg";
+            this->lbProg->Size = System::Drawing::Size(18, 13);
+            this->lbProg->TabIndex = 45;
+            this->lbProg->Text = L"us";
+            // 
+            // lbEr
+            // 
+            this->lbEr->AutoSize = true;
+            this->lbEr->Location = System::Drawing::Point(250, 138);
+            this->lbEr->Name = L"lbEr";
+            this->lbEr->Size = System::Drawing::Size(18, 13);
+            this->lbEr->TabIndex = 44;
+            this->lbEr->Text = L"us";
+            // 
+            // lbBits
+            // 
+            this->lbBits->AutoSize = true;
+            this->lbBits->Location = System::Drawing::Point(250, 94);
+            this->lbBits->Name = L"lbBits";
+            this->lbBits->Size = System::Drawing::Size(23, 13);
+            this->lbBits->TabIndex = 43;
+            this->lbBits->Text = L"bits";
+            // 
+            // lbBytes
+            // 
+            this->lbBytes->AutoSize = true;
+            this->lbBytes->Location = System::Drawing::Point(90, 193);
+            this->lbBytes->Name = L"lbBytes";
+            this->lbBytes->Size = System::Drawing::Size(32, 13);
+            this->lbBytes->TabIndex = 42;
+            this->lbBytes->Text = L"bytes";
+            // 
+            // lbByte
+            // 
+            this->lbByte->AutoSize = true;
+            this->lbByte->Location = System::Drawing::Point(90, 142);
+            this->lbByte->Name = L"lbByte";
+            this->lbByte->Size = System::Drawing::Size(27, 13);
+            this->lbByte->TabIndex = 41;
+            this->lbByte->Text = L"byte";
+            // 
+            // lbBlocks
+            // 
+            this->lbBlocks->AutoSize = true;
+            this->lbBlocks->Location = System::Drawing::Point(90, 92);
+            this->lbBlocks->Name = L"lbBlocks";
+            this->lbBlocks->Size = System::Drawing::Size(38, 13);
+            this->lbBlocks->TabIndex = 32;
+            this->lbBlocks->Text = L"blocks";
             // 
             // numRead
             // 
@@ -837,7 +901,7 @@ private: System::Windows::Forms::Label^  lbBits;
             this->tbtWH->Name = L"tbtWH";
             this->tbtWH->Size = System::Drawing::Size(55, 20);
             this->tbtWH->TabIndex = 23;
-            this->tbtWH->Text = L"50ns";
+            this->tbtWH->Text = L"50ns";            
             // 
             // lbtWH
             // 
@@ -863,34 +927,42 @@ private: System::Windows::Forms::Label^  lbBits;
             // numtWH
             // 
             this->numtWH->Location = System::Drawing::Point(103, 296);
+            this->numtWH->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 15, 0, 0, 0 });
             this->numtWH->Name = L"numtWH";
             this->numtWH->Size = System::Drawing::Size(59, 20);
             this->numtWH->TabIndex = 19;
             this->numtWH->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numtWH->ValueChanged += gcnew System::EventHandler(this, &ui_settings::numt_ValueChanged);
             // 
             // numtWP
             // 
             this->numtWP->Location = System::Drawing::Point(103, 322);
+            this->numtWP->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 15, 0, 0, 0 });
             this->numtWP->Name = L"numtWP";
             this->numtWP->Size = System::Drawing::Size(59, 20);
             this->numtWP->TabIndex = 18;
             this->numtWP->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numtWP->ValueChanged += gcnew System::EventHandler(this, &ui_settings::numt_ValueChanged);
             // 
             // numtREH
             // 
             this->numtREH->Location = System::Drawing::Point(103, 348);
+            this->numtREH->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 15, 0, 0, 0 });
             this->numtREH->Name = L"numtREH";
             this->numtREH->Size = System::Drawing::Size(59, 20);
             this->numtREH->TabIndex = 17;
             this->numtREH->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numtREH->ValueChanged += gcnew System::EventHandler(this, &ui_settings::numt_ValueChanged);
             // 
             // numtRP
             // 
             this->numtRP->Location = System::Drawing::Point(103, 374);
+            this->numtRP->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 15, 0, 0, 0 });
             this->numtRP->Name = L"numtRP";
             this->numtRP->Size = System::Drawing::Size(59, 20);
             this->numtRP->TabIndex = 16;
             this->numtRP->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
+            this->numtRP->ValueChanged += gcnew System::EventHandler(this, &ui_settings::numt_ValueChanged);
             // 
             // lbNs
             // 
@@ -909,6 +981,7 @@ private: System::Windows::Forms::Label^  lbBits;
             this->numBaseClock->TabIndex = 14;
             this->numBaseClock->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
             this->numBaseClock->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 50, 0, 0, 0 });
+            this->numBaseClock->ValueChanged += gcnew System::EventHandler(this, &ui_settings::numt_ValueChanged);
             // 
             // lbBaseClock
             // 
@@ -1097,69 +1170,6 @@ private: System::Windows::Forms::Label^  lbBits;
             this->butSet->Text = L"Set";
             this->butSet->UseVisualStyleBackColor = true;
             this->butSet->Click += gcnew System::EventHandler(this, &ui_settings::butSet_Click);
-            // 
-            // lbBlocks
-            // 
-            this->lbBlocks->AutoSize = true;
-            this->lbBlocks->Location = System::Drawing::Point(90, 92);
-            this->lbBlocks->Name = L"lbBlocks";
-            this->lbBlocks->Size = System::Drawing::Size(38, 13);
-            this->lbBlocks->TabIndex = 32;
-            this->lbBlocks->Text = L"blocks";
-            // 
-            // lbByte
-            // 
-            this->lbByte->AutoSize = true;
-            this->lbByte->Location = System::Drawing::Point(90, 142);
-            this->lbByte->Name = L"lbByte";
-            this->lbByte->Size = System::Drawing::Size(27, 13);
-            this->lbByte->TabIndex = 41;
-            this->lbByte->Text = L"byte";
-            // 
-            // lbBytes
-            // 
-            this->lbBytes->AutoSize = true;
-            this->lbBytes->Location = System::Drawing::Point(90, 193);
-            this->lbBytes->Name = L"lbBytes";
-            this->lbBytes->Size = System::Drawing::Size(32, 13);
-            this->lbBytes->TabIndex = 42;
-            this->lbBytes->Text = L"bytes";
-            // 
-            // lbBits
-            // 
-            this->lbBits->AutoSize = true;
-            this->lbBits->Location = System::Drawing::Point(250, 94);
-            this->lbBits->Name = L"lbBits";
-            this->lbBits->Size = System::Drawing::Size(23, 13);
-            this->lbBits->TabIndex = 43;
-            this->lbBits->Text = L"bits";
-            // 
-            // lbEr
-            // 
-            this->lbEr->AutoSize = true;
-            this->lbEr->Location = System::Drawing::Point(250, 138);
-            this->lbEr->Name = L"lbEr";
-            this->lbEr->Size = System::Drawing::Size(18, 13);
-            this->lbEr->TabIndex = 44;
-            this->lbEr->Text = L"us";
-            // 
-            // lbProg
-            // 
-            this->lbProg->AutoSize = true;
-            this->lbProg->Location = System::Drawing::Point(248, 178);
-            this->lbProg->Name = L"lbProg";
-            this->lbProg->Size = System::Drawing::Size(18, 13);
-            this->lbProg->TabIndex = 45;
-            this->lbProg->Text = L"us";
-            // 
-            // lbRd
-            // 
-            this->lbRd->AutoSize = true;
-            this->lbRd->Location = System::Drawing::Point(386, 94);
-            this->lbRd->Name = L"lbRd";
-            this->lbRd->Size = System::Drawing::Size(18, 13);
-            this->lbRd->TabIndex = 46;
-            this->lbRd->Text = L"us";
             // 
             // ui_settings
             // 
