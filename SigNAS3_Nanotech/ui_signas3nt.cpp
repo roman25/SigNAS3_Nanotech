@@ -11,10 +11,216 @@ void SigNAS3_Nanotech::ui_signas3nt::butRun_Click(System::Object^ Sender, System
     SigNAS3_Nanotech::settings s;
     s = objSettings->getNandSettings();
 
+    // There is method to run testing
+    // connectedLanes dictionary is input parameter of the method
+    /*------------------------------*/
+
     Console::WriteLine(s.vendor);
     Console::WriteLine(s.blockLun);
     Console::WriteLine(s.core);
 }
+
+void SigNAS3_Nanotech::ui_signas3nt::butConnect_Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+
+    /*-------------------- Temporary dictionary to debug --------------------*/
+    /* ----------- There is must be the method to get connection ----------- */    
+    connectedLanes[0] = true;
+    connectedLanes[1] = false;
+    connectedLanes[2] = false;
+    connectedLanes[3] = true;
+    connectedLanes[4] = false;
+    connectedLanes[5] = false;
+    connectedLanes[6] = true;
+    connectedLanes[7] = false;
+    /*-------------------- Temporary dictionary to debug --------------------*/
+
+    if (!connectedLanes[0])
+    {
+        lbLn0->BackColor = System::Drawing::Color::Red;        
+        cbLn0->Enabled = false;
+    }
+    else
+    {        
+        cbLn0->Checked = true;
+    }
+
+    if (!connectedLanes[1])
+    {
+        lbLn1->BackColor = System::Drawing::Color::Red;
+        cbLn1->Enabled = false;
+    }
+    else
+    {
+        cbLn1->Checked = true;
+    }
+
+    if (!connectedLanes[2])
+    {
+        lbLn2->BackColor = System::Drawing::Color::Red;
+        cbLn2->Enabled = false;
+    }
+    else
+    {
+        cbLn2->Checked = true;
+    }
+
+    if (!connectedLanes[3])
+    {
+        lbLn3->BackColor = System::Drawing::Color::Red;
+        cbLn3->Enabled = false;
+    }
+    else
+    {
+        cbLn3->Checked = true;
+    }
+
+    if (!connectedLanes[4])
+    {
+        lbLn4->BackColor = System::Drawing::Color::Red;
+        cbLn4->Enabled = false;
+    }
+    else
+    {
+        cbLn4->Checked = true;
+    }
+
+    if (!connectedLanes[5])
+    {
+        lbLn5->BackColor = System::Drawing::Color::Red;
+        cbLn5->Enabled = false;
+    }
+    else
+    {
+        cbLn5->Checked = true;
+    }
+
+    if (!connectedLanes[6])
+    {
+        lbLn6->BackColor = System::Drawing::Color::Red;
+        cbLn6->Enabled = false;
+    }
+    else
+    {
+        cbLn6->Checked = true;
+    }
+
+    if (!connectedLanes[7])
+    {
+        lbLn7->BackColor = System::Drawing::Color::Red;
+        cbLn7->Enabled = false;
+    }
+    else
+    {
+        cbLn7->Checked = true;
+    }
+}
+
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn0Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn0->Checked)
+    {
+        lbLn0->BackColor = System::Drawing::Color::Green;
+    }
+    else
+    {
+        lbLn0->BackColor = SystemColors::Control;
+    }
+
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn1Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn1->Checked)
+    {
+        lbLn1->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn1->BackColor = SystemColors::Control;
+    }
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn2Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn2->Checked)
+    {
+        lbLn2->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn2->BackColor = SystemColors::Control;
+    }
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn3Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn3->Checked)
+    {
+        lbLn3->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn3->BackColor = SystemColors::Control;
+    }
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn4Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn4->Checked)
+    {
+        lbLn4->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn4->BackColor = SystemColors::Control;
+    }
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn5Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn5->Checked)
+    {
+        lbLn5->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn5->BackColor = SystemColors::Control;
+    }
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn6Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn6->Checked)
+    {
+        lbLn6->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn6->BackColor = SystemColors::Control;
+    }
+}
+
+void SigNAS3_Nanotech::ui_signas3nt::cbLn7Click(System::Object^ Sender, System::EventArgs^ Args)
+{
+    if (cbLn7->Checked)
+    {
+        lbLn7->BackColor = System::Drawing::Color::Green;
+
+    }
+    else
+    {
+        lbLn7->BackColor = SystemColors::Control;
+    }
+}
+
 
 void SigNAS3_Nanotech::ui_signas3nt::checkBox16Click(System::Object^ Sender, System::EventArgs^ Args)
 {
@@ -1264,115 +1470,6 @@ void SigNAS3_Nanotech::ui_signas3nt::checkBox179Click(System::Object^ Sender, Sy
     }
 }
 
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn2Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn2->Checked)
-    {
-        lbLn2->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn2->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn3Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn3->Checked)
-    {
-        lbLn3->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn3->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn4Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn4->Checked)
-    {
-        lbLn4->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn4->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn5Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn5->Checked)
-    {
-        lbLn5->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn5->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn6Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn6->Checked)
-    {
-        lbLn6->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn6->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn7Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn7->Checked)
-    {
-        lbLn7->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn7->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn1Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn1->Checked)
-    {
-        lbLn1->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn1->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-
-
-void SigNAS3_Nanotech::ui_signas3nt::cbLn0Click(System::Object^ Sender, System::EventArgs^ Args)
-{
-    if (cbLn0->Checked)
-    {
-        lbLn0->BackColor = System::Drawing::Color::Green;
-
-    }
-    else
-    {
-        lbLn0->BackColor = System::Drawing::Color::Red;
-    }
-}
-
-
 void SigNAS3_Nanotech::ui_signas3nt::settingsClick(System::Object^ Sender, System::EventArgs^ e)
 {
     objSettings->ShowDialog();
@@ -1609,6 +1706,7 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->nandSettings = (gcnew System::Windows::Forms::ToolStripMenuItem());
     this->settings = (gcnew System::Windows::Forms::ToolStripMenuItem());
     this->butRun = (gcnew System::Windows::Forms::Button());
+    this->butConnect = (gcnew System::Windows::Forms::Button());
     this->laneBox->SuspendLayout();
     this->channelBox->SuspendLayout();
     this->menuStrip1->SuspendLayout();
@@ -1712,11 +1810,13 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     // cbLn0
     // 
     this->cbLn0->AutoSize = true;
+    this->cbLn0->BackColor = System::Drawing::SystemColors::Control;
+    this->cbLn0->ForeColor = System::Drawing::Color::Black;
     this->cbLn0->Location = System::Drawing::Point(28, 54);
     this->cbLn0->Name = L"cbLn0";
     this->cbLn0->Size = System::Drawing::Size(15, 14);
     this->cbLn0->TabIndex = 208;
-    this->cbLn0->UseVisualStyleBackColor = true;
+    this->cbLn0->UseVisualStyleBackColor = false;
     this->cbLn0->CheckedChanged += gcnew System::EventHandler(this, &ui_signas3nt::cbLn0Click);
     // 
     // lbLn7
@@ -3947,6 +4047,16 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->butRun->UseVisualStyleBackColor = true;
     this->butRun->Click += gcnew System::EventHandler(this, &ui_signas3nt::butRun_Click);
     // 
+    // butConnect
+    // 
+    this->butConnect->Location = System::Drawing::Point(22, 501);
+    this->butConnect->Name = L"butConnect";
+    this->butConnect->Size = System::Drawing::Size(75, 23);
+    this->butConnect->TabIndex = 4;
+    this->butConnect->Text = L"Connect";
+    this->butConnect->UseVisualStyleBackColor = true;
+    this->butConnect->Click += gcnew System::EventHandler(this, &ui_signas3nt::butConnect_Click);
+    // 
     // ui_signas3nt
     // 
     this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -3954,6 +4064,7 @@ void SigNAS3_Nanotech::ui_signas3nt::InitializeComponent()
     this->AutoSize = true;
     this->AutoSizeMode = System::Windows::Forms::AutoSizeMode::GrowAndShrink;
     this->ClientSize = System::Drawing::Size(853, 535);
+    this->Controls->Add(this->butConnect);
     this->Controls->Add(this->butRun);
     this->Controls->Add(this->laneBox);
     this->Controls->Add(this->channelBox);

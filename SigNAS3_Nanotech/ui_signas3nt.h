@@ -27,14 +27,18 @@ namespace SigNAS3_Nanotech {
 				    delete components;
 			    }
 		    }
+    private: System::Windows::Forms::Button^  butConnect;
+    protected:
 
 	    private:
+            Dictionary<int, bool> connectedLanes;
             settings objS;
             void InitializeComponent();
             SigNAS3_Nanotech::ui_settings^ objSettings = gcnew ui_settings();
 
             void ui_signas3nt::settingsClick(System::Object^ sender, System::EventArgs^ e);
             void ui_signas3nt::butRun_Click(Object^ Sender, EventArgs^ Args);
+            void ui_signas3nt::butConnect_Click(Object^ Sender, EventArgs^ Args);
         
 
             System::Windows::Forms::Button^  butRun;
