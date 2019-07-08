@@ -1,5 +1,6 @@
 #pragma once
 #include "ui_settings.h"
+#include "ui_results.h"
 #include "settings.h"
 
 namespace SigNAS3_Nanotech {

@@ -15,6 +15,9 @@ void SigNAS3_Nanotech::ui_signas3nt::butRun_Click(System::Object^ Sender, System
     // connectedLanes dictionary is input parameter of the method
     /*------------------------------*/
 
+    SigNAS3_Nanotech::ui_results^ objResults = gcnew ui_results();
+    objResults->ShowDialog();
+
     Console::WriteLine(s.vendor);
     Console::WriteLine(s.blockLun);
     Console::WriteLine(s.core);
