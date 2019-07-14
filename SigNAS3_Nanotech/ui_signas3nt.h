@@ -341,10 +341,7 @@ namespace SigNAS3_Nanotech {
     System::ComponentModel::IContainer^  components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
+
 		
 #pragma endregion
     private: System::Void ui_signas3nt_Load(System::Object^  sender, System::EventArgs^  e) {

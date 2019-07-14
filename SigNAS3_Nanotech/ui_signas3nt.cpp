@@ -12,10 +12,26 @@ void SigNAS3_Nanotech::ui_signas3nt::butRun_Click(System::Object^ Sender, System
     s = objSettings->getNandSettings();
 
     // There is method to run testing
-    // connectedLanes dictionary is input parameter of the method
-    /*------------------------------*/
+    // 'connectedLanes' dictionary is input parameter of the method  
+    // 's' is settings as input parameter of the method
+    // This method must return results of test
+    /*------------------
+    // Dictionary<int, List<int>^ > results = runTest(connectedLanes, s);
+    ------------------*/
+    Dictionary<int, List<int>^> results;
 
-    SigNAS3_Nanotech::ui_results^ objResults = gcnew ui_results();
+    results[0] = gcnew List<int>();
+    results[0]->Add(15);
+    results[0]->Add(345);
+    results[1] = gcnew List<int>();
+    results[1]->Add(654);
+    results[1]->Add(111);
+    results[7] = gcnew List<int>();
+    results[7]->Add(633);
+    results[7]->Add(0);
+
+
+    SigNAS3_Nanotech::ui_results^ objResults = gcnew ui_results(results);
     objResults->ShowDialog();
 
     Console::WriteLine(s.vendor);
@@ -27,7 +43,7 @@ void SigNAS3_Nanotech::ui_signas3nt::butConnect_Click(System::Object^ Sender, Sy
 {
 
     /*-------------------- Temporary dictionary to debug --------------------*/
-    /* ----------- There is must be the method to get connection ----------- */    
+    /* ----------- Here must be the method to get connection ----------- */    
     connectedLanes[0] = true;
     connectedLanes[1] = false;
     connectedLanes[2] = false;
@@ -38,6 +54,7 @@ void SigNAS3_Nanotech::ui_signas3nt::butConnect_Click(System::Object^ Sender, Sy
     connectedLanes[7] = false;
     /*-------------------- Temporary dictionary to debug --------------------*/
 
+    // Highlight elements based on condition
     if (!connectedLanes[0])
     {
         lbLn0->BackColor = System::Drawing::Color::Red;        
